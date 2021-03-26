@@ -1,0 +1,31 @@
+2021-03-26
+
+Denna råkade bli på engelska för jag glömde att ställa om hjärnan. Framtida blir på svenska.
+
+what do I want to learn or understand better?
+	I want to become more proficient and confident using git, 
+	and I wish to improve my understanding of how software projects 
+	fit together regarding different modules and external libraries.
+
+how can I help someone else, or the entire team, to learn something new?
+	The easiest way would probably be to explain and thoroughly
+	document my code to them, allowing them to learn whatever tricks
+	I've used to accomplish my code. Also to walk them through how
+	I would solve a problem that they're struggling with.
+
+what is my contribution towards the team’s use of Scrum?
+	So far, I have participated in setting up a scrum board. I hope 
+	to be able to contribute to an active use of Scrum in the team, 
+	as a previous project saw my group mostly ignoring it. I think 
+	the best way to do this is by actiely using the Scrum board and 
+	following the proper procedures, as well as encouraging my team
+	to do the same.
+
+what is my contribution towards the team’s deliveries?
+	As we have not begun work on the project itself, there is 
+	currently nothing to brag about. I think my responsibilities
+	will lie mostly on the "model" side of things code-wise, as 
+	this is where I feel the most confident. I hope I will get
+	the opportunity to work with existing frameworks and on the 
+	connections between different modules in the program, and that 
+	I can learn from doing so.
