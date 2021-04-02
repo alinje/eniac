@@ -1,0 +1,19 @@
+2021-04-02
+
+what do I want to learn or understand better?
+	Inte mycket annorlunda från första veckan. Jag vill fortfarande 
+	bli mer självsäker med git och få en bättre förståelse hur större 
+	projekt sitter ihop med olika moduler och externa bibliotek.
+
+how can I help someone else, or the entire team, to learn something new?
+	Se till att de alltid har en god möjlighet att förstå vad jag har 
+	jobbat på genom att dokumentera väl och hålla dem uppdaterade.
+
+what is my contribution towards the team’s use of Scrum?
+	Denna veckan är det inte mycket. Vi har en Trellotavla som inte
+	ännu är helt utformad efter scrum, vi behöver formulera user 
+	stories, tasks, estimera kostnad.
+
+what is my contribution towards the team’s deliveries?
+	Jag tog ansvar för att skriva en beskrivning för vårat project scope.
+	Blir nog mer spännande när produktionen drar igång på riktigt efter påsk.
