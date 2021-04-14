@@ -6,6 +6,6 @@ let alex = 'Alex';
 let carlos = 'bara test';
 let alle = 'hallå';
 
-let albin= 'eliten';
+let albin= 'skiten';
 
 console.log(name);
