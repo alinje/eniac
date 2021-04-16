@@ -1,0 +1,21 @@
+ - Kundvärde och omfattning
+
+· Hur har vi lyckats i veckan? Lärt oss något nytt?
+
+· Våra KPI:er
+
+Hur mår produkten? (Poängbudget)
+
+Hur mår koden? (Antal defekter)
+
+Hur mår vi? (Antal fingrar)
+
+- Sociala kontraktet och ansträngning
+
+· Hur förhåller vi oss till sociala kontraktet?
+Bokning av möten
+Arbetsfördelning
+Scrum-boarden
+
+
+- Övrigt
