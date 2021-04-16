@@ -1,11 +1,11 @@
 What do I want to learn or understand better?
-Vill lära mig mer om Github och den filhanteringen. Tror det kan fungera smidigt men viktigt att få jobba med det och testa sig fram för att förstå dess funktioner helt. Vill också få bättre grepp om programmering riktad mot en webbaserad applikation som vi tänkt att använda oss av.
+Vill förstå mer om kopplingen mellan Excel-databas-JS. Vill generellt förstå mer om JS också, börjat förstå grunderna och hur det fungerar. Har dock fortfarande lite svårt att se skillnaden mellan HTML och JS och vad respektive språk faktiskt gör.
 
 How can I help someone else, or the entire team, to learn something new?
-Fått lära ut lite om business canvas model denna veckan till de som går IT och inte hade någon erfarenhet av att jobba med det sen tidigare. 
+Tror vi från I kan lära ut en del om databaser och SQL! Majoriteten av studenterna från IT har inte jobbat så mycket med detta så utifrån det kan vi dela med oss av en del erfarenheter. De har däremot mer erfarenhet av ren programmering vilket vi kan lära oss en hel del om.
 
 What is my contribution towards the team’s use of Scrum?
-Genom att vara med på föreläsningarna känner jag att jag fått en bättre förståelse för Scrum och upplägget med sprintar. Detta kan vara till fördel längre fram när vi faktiskt börja jobba med projektet. Även försökt strukturera upp lite i trellon eftersom jag är Scrum master första projektveckan.
+Strukturerat upp Scrumboarden denna veckan i min roll som Scrum-master! Kände att jag tog mitt ansvar  som det på vårt inledande möte i måndags när jag ledde mötet och fördelade uppgifter efter gruppens önskemål.
 
 What is my contribution towards the team’s deliveries?
-Tillsammans med ett par andra studenter tog jag ansvar för mock-upen. Tyckte att layouten blev bra  och helheten ger en bra första inblick i våra tankar med projektet. Dessutom har jag varit en av de drivande i de möten som vi haft i laget.
+Tagit ansvar för de tasks jag blev tilldelad med att lära mig mer om JS, förstå mig på GitHub och fundera vidare kring ramverket för etiketterna som ska appliceras i vårt projekt. Känner inte att jag bidragit så mycket rent kodmässigt men hoppas det blir skillnad på detta under veckorna som ligger framför.
