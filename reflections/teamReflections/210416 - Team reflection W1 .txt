@@ -1,21 +1,32 @@
  - Kundvärde och omfattning
 
 · Hur har vi lyckats i veckan? Lärt oss något nytt?
+Vi har lyckats bra. Kommit längre än vad vi trodde. Vårat system för att bedöma uppgifterna har fungerat OK. Vi har lärt oss javascript, hur man kopplar ihop excel med databaser samt lärt oss mer om Github.
 
 · Våra KPI:er
 
-Hur mår produkten? (Poängbudget)
+Hur mår produkten? (100p är färdig produkt. 1p motsvarar en procent)
+7p/100p.
 
 Hur mår koden? (Antal defekter)
+0p. Inte så mycket kod ännu, därav få (noll) defekter.
 
 Hur mår vi? (Antal fingrar)
+Allmänt: Gruppenmedlemmarna verkar må bra.
+Nöjd med sin insats: Gruppen relativt missnöjda med arbetet. Troligtvis eftersom projektet inledningsvis är lite oklart. Ska försöka förbättra detta till nästa vecka.
+Taggade?: Gruppen är ändå taggade!!!!
 
 - Sociala kontraktet och ansträngning
 
 · Hur förhåller vi oss till sociala kontraktet?
-Bokning av möten
-Arbetsfördelning
-Scrum-boarden
+Bokning av möten: Fungerar i discord! Vi bestämde att vi har fasta möten. Vi har möte innan och efter handledning på måndagar, samt fredag eftermiddag.
+Måndagar: 09:15 - 10:45 (med handledning)
+Fredagar: 13:00 - 14:30
+Arbetsfördelning: Fungerar väl.
+Scrum-boarden: Fungerar väl.
 
+- Design decisions and product structure
+I början av veckan sade vi att vi skulle skippa databas. Men verkar som att det kommer vara det enklaste.
 
 - Övrigt
+Carl lämnar över stafettpinnen till Alex som scrum-master.
