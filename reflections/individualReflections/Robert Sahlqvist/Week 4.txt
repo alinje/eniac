@@ -1,0 +1,11 @@
+-What do I want to learn or understand better?
+	I would like to get better with javaScript and SQL so that I can contribute to the project better.
+
+-How can I help someone else, or the entire team, to learn something new?
+	I could help with databases a bit even though I don't know that much.
+
+-What is my contribution towards the team’s use of Scrum?
+	I've been a part of discussions concerning the project and aspects wherin I have something to say.
+
+-What is my contribution towards the team’s deliveries?
+	I helped a bit with the discussion around the database and SQL related things.
