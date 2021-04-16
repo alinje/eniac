@@ -1,0 +1,18 @@
+2021-04-16
+
+what do I want to learn or understand better?
+	Jag vill bli skicklig i JavaScript och få en förståelse för 
+	ramverket vi använder till vår applikation.
+
+how can I help someone else, or the entire team, to learn something new?
+	Se till att de alltid har en god möjlighet att förstå vad jag har 
+	jobbat på genom att dokumentera väl och hålla dem uppdaterade.
+
+what is my contribution towards the team’s use of Scrum?
+	Under självstudieveckan tycker jag att jag bidrog stort till 
+	formulearandet av user stories. Jag skulle vilja ta en mer aktiv
+	roll i att bestämma tasks för varje sprint.
+
+what is my contribution towards the team’s deliveries?
+	Jag har tagit en snabb titt på JavaScript och ramverket vi ska använda,
+	annars är mitt bidrag litet denna veckan.
