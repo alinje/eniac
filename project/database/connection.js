@@ -70,5 +70,5 @@ class Connection{
         })
     }
 }
-var test = new Sample()
+var test = new Connection()
 test.getPortfolioInfo()
