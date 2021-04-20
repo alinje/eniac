@@ -1,4 +1,4 @@
-class Sample{
+class Connection{
 
     getPortfolioInfo() {
         const {Pool,Client} = require('pg')
