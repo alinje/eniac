@@ -1,18 +1,75 @@
-const {Pool,Client} = require('pg')
+class Sample{
 
-// Script som skapar en databas på v
+    getPortfolioInfo() {
+        const {Pool,Client} = require('pg')
+        const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+        const client = new Client({
+        connectionString:connectionString
+        })
+        client.connect()
+        client.query('SELECT * FROM PortfolioInfo',(err,res)=>{
+            console.log(err,res)
+            client.end()
+            return res
+        })
+    }
 
-CREATE DATABASE eniacdb;
+    getManagers(){
+        const {Pool,Client} = require('pg')
+        const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+        const client = new Client({
+        connectionString:connectionString
+        })
+        client.connect()
+        client.query('SELECT * FROM Managers',(err,res)=>{
+            console.log(err,res)
+            client.end()
+            return res
+        })
+    }
 
-const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+    getLabels(){
+        const {Pool,Client} = require('pg')
+        const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+        const client = new Client({
+        connectionString:connectionString
+        })
+        client.connect()
+        client.query('SELECT * FROM Labels',(err,res)=>{
+            console.log(err,res)
+            client.end()
+            return res
+        })
+    }
 
-const client = new Client({
-    connectionString:connectionString
-})
+    getStocks(){
+        const {Pool,Client} = require('pg')
+        const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+        const client = new Client({
+        connectionString:connectionString
+        })
+        client.connect()
+        client.query('SELECT * FROM Stocks',(err,res)=>{
+            console.log(err,res)
+            client.end()
+            return res
+        })
+    }
 
-client.connect()
+    addManagers(){
+        const {Pool,Client} = require('pg')
+        const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+        const client = new Client({
+        connectionString:connectionString
+        })
+        client.connect()
+        client.query('INSERT INTO Managers VALUES($1)',["Tobias"],(err,res)=>{
+            console.log(err,res)
+            client.end()
+            return res
+        })
+    }
 
-client.query('SELECT * FROM PortfolioInfo',(err,res)=>{
-    console.log(err,res)
-    client.end()
-})
+}
+var test = new Sample()
+test.getPortfolioInfo()
