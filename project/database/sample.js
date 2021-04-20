@@ -1,8 +1,9 @@
 const {Pool,Client} = require('pg')
 
-// Script som skapar en databas på v
+const DATABASE = "eniacdb"
+const USERNAME = "postgres"
+const PASSWORD = "postgres"
 
-CREATE DATABASE eniacdb;
 
 const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
 
@@ -12,7 +13,10 @@ const client = new Client({
 
 client.connect()
 
-client.query('SELECT * FROM PortfolioInfo',(err,res)=>{
+const sql = "SELECT * FROM PortfolioInfo WHERE manager = $1 AND label = $2"
+const values = ['Albin', 'coronavinnare']
+
+client.query(sql, values, (err,res)=>{
     console.log(err,res)
     client.end()
 })
