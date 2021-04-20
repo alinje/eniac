@@ -69,7 +69,6 @@ class Sample{
             return res
         })
     }
-
 }
 var test = new Sample()
 test.getPortfolioInfo()
