@@ -12,7 +12,7 @@ import Image from 'next/image'
 
 import TestGraph, { GraphClass, graphMsg } from '../public/testVisual.js'
 import BarChart from '../public/BarChart.js'
-import App from '../public/App.js'
+//import App from '../public/app.js'
 
 export default function Home() {
   const queryClient = useQueryClient() // fetches queryClient defined in _app.js <!-- {JSON.stringify(hello.data)} -->         <TestGraph onClick={() => graphMsg()}/>
