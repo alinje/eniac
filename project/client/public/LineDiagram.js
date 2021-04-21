@@ -56,11 +56,11 @@ export default class LineDiagram extends Component {
 
         const data = {
             y: "Type of y",
-            series: [{ name: "graph 1", values: [10, 30, 70, 90, 100] }, { name: "graph 2", values: [5, 26, 80, 70, 60] }],
+            series: [{ name: "graph1", values: [10, 30, 70, 90, 100] }, { name: "graph2", values: [5, 26, 80, 70, 60] }],
             dates: [12, 13, 14, 15, 16]
         }
 
-        console.log(data)
+        //console.log(data)
         //d3.json(props.label, () => fetch().then((res) => res.json))
 
         // view properties
@@ -149,22 +149,38 @@ export default class LineDiagram extends Component {
             .attr("stroke-width", 5)
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "square") // alt value 'butt'
-        /*.transition()
-        .duration(5000)
-        .ease(d3.easeLinear)*/
+            /*.transition()
+            .duration(5000)
+            .ease(d3.easeLinear)*/
             .selectAll("path")
             .data(data.series)
-            //.enter()
-            //.append("path")
+            .enter()
+            .append("path")
+            .attr("class", d => d.name )
             .join("path")
             .style("mix-blend-mode", "multiply") // darker where the lines cross over each other
             .attr("d", d => line(d.values));
 
-        //svg.call(hover, path);
-        //.attr("stroke-dasharray", `${l},${l}`);
+        svg.selectAll("myLegend")
+            .data(data.series)
+            .enter()
+            .append('g')
+            .append("text")
+            .attr('x', function (d, i) { return 100 + i * 100 })
+            .attr('y', 30)
+            .text(d => d.name)
+            .style("fill", "url(#line-gradient)"/*function (d) { return myColor(d.name) }*/)
+            .style("font-size", 25)
+            .on("click", d => {
+                let className = "." + d.target.innerHTML // this is dumb
+                // is the element currently visible ?
+                var currentOpacity = d3.selectAll(className).style("opacity")
+                // Change the opacity: from 0 to 1 or from 1 to 0
+                d3.selectAll(className).transition().style("opacity", currentOpacity == 1.0 ? 0.0 : 1.0)
 
+            })
 
-
+        
     }
 
 
