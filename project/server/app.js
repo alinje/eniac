@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express()
 const port = 3001
 
+
 app.use(cors())
 
 app.get('/', (req, res) => {
@@ -12,6 +13,12 @@ app.get('/', (req, res) => {
 app.get("/home", (req, res) => {
     res.send({
         hello:'noob'
+    })
+})
+
+app.get("/grid-data", (req, res) => {
+    res.send({
+
     })
 })
 
