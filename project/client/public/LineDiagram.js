@@ -56,10 +56,11 @@ export default class LineDiagram extends Component {
 
         const data = {
             y: "Type of y",
-            series: [{name: "graph 1", values: [10, 30, 70, 90, 100]},{name: "graph 2", values: [5, 26, 80, 70, 60]}],
+            series: [{ name: "graph 1", values: [10, 30, 70, 90, 100] }, { name: "graph 2", values: [5, 26, 80, 70, 60] }],
             dates: [12, 13, 14, 15, 16]
         }
 
+        console.log(data)
         //d3.json(props.label, () => fetch().then((res) => res.json))
 
         // view properties
@@ -103,17 +104,18 @@ export default class LineDiagram extends Component {
 
         // a line, defined by x-value from every node in data´s date value, and x-value from its value-value
         const line = d3.line()
-            .defined(d => !isNaN(d.value))
+            .defined(d => !isNaN(d))
             .x((d, i) => x(data.dates[i]))
             .y(d => y(d))/*
             .x(d => x(d.date))
             .y(d => y(d.value)) */
 
+
         // Make an svg and set size of viewPort
         const svg = d3.select(this.myRef.current)
             .append("svg")
             .attr("viewBox", [0, 0, this.props.width, height])
-            //.style("overflow", "visible");
+        //.style("overflow", "visible");
 
         svg.append("g")
             .call(xAxis);
@@ -140,36 +142,35 @@ export default class LineDiagram extends Component {
             .attr("stop-color", function (d) { return d.color; });
 
         // the actual drawing part
-        svg.append("path")
-            .datum(data.dates)
+        svg.append("g")
+            //.datum(data.dates) onödigt?
             .attr("fill", "none") // this fills the area enclosed by the graph, with added edges between start and end nodes
             .attr("stroke", "url(#line-gradient)")
-            .attr("stroke-width", 4)
+            .attr("stroke-width", 5)
             .attr("stroke-linejoin", "round")
-            .attr("stroke-linecap", "round")
-            .attr("d", line)
-            /*.transition()
-            .duration(5000)
-            .ease(d3.easeLinear)*/
-
-            /*
-        svg.selectAll("path")
+            .attr("stroke-linecap", "square") // alt value 'butt'
+        /*.transition()
+        .duration(5000)
+        .ease(d3.easeLinear)*/
+            .selectAll("path")
             .data(data.series)
+            //.enter()
+            //.append("path")
             .join("path")
-            .style("mix-blend-mode", "multiply")
-            .attr("d", d => line(d.values));*/
-      
+            .style("mix-blend-mode", "multiply") // darker where the lines cross over each other
+            .attr("d", d => line(d.values));
+
         //svg.call(hover, path);
-            //.attr("stroke-dasharray", `${l},${l}`);
+        //.attr("stroke-dasharray", `${l},${l}`);
 
 
 
     }
 
 
-render() {
-    return (
-        <div ref={this.myRef} className="LineDiagram"></div>
-    )
-}
+    render() {
+        return (
+            <div ref={this.myRef} className="LineDiagram"></div>
+        )
+    }
 }
