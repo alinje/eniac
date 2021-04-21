@@ -29,30 +29,8 @@ export default class LineDiagram extends Component {
     componentDidMount() {
         //const data = d3.json(useQuery(props.label, () => fetch(props.url)))
         //const growth = [useQuery(props.label, () => fetch("http://localhost:3001/singleStockGrowth"))]
-
+        //d3.json(props.label, () => fetch().then((res) => res.json))
         //d3.json('sample.json', 
-
-        //function (data){
-        const data2 = [{
-            //"date": "2012-04-23T18:25:43.511Z",
-            "date": 12,
-            "value": 100
-        }, {
-            "date": 13,
-            "value": 110
-        },
-        {
-            "date": 14,
-            "value": 10
-        },
-        {
-            "date": 15,
-            "value": 0
-        },
-        {
-            "date": 17,
-            "value": 30
-        }]
 
         const data = {
             y: "Type of y",
@@ -60,10 +38,6 @@ export default class LineDiagram extends Component {
             dates: [12, 13, 14, 15, 16]
         }
 
-        //console.log(data)
-        //d3.json(props.label, () => fetch().then((res) => res.json))
-
-        // view properties
 
         const margin = ({ top: 20, right: 30, bottom: 30, left: 40 })
 
@@ -106,16 +80,14 @@ export default class LineDiagram extends Component {
         const line = d3.line()
             .defined(d => !isNaN(d))
             .x((d, i) => x(data.dates[i]))
-            .y(d => y(d))/*
-            .x(d => x(d.date))
-            .y(d => y(d.value)) */
+            .y(d => y(d))
 
 
         // Make an svg and set size of viewPort
         const svg = d3.select(this.myRef.current)
             .append("svg")
-            .attr("viewBox", [0, 0, this.props.width, height])
-        //.style("overflow", "visible");
+            .attr("viewBox", [0, 0, width, height])
+            .style("preserveAspectRatio", "xMidYMid meet");
 
         svg.append("g")
             .call(xAxis);
@@ -143,15 +115,11 @@ export default class LineDiagram extends Component {
 
         // the actual drawing part
         svg.append("g")
-            //.datum(data.dates) onödigt?
             .attr("fill", "none") // this fills the area enclosed by the graph, with added edges between start and end nodes
             .attr("stroke", "url(#line-gradient)")
             .attr("stroke-width", 5)
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "square") // alt value 'butt'
-            /*.transition()
-            .duration(5000)
-            .ease(d3.easeLinear)*/
             .selectAll("path")
             .data(data.series)
             .enter()
@@ -179,8 +147,6 @@ export default class LineDiagram extends Component {
                 d3.selectAll(className).transition().style("opacity", currentOpacity == 1.0 ? 0.0 : 1.0)
 
             })
-
-        
     }
 
 
