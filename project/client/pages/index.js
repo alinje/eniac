@@ -7,11 +7,19 @@ import {
 } from 'react-query' // importerar
 import Head from 'next/head'  // jsx
 import styles from '../styles/Home.module.css'
-import React, {useEffect} from 'react'
+import React, {useState} from 'react'
+import Image from 'next/image'
+
+import TestGraph, { GraphClass, graphMsg } from '../public/testVisual.js'
+import BarChart from '../public/BarChart.js'
+import App from '../public/App.js'
 
 export default function Home() {
-  const queryClient = useQueryClient() // fetches queryClient defined in _app.js
-  const hello = useQuery("hello", () => fetch("http://localhost:3001/home").then((res)=>res.json()))
+  const queryClient = useQueryClient() // fetches queryClient defined in _app.js <!-- {JSON.stringify(hello.data)} -->         <TestGraph onClick={() => graphMsg()}/>
+  const hello = useQuery("hello", () => fetch("http://localhost:3001/home").then((res)=>res.json())) 
+  const [msg, setMsg] = useState("tjabba")
+
+  //const [bCMsg, setBCMsg] = useState(BarChart());
   return (
     <div className={styles.container}>
       <Head>
@@ -23,16 +31,43 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+        <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
         <pre>
-          {JSON.stringify(hello.data)}
+          {msg}
         </pre>
+
+
+        
 
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
         </p>
+        <noscript>
+            Your browser needs to allow JavaScript
+        </noscript>
 
         <div className={styles.grid}>
+
+            <div className={styles.card}>
+                <TestGraph onClick={() => setMsg(graphMsg())}/>
+                {msg}
+            </div>
+
+            <div className={styles.card}>
+                <BarChart/>
+            </div>
+
+
+            <div className={styles.card}>
+                <Image 
+                src="/images/vader.jpg" // Route of the image file, I believe the file must be inside the public folder
+                height={464} // Desired size with correct aspect ratio
+                width={348} // Desired size with correct aspect ratio
+                alt="Utanför mitt fönster"
+                />
+            </div>
+
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h3>Documentation &rarr;</h3>
             <p>Find in-depth information about Next.js features and API.</p>
