@@ -5,7 +5,11 @@ everything from each table ("SELECT * [*=everything] FROM Table").
 */
 
 /*
-TODO: Ensure that methods has arguments which makes it possible to
+TODO: 
+1. There is a lot of redundant code in the methods. Plenty of attempts
+to solve this have been conducted without success. As of now, it works, but
+is not fancy.
+2. Ensure that methods has arguments which makes it possible to
 make querys with conditions. (SELECT * FROM Table WHERE manager = 'something'
 AND label = 'something')
 */
@@ -91,4 +95,4 @@ class Connection{
     }
 }
 var test = new Connection()
-console.log(test.getPortfolioInfo())
+test.getManagers()
