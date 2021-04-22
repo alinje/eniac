@@ -61,9 +61,6 @@ export default function Home() {
                         <TestGraph onClick={() => setMsg(graphMsg())} />
                         {msg}
                     </div>
-                    <div className={styles.card}>
-                         <BarPlotChart/>
-                    </div>
 
                     <div className={styles.card}>
                         <BarChart />
