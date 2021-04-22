@@ -1,3 +1,7 @@
+/*
+readCVS.js transfers the data from portfolio.csv to the eniacdb database.
+*/
+
 const fs = require("fs");
 const fastcsv = require("fast-csv");
 
