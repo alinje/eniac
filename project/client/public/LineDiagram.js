@@ -42,7 +42,12 @@ export default class LineDiagram extends Component {
 
 
         // no spaces allowed as graph names. Hyphens are replaced with spaces
-        var data = this.state.data
+        // TODO every place that refers to data should refer to this.state.data
+        var data = { // placeholder data
+            y: "Type of y",
+            series: [{ name: "graph-1", values: [10, 30, 70, 90, 100] }, { name: "graph-2", values: [5, 26, 80, 70, 60] }, { name: "graph-3", values: [3, 37, 82, 77, 66] }],
+            dates: [12, 13, 14, 15, 16]
+        }//this.state.data
 
 
         var margin = ({ top: 20, right: 30, bottom: 30, left: 40 })
@@ -136,7 +141,6 @@ export default class LineDiagram extends Component {
         svg.append("linearGradient")
             .attr("id", "line-gradient")
             .attr("gradientUnits", "userSpaceOnUse")
-            // below: no idea why this is what works
             .attr("x1", 0)
             .attr("y1", 0)
             .attr("x2", "20%")
@@ -219,11 +223,27 @@ export default class LineDiagram extends Component {
                 .attr("text-anchor", "start")
                 .attr("y", -20);
 
+                /* attempt to fix tooltips for hidden graphs
+            function activeValues(){
+                var values = []
+                data.series.forEach(element => {
+                    console.log(svg.select(element.name))
+                    if (svg.select(element.name).currentOpacity === 1.0){
+                        values.push[element]
+                    }
+                    
+                })
+                console.log(values)
+            }*/
+
+            
+
             function moved(event) {
                 event.preventDefault();
                 const pointer = d3.pointer(event, this); // provides pointer information
                 const xm = x.invert(pointer[0]); // coordinates of the pointer, for x
                 const ym = y.invert(pointer[1]); // and y
+
                 const i = d3.bisectCenter(data.dates, xm); // i is the index of the date closest to the pointer
                 const s = d3.least(data.series, d => Math.abs(d.values[i] - ym)); //s is the serie closest to the pointer
                 path.attr("stroke", d => d === s ? null : "#C0FFD0").filter(d => d === s).raise(); // if this line is highlighted, set color filter to null. Otherwise, set color filter to a fade

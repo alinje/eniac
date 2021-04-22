@@ -1,10 +1,16 @@
 import Link from 'next/link'
 import styles from '../styles/Home.module.css' // TODO a common CSS strategy is needed
 import Head from 'next/head'
+import React, { useState } from 'react'
 
 import LineDiagram from '../public/LineDiagram.js'
 
 export default function LabeledStats() {
+    const [lDState, setLDState] = useState({ // placeholder data
+        y: "Type of y",
+        series: [{ name: "graph-1", values: [10, 30, 70, 90, 100] }, { name: "graph-2", values: [5, 26, 80, 70, 60] }, { name: "graph-3", values: [3, 37, 82, 77, 66] }],
+        dates: [12, 13, 14, 15, 16]
+    })
     return (
         /* TODO something about flex is messing with the style classes */
         <div /*className={styles.container}*/>
@@ -21,13 +27,10 @@ export default function LabeledStats() {
                         </div>
                     </Link>
 
-                    {/* Visualization over all stocks in a label catagory*/}
+                    {/* Visualization over all stocks in a label catagory       data={lDState}*/}
                     <div className={styles.card} >
-                        <LineDiagram data={{ // placeholder data
-                            y: "Type of y",
-                            series: [{ name: "graph-1", values: [10, 30, 70, 90, 100] }, { name: "graph-2", values: [5, 26, 80, 70, 60] }, { name: "graph-3", values: [3, 37, 82, 77, 66] }],
-                            dates: [12, 13, 14, 15, 16]
-                        }} width={1000} />
+                        <LineDiagram  width={1000} />
+                        <button onClick={() => theGreatDepression()}>Simulera börskrasch</button>
                     </div>
                 </div>
 
@@ -35,4 +38,12 @@ export default function LabeledStats() {
             </main>
         </div>
     )
+
+    function theGreatDepression(){
+        setLDState({ // placeholder data
+            y: "Type of y",
+            series: [{ name: "graph-1", values: [10, 30, 70, 90, 100, 0] }, { name: "graph-2", values: [5, 26, 80, 70, 60, 0] }, { name: "graph-3", values: [3, 37, 82, 77, 66, 0] }],
+            dates: [12, 13, 14, 15, 16, 17]
+        })
+    }
 }
