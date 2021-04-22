@@ -161,7 +161,7 @@ export default class LineDiagram extends Component {
             .data(data.series)
             .enter()
             .append("path")
-            .attr("class", (d => d.name) + " lines")
+            .attr("class", (d => d.name))
             .join("path")
             .style("mix-blend-mode", "multiply") // darker where the lines cross over each other
             .attr("d", d => line(d.values));
