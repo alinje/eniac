@@ -27,10 +27,11 @@ export default function LabeledStats() {
                         </div>
                     </Link>
 
-                    {/* Visualization over all stocks in a label catagory       data={lDState}*/}
+                    {/* Visualization over all stocks in a label catagory       */}
                     <div className={styles.card} >
-                        <LineDiagram  width={1000} />
+                        <LineDiagram data={lDState} width={1000} />
                         <button onClick={() => theGreatDepression()}>Simulera börskrasch</button>
+                        {JSON.stringify(lDState)}
                     </div>
                 </div>
 
@@ -40,10 +41,10 @@ export default function LabeledStats() {
     )
 
     function theGreatDepression(){
-        setLDState({ // placeholder data
-            y: "Type of y",
+        setLDState(() => ({ // placeholder data
+            y: "Type of value",
             series: [{ name: "graph-1", values: [10, 30, 70, 90, 100, 0] }, { name: "graph-2", values: [5, 26, 80, 70, 60, 0] }, { name: "graph-3", values: [3, 37, 82, 77, 66, 0] }],
             dates: [12, 13, 14, 15, 16, 17]
-        })
+        }))
     }
 }
