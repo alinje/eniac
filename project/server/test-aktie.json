@@ -1,7 +1,82 @@
+[
 {
-  "Name": "GameStop",
-  "Value": 200,
-  "Amount": 21,
-  "Owner": "Sten"
+  "manager": "Alex",
+  "label": "coronavinnare",
+  "country": "SE",
+  "stock": "Scania",
+  "procent": "0.15",
+  "amount": 79788
+},
+{
+"manager": "Albin",
+"label": "bred",
+"country": "GER",
+"stock": "Einride",
+"procent": "0.17",
+"amount": 42435
+},
+{
+"manager": "Emil",
+"label": "coronaförlorare",
+"country": "USA",
+"stock": "Snapchat",
+"procent": "0.16",
+"amount": 14883
+},
+{
+"manager": "Carl",
+"label": "bred",
+"country": "GER",
+"stock": "Einride",
+"procent": "0.17",
+"amount": 151782
+},
+{
+"manager": "Alex",
+"label": "lång",
+"country": "SE",
+"stock": "Volvo",
+"procent": "0.14",
+"amount": 12500
+},
+{
+"manager": "Carl",
+"label": "lång",
+"country": "SE",
+"stock": "Volvo",
+"procent": "0.14",
+"amount": 15375
+},
+{
+"manager": "Alex",
+"label": "coronaförlorare",
+"country": "USA",
+"stock": "Snapchat",
+"procent": "0.16",
+"amount": 28314
+},
+{
+"manager": "Albin",
+"label": "coronavinnare",
+"country": "SE",
+"stock": "Scania",
+"procent": "0.15",
+"amount": 79788
+},
+{
+"manager": "Albin",
+"label": "lång",
+"country": "SE",
+"stock": "Volvo",
+"procent": "0.14",
+"amount": 5375
+},
+{
+"manager": "Alex",
+"label": "kort",
+"country": "USA",
+"stock": "Tesla",
+"procent": "-0.14",
+"amount": 37440
 }
-
+]
