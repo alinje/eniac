@@ -116,7 +116,7 @@ export default class LineDiagram extends Component {
         var svg = d3.select(this.myRef.current)
             .append("svg")
             .attr("viewBox", [0, 0, width, height])
-            .style("preserveAspectRatio", "xMidYMid meet");
+            //.style("preserveAspectRatio", "xMidYMid meet");
 
         // append the axises and the grid
         svg.append("g")
@@ -139,15 +139,15 @@ export default class LineDiagram extends Component {
             .attr("y2", "100%")
             .selectAll("stop")
             .data([
-                { offset: "0%", color: "red" },
-                { offset: "100%", color: "blue" }
+                { offset: "0%", color: "#2BE8D2" },
+                { offset: "100%", color: "#008A1E" }
             ])
             .enter().append("stop")
             .attr("offset", function (d) { return d.offset; })
             .attr("stop-color", function (d) { return d.color; });
 
-        // the actual drawing part
-        svg.append("g")
+        // the actual line drawing part
+        var path = svg.append("g")
             .attr("fill", "none") // this fills the area enclosed by the graph, with added edges between start and end nodes
             .attr("stroke", "url(#line-gradient)")
             .attr("stroke-width", 5)
@@ -157,10 +157,11 @@ export default class LineDiagram extends Component {
             .data(data.series)
             .enter()
             .append("path")
-            .attr("class", d => d.name)
+            .attr("class", (d => d.name) + " lines")
             .join("path")
             .style("mix-blend-mode", "multiply") // darker where the lines cross over each other
             .attr("d", d => line(d.values));
+
 
         // the creation of the interactive legend
         svg.selectAll("legend")
@@ -181,16 +182,61 @@ export default class LineDiagram extends Component {
                 d3.selectAll(className).transition().style("opacity", currentOpacity == 1.0 ? 0.0 : 1.0)
             })
 
-        // tooltips
-        var tooltip = d3.selectAll()
 
-        var updateChart = () => {
 
+        svg.call(hover, path)
+
+        function hover(svg, path) {
+
+            // touch related event handlers
+            if ("ontouchstart" in document) svg
+                .style("-webkit-tap-highlight-color", "transparent")
+                .on("touchmove", moved)
+                .on("touchstart", entered)
+                .on("touchend", left)
+            // mouse related event handlers
+            else svg
+                .on("mousemove", moved)
+                .on("mouseenter", entered)
+                .on("mouseleave", left);
+
+            const dot = svg.append("g")
+                .attr("display", "none");
+
+            dot.append("circle")
+                .attr("r", 10)
+                .attr("stroke-width", 2)
+                .attr("stroke", "black")
+                .attr("fill", "none")
+
+            dot.append("text")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", 15)
+                .attr("text-anchor", "start")
+                .attr("y", -20);
+
+            function moved(event) {
+                event.preventDefault();
+                const pointer = d3.pointer(event, this); // provides pointer information
+                const xm = x.invert(pointer[0]); // coordinates of the pointer, for x
+                const ym = y.invert(pointer[1]); // and y
+                const i = d3.bisectCenter(data.dates, xm); // i is the index of the date closest to the pointer
+                const s = d3.least(data.series, d => Math.abs(d.values[i] - ym)); //s is the serie closest to the pointer
+                path.attr("stroke", d => d === s ? null : "#C0FFD0").filter(d => d === s).raise(); // if this line is highlighted, set color filter to null. Otherwise, set color filter to a fade
+                dot.attr("transform", `translate(${x(data.dates[i])},${y(s.values[i])})`); // moves the tooltip
+                dot.select("text").text(s.name.replace('-', ' ') + ": " + data.dates[i]); // text in tooltip
+            }
+
+            function entered() {
+                path.style("mix-blend-mode", null).attr("stroke", "#C0FFD0");
+                dot.attr("display", null);
+            }
+
+            function left() {
+                path.style("mix-blend-mode", "multiply").attr("stroke", null);
+                dot.attr("display", "none"); // stop showing tooltip
+            }
         }
-
-        var brush = d3.brushX()
-            .extent([[0, 0], [width, height]])
-            .on("end", updateChart)
     }
 
 
