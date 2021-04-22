@@ -1,7 +1,22 @@
+/*
+The class connection.js includes methods that connects to the database.
+With the methods you can query the database. As of now the methods collect
+everything from each table ("SELECT * [*=everything] FROM Table").
+*/
+
+/*
+TODO: Ensure that methods has arguments which makes it possible to
+make querys with conditions. (SELECT * FROM Table WHERE manager = 'something'
+AND label = 'something')
+*/
+
 const { parse } = require('fast-csv')
 
 class Connection{
 
+    /*
+    TODO: Give the method arguments that can be used in conditions.
+    */
     getPortfolioInfo() {
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
@@ -16,6 +31,9 @@ class Connection{
         })
     }
 
+    /*
+    TODO: Give the method arguments that can be used in conditions.
+    */
     getManagers(){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
