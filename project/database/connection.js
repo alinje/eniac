@@ -1,3 +1,5 @@
+const { parse } = require('fast-csv')
+
 class Connection{
 
     getPortfolioInfo() {
@@ -8,7 +10,7 @@ class Connection{
         })
         client.connect()
         client.query('SELECT * FROM PortfolioInfo',(err,res)=>{
-            console.log(err,res)
+            console.log(err,JSON.stringify(res))
             client.end()
             return res
         })
@@ -24,7 +26,7 @@ class Connection{
         client.query('SELECT * FROM Managers',(err,res)=>{
             console.log(err,res)
             client.end()
-            return res
+            return parse(res)
         })
     }
 
@@ -71,4 +73,4 @@ class Connection{
     }
 }
 var test = new Connection()
-test.getPortfolioInfo()
+console.log(test.getPortfolioInfo())
