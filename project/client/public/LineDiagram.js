@@ -15,15 +15,22 @@ export default class LineDiagram extends Component {
 
 
 
-    constructor(props) {
+    constructor(state, props) {
         /*if (typeof props.url === 'undefined' ){
             throw new Error("All required properties needs to be provided")
         }*/
-
         super(props)
         this.myRef = React.createRef()
+
+        // static property
         this.props = props
+
+        // properties that this diagram needs to listen for change on, e.g. data https://reactjs.org/docs/state-and-lifecycle.html
+        // outside of the constructor, state is changed with e.g. this.setState((state, props) => {y: state.y + props.ySuffix})
+        this.state = state
+
     }
+
 
     //TODO setting state here will trigger re-rendering !!
     componentDidMount() {
@@ -33,12 +40,9 @@ export default class LineDiagram extends Component {
         //d3.json('sample.json', 
 
 
+
         // no spaces allowed as graph names. Hyphens are replaced with spaces
-        var data = {
-            y: "Type of y",
-            series: [{ name: "graph-1", values: [10, 30, 70, 90, 100] }, { name: "graph-2", values: [5, 26, 80, 70, 60] }, { name: "graph-3", values: [3, 37, 82, 77, 66] }],
-            dates: [12, 13, 14, 15, 16]
-        }
+        var data = this.state.data
 
 
         var margin = ({ top: 20, right: 30, bottom: 30, left: 40 })
@@ -116,7 +120,7 @@ export default class LineDiagram extends Component {
         var svg = d3.select(this.myRef.current)
             .append("svg")
             .attr("viewBox", [0, 0, width, height])
-            //.style("preserveAspectRatio", "xMidYMid meet");
+        //.style("preserveAspectRatio", "xMidYMid meet");
 
         // append the axises and the grid
         svg.append("g")
@@ -237,6 +241,11 @@ export default class LineDiagram extends Component {
                 dot.attr("display", "none"); // stop showing tooltip
             }
         }
+    }
+
+    // method called when React element is removed
+    componentWillUnmount() {
+
     }
 
 
