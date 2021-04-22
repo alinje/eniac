@@ -25,7 +25,7 @@ export default class BarPlotChart extends Component{
             // X axis
             var x = d3.scaleBand()
                 .range([ 0, width ])
-                .domain(data.map(function(d) { return d.stock; }))
+                .domain(data.map(function(d) { return d.rows.stock; }))
                 .padding(0.2);
             svg.append("g")
                 .attr("transform", "translate(0," + height + ")")
@@ -46,10 +46,10 @@ export default class BarPlotChart extends Component{
                 .data(data)
                 .enter()
                 .append("rect")
-                .attr("x", function(d) { return x(d.stock); })
-                .attr("y", function(d) { return y(d.amount); })
+                .attr("x", function(d) { return x(d.rows.stock); })
+                .attr("y", function(d) { return y(d.rows.amount); })
                 .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(d.Value); })
+                .attr("height", function(d) { return height - y(d.rows.amount); })
                 .attr("fill", "#69b3a2")
         })
 
