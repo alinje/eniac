@@ -15,7 +15,7 @@ export default class LineDiagram extends Component {
 
 
 
-    constructor(state, props) {
+    constructor(props) {
         /*if (typeof props.url === 'undefined' ){
             throw new Error("All required properties needs to be provided")
         }*/
@@ -23,11 +23,11 @@ export default class LineDiagram extends Component {
         this.myRef = React.createRef()
 
         // static property
-        this.props = props
+        //this.data = props.data
 
         // properties that this diagram needs to listen for change on, e.g. data https://reactjs.org/docs/state-and-lifecycle.html
         // outside of the constructor, state is changed with e.g. this.setState((state, props) => {y: state.y + props.ySuffix})
-        this.state = state
+        //this.state = state
 
     }
 
@@ -63,14 +63,14 @@ export default class LineDiagram extends Component {
 
 
         var x = d3.scaleUtc()
-            .domain(d3.extent(data.dates))
+            .domain(d3.extent(this.props.data.dates))
             //.domain(d3.extent(data.dates , d => d.date))
             .range([margin.left + 30, width - margin.right])
 
 
 
         //var maxValue = d3.max(data, d => d.value)
-        var maxValue = d3.max(data.series, d => d3.max(d.values))
+        var maxValue = d3.max(this.props.data.series, d => d3.max(d.values))
         var y = d3.scaleLinear()
             // this is from zero to max. should be able to choose settings for y-axim
             .domain([0, maxValue + maxValue / 10]).nice()
@@ -91,7 +91,7 @@ export default class LineDiagram extends Component {
             .call(g => g.select(".tick:last-of-type text").clone()
                 .attr("class", "yAxisLabel")
                 .attr("x", 10) //x-position of label shown at top of y-axis
-                .text(data.y)) // label shown at top of y-axis
+                .text(this.props.data.y)) // label shown at top of y-axis
 
         // creates a background grid
         var grid = g => g
@@ -117,7 +117,7 @@ export default class LineDiagram extends Component {
         // a line, defined by x-value from every node in data´s date value, and x-value from its value-value
         var line = d3.line()
             .defined(d => !isNaN(d))
-            .x((d, i) => x(data.dates[i]))
+            .x((d, i) => x(this.props.data.dates[i]))
             .y(d => y(d))
 
 
@@ -162,7 +162,7 @@ export default class LineDiagram extends Component {
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "square") // alt value 'butt'
             .selectAll("path")
-            .data(data.series)
+            .data(this.props.data.series)
             .enter()
             .append("path")
             .attr("class", (d => d.name))
@@ -173,7 +173,7 @@ export default class LineDiagram extends Component {
 
         // the creation of the interactive legend
         svg.selectAll("legend")
-            .data(data.series)
+            .data(this.props.data.series)
             .enter()
             .append('g')
             .append("text")
@@ -192,9 +192,10 @@ export default class LineDiagram extends Component {
 
 
 
-        svg.call(hover, path)
+        svg.call(hover, path, this.props.data)
 
-        function hover(svg, path) {
+
+        function hover(svg, path, data) {
 
             // touch related event handlers
             if ("ontouchstart" in document) svg
@@ -243,12 +244,11 @@ export default class LineDiagram extends Component {
                 const pointer = d3.pointer(event, this); // provides pointer information
                 const xm = x.invert(pointer[0]); // coordinates of the pointer, for x
                 const ym = y.invert(pointer[1]); // and y
-
                 const i = d3.bisectCenter(data.dates, xm); // i is the index of the date closest to the pointer
                 const s = d3.least(data.series, d => Math.abs(d.values[i] - ym)); //s is the serie closest to the pointer
                 path.attr("stroke", d => d === s ? null : "#C0FFD0").filter(d => d === s).raise(); // if this line is highlighted, set color filter to null. Otherwise, set color filter to a fade
                 dot.attr("transform", `translate(${x(data.dates[i])},${y(s.values[i])})`); // moves the tooltip
-                dot.select("text").text(s.name.replace('-', ' ') + ": " + data.dates[i]); // text in tooltip
+                dot.select("text").text(s.name.replace('-', ' ') + ": " + data.dates[i]); // text in tooltip 
             }
 
             function entered() {
@@ -271,7 +271,10 @@ export default class LineDiagram extends Component {
 
     render() {
         return (
-            <div ref={this.myRef} className="LineDiagram"></div>
+            <div ref={this.myRef} className="LineDiagram">
+                <div>{JSON.stringify(this.props.data)}</div>
+            </div>
+            
         )
     }
 }
