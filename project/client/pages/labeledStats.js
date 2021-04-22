@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css' // TODO a common CSS strategy is 
 import Head from 'next/head'
 
 import LineDiagram from '../public/LineDiagram.js'
+import DistributionChart from '../public/DistributionChart.js'
 
 export default function LabeledStats() {
     return (
@@ -29,6 +30,7 @@ export default function LabeledStats() {
                             dates: [12, 13, 14, 15, 16]
                         }} width={1000} />
                     </div>
+
                 </div>
 
 

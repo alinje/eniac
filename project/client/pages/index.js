@@ -13,6 +13,8 @@ import Link from 'next/link'
 
 import TestGraph, { GraphClass, graphMsg } from '../public/testVisual.js'
 import BarChart from '../public/BarChart.js'
+import DistributionChart from "../public/DistributionChart";
+import BarPlotChart from "../public/BarPlotChart";
 //import App from '../public/app.js'
 
 export default function Home() {
@@ -58,6 +60,9 @@ export default function Home() {
                     <div className={styles.card}>
                         <TestGraph onClick={() => setMsg(graphMsg())} />
                         {msg}
+                    </div>
+                    <div className={styles.card}>
+                         <BarPlotChart/>
                     </div>
 
                     <div className={styles.card}>
