@@ -4,8 +4,8 @@ const fastcsv = require("fast-csv");
 let stream = fs.createReadStream("project/database/portfolio.csv");
 let csvData = [];
 let csvStream = fastcsv
-  .parse()
-  .on("data", delimiter =";", function(data, delimiter) {
+  .parse({delimiter : ";"})
+  .on("data", function(data) {
     csvData.push(data);
   })
   .on("end", function() {
@@ -16,18 +16,8 @@ let csvStream = fastcsv
     // save csvData
   });
 
-
 stream.pipe(csvStream);
-
-
 const Pool = require("pg").Pool;
-//const { delimiter } = require("node:path");
-
-// remove the first line: header
-for (i=0;i<7;i++){
-  csvData.shift();
-}
-
 
 // create a new connection pool to the database
 const pool = new Pool({
@@ -38,22 +28,54 @@ const pool = new Pool({
   port: 5432  
 });
 
-const query =
-  "INSERT INTO Labels (name, weight) VALUES ($1, $2)";
+const addStockQuery =
+  "INSERT INTO Stocks (name, price, country, procent) VALUES ($1, $2, $3, $4)";
+
+const addManager =
+  "INSERT INTO Managers (name) VALUES ($1)";
+
+const addPortfolio =
+  "INSERT INTO Portfolios (manager, stock, volume) VALUES ($1, $2, $3)";
+
+let skipList = ["", "LONG"];
 
 pool.connect((err, client, done) => {
   if (err) throw err;
   try {
-    csvData.forEach(row => {
-      client.query(query, row, (err, res) => {
-        if (err) {
-          console.log(err.stack);
-        } else {
-          console.log("inserted " + res.rowCount + " row:", row);
-        }
-      });
-    });
+    for (i = 0; i< csvData.length;i++){
+      row = csvData[i];
+      if (row[0] == "SHORT"){
+        break;
+      }
+
+      if (!skipList.includes(row[0])){
+        client.query(addStockQuery, [row[0], 100,"SE", 0.12], (err, res) => {
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log("inserted " + res.rowCount + " row:", row[0]);
+          }
+        });
+
+        client.query(addManager, [row[10]], (err, res) => {
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log("inserted " + res.rowCount + " row:", row[10]);
+          }
+        });
+
+        client.query(addPortfolio, [row[10], row[0], row[12].replace(" ", "")], (err, res) => {
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log("inserted " + res.rowCount + " row:", [row[10], row[0], 1000]);
+          }
+        });
+      }
+
+    }
   } finally {
-    done();
-  }
+      done();
+}
 });
