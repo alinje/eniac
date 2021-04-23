@@ -1,0 +1,17 @@
+2021-04-23
+
+what do I want to learn or understand better?
+	Jag vill bli skicklig i JavaScript och front-end programmering
+	och få en förståelse för ramverket vi använder till vår applikation.
+	För att uppnå detta får jag väl träna på det.
+
+how can I help someone else, or the entire team, to learn something new?
+	Se till att de alltid har en god möjlighet att förstå vad jag har 
+	jobbat på genom att dokumentera väl och hålla dem uppdaterade.
+
+what is my contribution towards the team’s use of Scrum?
+	Jag utförde mina user stories under veckans sprint.
+
+what is my contribution towards the team’s deliveries?
+	Jag har bidragit till att kunna visa upp aktier från JSON objekt
+	i applikationen.
