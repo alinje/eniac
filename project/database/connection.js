@@ -23,7 +23,7 @@ class Connection{
     and amount.
     TODO: Give the method arguments that can be used in conditions.
     */
-    getPortfolioInfo() {
+    getAllPortfolioInfo() {
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -36,6 +36,21 @@ class Connection{
             return res
         })
     }
+
+    getPortfolioInfo(manager) {
+        const {Pool,Client} = require('pg')
+        const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+        const client = new Client({
+        connectionString:connectionString
+        })
+        client.connect()
+        client.query('SELECT * FROM PortfolioInfo WHERE manager = $1', [manager],(err,res)=>{
+            console.log(err,res)
+            client.end()
+            return res
+        })
+    }
+
     /*
     Method that querys the eniacdb to obtain all managers in the Managers table.
     */
@@ -124,7 +139,7 @@ class Connection{
 
         /*
     Add label to stock in StocksWithLabels table with two arguments. The arguments are
-    the stock name and the label name. The stock name/label name that is added to the table has 
+    the stock_name and the label_name. The stock_name/label_name that is added to the table has 
     to exist in the Stocks table/Labels table. There is a condition in StocksWithLabels that monitor
     this.
     */
@@ -144,5 +159,6 @@ class Connection{
 
 }
 var test = new Connection()
-test.addManagers("Tobbe");
-test.getManagers()
+//test.addManagers();
+//test.getManagers()
+test.getPortfolioInfo("Alex");
