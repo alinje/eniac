@@ -51,7 +51,7 @@ export default class BarPlotChart extends Component{
                 .attr("width", x.bandwidth())
                 .attr("height", function(d) { return height - y(d.rows.amount); })
                 .attr("fill", "#69b3a2")
-        })
+        });
 
     }
     render() {
