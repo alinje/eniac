@@ -13,6 +13,8 @@ import Link from 'next/link'
 
 import TestGraph, { GraphClass, graphMsg } from '../public/testVisual.js'
 import BarChart from '../public/BarChart.js'
+import DistributionChart from "../public/DistributionChart";
+import BarPlotChart from "../public/BarPlotChart";
 //import App from '../public/app.js'
 
 export default function Home() {
