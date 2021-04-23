@@ -4,6 +4,7 @@ readCVS.js transfers the data from portfolio.csv to the eniacdb database.
 
 const fs = require("fs");
 const fastcsv = require("fast-csv");
+//const conn = require("connection");
 
 let stream = fs.createReadStream("project/database/portfolio.csv");
 let csvData = [];
@@ -35,51 +36,53 @@ const pool = new Pool({
 const addStockQuery =
   "INSERT INTO Stocks (name, price, country, procent) VALUES ($1, $2, $3, $4)";
 
-const addManager =
+const addManagerQuery =
   "INSERT INTO Managers (name) VALUES ($1)";
 
-const addPortfolio =
+const addPortfolioQuery =
   "INSERT INTO Portfolios (manager, stock, volume) VALUES ($1, $2, $3)";
 
 let skipList = ["", "LONG"];
 
+//conn.getManagers();
+
+let c =  new Connection()
+c.getManagers();
+
+
+//c.addPortfolios(data)
+//c.addStock(stock_data)
+
 pool.connect((err, client, done) => {
   if (err) throw err;
   try {
-    for (i = 0; i< csvData.length;i++){
+    for (i = 0 ; i < csvData.length ; i++ ){
       row = csvData[i];
       if (row[0] == "SHORT"){
         break;
       }
 
       if (!skipList.includes(row[0])){
-        client.query(addStockQuery, [row[0], 100,"SE", 0.12], (err, res) => {
-          if (err) {
-            console.log(err.stack);
-          } else {
-            console.log("inserted " + res.rowCount + " row:", row[0]);
-          }
-        });
 
-        client.query(addManager, [row[10]], (err, res) => {
-          if (err) {
-            console.log(err.stack);
-          } else {
-            console.log("inserted " + res.rowCount + " row:", row[10]);
-          }
-        });
+        addToDatabase(client, addStockQuery, [row[0], 100,"SE", 0.12] );
 
-        client.query(addPortfolio, [row[10], row[0], row[12].replace(" ", "")], (err, res) => {
-          if (err) {
-            console.log(err.stack);
-          } else {
-            console.log("inserted " + res.rowCount + " row:", [row[10], row[0], 1000]);
-          }
-        });
+        addToDatabase(client, addManagerQuery, [row[10]]);
+
+        addToDatabase(client, addPortfolioQuery, [row[10], row[0], row[12].replace(" ", "")]);
+
       }
-
     }
   } finally {
       done();
 }
 });
+
+function addToDatabase(client, query, data){
+  client.query(query, data, (err, res) => {
+    if (err) {
+      return (err.stack);
+    } else {
+      return ("inserted " + res.rowCount + " row:", data);
+    }
+  });
+}

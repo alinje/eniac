@@ -14,7 +14,6 @@ make querys with conditions. (SELECT * FROM Table WHERE manager = 'something'
 AND label = 'something')
 */
 
-const { parse } = require('fast-csv')
 
 class Connection{
 
@@ -80,19 +79,21 @@ class Connection{
         })
     }
 
-    addManagers(){
+    addManagers(manager){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
         connectionString:connectionString
         })
         client.connect()
-        client.query('INSERT INTO Managers VALUES($1)',["Tobias"],(err,res)=>{
+        client.query('INSERT INTO Managers VALUES($1)', [manager],(err,res)=>{
             console.log(err,res)
             client.end()
             return res
         })
     }
+
 }
 var test = new Connection()
+test.addManagers("Tobbe");
 test.getManagers()
