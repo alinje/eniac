@@ -1,0 +1,12 @@
+What do I want to learn or understand better?
+Vill förstå ännu mer av det vi kodat i veckan i JS och kopplingen till SQL. Själva databasen har jag koll på och grunderna i vårt Javascript kopplat till den också men hade velat förstå det ännu mer ingående. Inte suttit med i projektet kring visualiseringen heller så det ska bli spännande att få se hur det fungerar så att jag förhoppningsvis kan lära mig något nytt!
+
+How can I help someone else, or the entire team, to learn something new?
+Svårt att säga nu när vi kommit längre in i projektet och mycket handlar om själva kodningen. Tror jag har mina styrkor i organisations- och administrationsbiten samt arbetet med databaser. Så förhoppningsvis kan jag fortsätta bidra med kunskap kring detta!
+
+What is my contribution towards the team’s use of Scrum?
+Genom att bestämma nya tillfällen för möten och omfattning av dessa har vi i den lilla projektgruppen  arbetat på ett agilt sätt.
+
+
+What is my contribution towards the team’s deliveries?
+Varit med och utvecklat databasen tillsammans med två andra gruppmedlemmar. Försökt driva på för gemensamma möten men kunde blivit bättre på att ta eget ansvar och även koda på egen hand. Svårt att veta hur mycket som ska göras gemensamt och inte!
