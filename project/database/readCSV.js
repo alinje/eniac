@@ -42,12 +42,11 @@ const addManagerQuery =
 const addPortfolioQuery =
   "INSERT INTO Portfolios (manager, stock, volume) VALUES ($1, $2, $3)";
 
-let skipList = ["", "LONG"];
+let skipList = ["", "LONG", "TICKER"];
 
 //conn.getManagers();
 
-let c =  new Connection()
-c.getManagers();
+
 
 
 //c.addPortfolios(data)
@@ -64,10 +63,13 @@ pool.connect((err, client, done) => {
 
       if (!skipList.includes(row[0])){
 
+        //Adding stocks
         addToDatabase(client, addStockQuery, [row[0], 100,"SE", 0.12] );
 
+        //Adding Managers
         addToDatabase(client, addManagerQuery, [row[10]]);
 
+        //Adding Portfolios
         addToDatabase(client, addPortfolioQuery, [row[10], row[0], row[12].replace(" ", "")]);
 
       }
