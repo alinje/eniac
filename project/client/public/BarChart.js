@@ -44,7 +44,7 @@ class BarChart extends Component {
         svg.selectAll("rect")
         // data(data) attaches data argument to all selected elements
         .data(data)
-        // enter and append helps with dynamic data?
+        // enter and append helps with dynamic data
         .enter()
         .append("rect")
         .attr("x", (d, i) => i * 40)
@@ -56,6 +56,7 @@ class BarChart extends Component {
 
     }
 
+    // this is necessary syntax for inserting the React element <BarChart/>
     render(){
         return (
         <div ref={this.myRef} className="BarChart">

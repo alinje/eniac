@@ -1,5 +1,5 @@
 .container {
-    min-height: 100vh;
+    min-height: 100vh; /* percent of screen size */
     padding: 0 0.5rem;
     display: flex;
     flex-direction: column;
@@ -9,7 +9,7 @@
 
 .main {
     padding: 5rem 0;
-    flex: 1;
+    flex: 1; /* https://developer.mozilla.org/en-US/docs/Web/CSS/flex */
     display: flex;
     flex-direction: row;
     /* changed from 'column' for possible adaption for huge gaming screens */
@@ -71,7 +71,7 @@
 .grid {
     /*https://css-tricks.com/snippets/css/complete-guide-grid/*/
     /*grid-template-columns: [first] auto [line2] auto [line3] auto [col4-start] 50px [five] 40px [end];*/
-    grid-auto-flow: column;
+    grid-auto-flow: row;
     display: flex;
     align-items: center;
     justify-content: center;
