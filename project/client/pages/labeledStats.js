@@ -4,6 +4,7 @@ import Head from 'next/head'
 import React, { useState } from 'react'
 
 import LineDiagram from '../public/LineDiagram.js'
+import DistributionChart from '../public/DistributionChart.js'
 
 export default function LabeledStats() {
     const [lDState, setLDState] = useState({ // placeholder data
@@ -33,6 +34,7 @@ export default function LabeledStats() {
                         <button onClick={() => theGreatDepression()}>Simulera börskrasch</button>
                         {JSON.stringify(lDState)}
                     </div>
+
                 </div>
 
 
