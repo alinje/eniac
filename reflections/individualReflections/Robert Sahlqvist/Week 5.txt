@@ -1,0 +1,12 @@
+-What do I want to learn or understand better?
+	I need to learn how to use D3 in javaScript better and I need to get better at work discipline.
+
+-How can I help someone else, or the entire team, to learn something new?
+	I could help with finetuning code or some visual things.
+
+-What is my contribution towards the team’s use of Scrum?
+	I've been a part of discussions concerning the project and aspects wherin I have something to say. 
+	I've helped in deciding what some of the sprint goals of the week should've been.
+
+-What is my contribution towards the team’s deliveries?
+	I've tried helping with the visualisation of a chart type.
