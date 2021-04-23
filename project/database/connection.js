@@ -8,7 +8,7 @@ everything from each table ("SELECT * [*=everything] FROM Table").
 TODO: 
 1. There is a lot of redundant code in the methods. Plenty of attempts
 to solve this have been conducted without success. As of now, it works, but
-is not fancy.
+it is not fancy.
 2. Ensure that methods has arguments which makes it possible to
 make querys with conditions. (SELECT * FROM Table WHERE manager = 'something'
 AND label = 'something')
@@ -18,6 +18,9 @@ AND label = 'something')
 class Connection{
 
     /*
+    Method that querys the eniacdb to obtain portfolioinfo. The portfolioinfo contains
+    (as of now) the manager, label of the stock, country of the stock, the stock, percent
+    and amount.
     TODO: Give the method arguments that can be used in conditions.
     */
     getPortfolioInfo() {
@@ -33,9 +36,8 @@ class Connection{
             return res
         })
     }
-
     /*
-    TODO: Give the method arguments that can be used in conditions.
+    Method that querys the eniacdb to obtain all managers in the Managers table.
     */
     getManagers(){
         const {Pool,Client} = require('pg')
@@ -51,6 +53,9 @@ class Connection{
         })
     }
 
+    /*
+    Method that querys the eniacdb to obtain all labels in the Labels table.
+    */
     getLabels(){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
@@ -65,6 +70,9 @@ class Connection{
         })
     }
 
+      /*
+    Method that querys the eniacdb to obtain all stocks in the Stocks table.
+    */
     getStocks(){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
@@ -78,15 +86,56 @@ class Connection{
             return res
         })
     }
-
-    addManagers(manager){
+    /*
+    Adds manager to the Managers table. The argument is the identifior for the manager.
+    For Alcur the manager identifior is the manager's initials.
+    */
+    addManager(manager_initials){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
         connectionString:connectionString
         })
         client.connect()
-        client.query('INSERT INTO Managers VALUES($1)', [manager],(err,res)=>{
+        client.query('INSERT INTO Managers VALUES($1)', [manager_initials],(err,res)=>{
+            console.log(err,res)
+            client.end()
+            return res
+        })
+    }
+
+    /*
+    Add label to Labels table with two argument. The arguments are the labels name and
+    the labels weight.
+    */
+    addLabel(label_name,label_weight){
+        const {Pool,Client} = require('pg')
+        const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+        const client = new Client({
+        connectionString:connectionString
+        })
+        client.connect()
+        client.query('INSERT INTO Labels VALUES($1,$2)', [label_name,label_weight],(err,res)=>{
+            console.log(err,res)
+            client.end()
+            return res
+        })
+    }
+
+        /*
+    Add label to stock in StocksWithLabels table with two arguments. The arguments are
+    the stock name and the label name. The stock name/label name that is added to the table has 
+    to exist in the Stocks table/Labels table. There is a condition in StocksWithLabels that monitor
+    this.
+    */
+    addLabelToStock(stock_name,label_name){
+        const {Pool,Client} = require('pg')
+        const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+        const client = new Client({
+        connectionString:connectionString
+        })
+        client.connect()
+        client.query('INSERT INTO StocksWithLabels VALUES($1,$2)', [stock_name,label_name],(err,res)=>{
             console.log(err,res)
             client.end()
             return res
