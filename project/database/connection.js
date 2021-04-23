@@ -45,7 +45,7 @@ class Connection{
         })
         client.connect()
         client.query('SELECT * FROM PortfolioInfo WHERE manager = $1', [manager],(err,res)=>{
-            console.log(err,res)
+            console.log(err,JSON.stringify(res))
             client.end()
             return res
         })
