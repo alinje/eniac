@@ -31,6 +31,10 @@ export default class LineDiagram extends Component {
 
     }
 
+    componentDidUpdate(){
+        this.componentDidMount()
+    }
+
 
     //TODO setting state here will trigger re-rendering !!
     componentDidMount() {
@@ -39,6 +43,8 @@ export default class LineDiagram extends Component {
         //d3.json(props.label, () => fetch().then((res) => res.json))
         //d3.json('sample.json', 
 
+        // remove all last rendering
+        d3.select(this.myRef.current).selectAll("*").remove()
 
 
         // no spaces allowed as graph names. Hyphens are replaced with spaces
@@ -126,6 +132,7 @@ export default class LineDiagram extends Component {
             .append("svg")
             .attr("viewBox", [0, 0, width, height])
         //.style("preserveAspectRatio", "xMidYMid meet");
+
 
         // append the axises and the grid
         svg.append("g")
@@ -272,7 +279,6 @@ export default class LineDiagram extends Component {
     render() {
         return (
             <div ref={this.myRef} className="LineDiagram">
-                <div>{JSON.stringify(this.props.data)}</div>
             </div>
             
         )
