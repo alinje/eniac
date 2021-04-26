@@ -1,87 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as d3 from "d3";
 import { useQuery } from 'react-query';
+//import InteractiveLegend from 'InteractiveLegend.js'
+
+const margin = ({ top: 20, right: 30, bottom: 30, left: 40 })
 
 
-/**
- * LineDiagram component demands following properties:
- * url: url to backend data provider
- * label: label to show
- * 
- * Optional:
- * 
- */
-export default class LineDiagram extends Component {
+export default function LineDiagram(props) {
+
+
+    const myRef = React.useRef(null)
+
+    const { height = 1000, width = 1000 } = props
+
+    //TODO move stuff that don't update here
+    // add them as a dependency
+
+    // The Hook (everything that start with React.use)
+    const updateCleanup = React.useEffect(() => {
+        // remove last rendering of svg
+        d3.select(myRef.current).selectAll("svg").remove()
 
 
 
-    constructor(props) {
-        /*if (typeof props.url === 'undefined' ){
-            throw new Error("All required properties needs to be provided")
-        }*/
-        super(props)
-        this.myRef = React.createRef()
-
-        // static property
-        //this.data = props.data
-
-        // properties that this diagram needs to listen for change on, e.g. data https://reactjs.org/docs/state-and-lifecycle.html
-        // outside of the constructor, state is changed with e.g. this.setState((state, props) => {y: state.y + props.ySuffix})
-        //this.state = state
-
-    }
-
-    componentDidUpdate(){
-        this.componentDidMount()
-    }
-
-
-    //TODO setting state here will trigger re-rendering !!
-    componentDidMount() {
-        //const data = d3.json(useQuery(props.label, () => fetch(props.url)))
-        //const growth = [useQuery(props.label, () => fetch("http://localhost:3001/singleStockGrowth"))]
-        //d3.json(props.label, () => fetch().then((res) => res.json))
-        //d3.json('sample.json', 
-
-        // remove all last rendering
-        d3.select(this.myRef.current).selectAll("*").remove()
-
-
-        // no spaces allowed as graph names. Hyphens are replaced with spaces
-        // TODO every place that refers to data should refer to this.state.data
-        var data = { // placeholder data
-            y: "Type of y",
-            series: [{ name: "graph-1", values: [10, 30, 70, 90, 100] }, { name: "graph-2", values: [5, 26, 80, 70, 60] }, { name: "graph-3", values: [3, 37, 82, 77, 66] }],
-            dates: [12, 13, 14, 15, 16]
-        }//this.state.data
-
-
-        var margin = ({ top: 20, right: 30, bottom: 30, left: 40 })
-
-        var height = 1000
-        var width = 1000
-        if (typeof this.props.width != 'undefined') {
-            width = this.props.width;
-        }
-        if (typeof this.props.height != 'undefined') {
-            height = this.props.height;
-        }
-
-
+        //TODO create as states in this function
         var x = d3.scaleUtc()
-            .domain(d3.extent(this.props.data.dates))
+            .domain(d3.extent(props.data.dates))
             //.domain(d3.extent(data.dates , d => d.date))
             .range([margin.left + 30, width - margin.right])
 
-
-
-        //var maxValue = d3.max(data, d => d.value)
-        var maxValue = d3.max(this.props.data.series, d => d3.max(d.values))
+        var maxValue = d3.max(props.data.series, d => d3.max(d.values))
         var y = d3.scaleLinear()
             // this is from zero to max. should be able to choose settings for y-axim
             .domain([0, maxValue + maxValue / 10]).nice()
             .range([height - margin.bottom, margin.top])
-
 
         // functions for the drawing of the axises
         var xAxis = g => g
@@ -97,7 +49,8 @@ export default class LineDiagram extends Component {
             .call(g => g.select(".tick:last-of-type text").clone()
                 .attr("class", "yAxisLabel")
                 .attr("x", 10) //x-position of label shown at top of y-axis
-                .text(this.props.data.y)) // label shown at top of y-axis
+                .text(props.data.y)) // label shown at top of y-axis
+
 
         // creates a background grid
         var grid = g => g
@@ -120,19 +73,19 @@ export default class LineDiagram extends Component {
                 .attr("x1", margin.left)
                 .attr("x2", width - margin.right));
 
+
         // a line, defined by x-value from every node in data´s date value, and x-value from its value-value
         var line = d3.line()
             .defined(d => !isNaN(d))
-            .x((d, i) => x(this.props.data.dates[i]))
+            .x((d, i) => x(props.data.dates[i]))
             .y(d => y(d))
 
 
         // Make an svg and set size of viewPort
-        var svg = d3.select(this.myRef.current)
+        var svg = d3.select(myRef.current)
             .append("svg")
             .attr("viewBox", [0, 0, width, height])
         //.style("preserveAspectRatio", "xMidYMid meet");
-
 
         // append the axises and the grid
         svg.append("g")
@@ -161,6 +114,7 @@ export default class LineDiagram extends Component {
             .attr("offset", function (d) { return d.offset; })
             .attr("stop-color", function (d) { return d.color; });
 
+
         // the actual line drawing part
         var path = svg.append("g")
             .attr("fill", "none") // this fills the area enclosed by the graph, with added edges between start and end nodes
@@ -169,7 +123,7 @@ export default class LineDiagram extends Component {
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "square") // alt value 'butt'
             .selectAll("path")
-            .data(this.props.data.series)
+            .data(props.data.series)
             .enter()
             .append("path")
             .attr("class", (d => d.name))
@@ -180,7 +134,7 @@ export default class LineDiagram extends Component {
 
         // the creation of the interactive legend
         svg.selectAll("legend")
-            .data(this.props.data.series)
+            .data(props.data.series)
             .enter()
             .append('g')
             .append("text")
@@ -196,11 +150,6 @@ export default class LineDiagram extends Component {
                 // Change the opacity: from 0 to 1 or from 1 to 0
                 d3.selectAll(className).transition().style("opacity", currentOpacity == 1.0 ? 0.0 : 1.0)
             })
-
-
-
-        svg.call(hover, path, this.props.data)
-
 
         function hover(svg, path, data) {
 
@@ -231,20 +180,20 @@ export default class LineDiagram extends Component {
                 .attr("text-anchor", "start")
                 .attr("y", -20);
 
-                /* attempt to fix tooltips for hidden graphs
-            function activeValues(){
-                var values = []
-                data.series.forEach(element => {
-                    console.log(svg.select(element.name))
-                    if (svg.select(element.name).currentOpacity === 1.0){
-                        values.push[element]
-                    }
-                    
-                })
-                console.log(values)
-            }*/
+            /* attempt to fix tooltips for hidden graphs
+        function activeValues(){
+            var values = []
+            data.series.forEach(element => {
+                console.log(svg.select(element.name))
+                if (svg.select(element.name).currentOpacity === 1.0){
+                    values.push[element]
+                }
+                
+            })
+            console.log(values)
+        }*/
 
-            
+
 
             function moved(event) {
                 event.preventDefault();
@@ -267,20 +216,26 @@ export default class LineDiagram extends Component {
                 path.style("mix-blend-mode", "multiply").attr("stroke", null);
                 dot.attr("display", "none"); // stop showing tooltip
             }
+
+
         }
-    }
 
-    // method called when React element is removed
-    componentWillUnmount() {
-
-    }
+        svg.call(hover, path, props.data)
 
 
-    render() {
-        return (
-            <div ref={this.myRef} className="LineDiagram">
-            </div>
-            
-        )
-    }
+
+    }, [myRef, props.data]
+    )
+
+
+
+    return (
+        <div ref={myRef} className="LineDiagram">
+            <div>{JSON.stringify(props.data)}</div>
+        </div>
+
+    )
+
+
 }
+

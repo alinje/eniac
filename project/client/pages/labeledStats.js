@@ -43,10 +43,13 @@ export default function LabeledStats() {
     )
 
     function theGreatDepression(){
-        setLDState(() => ({ // placeholder data
+        setLDState({ // placeholder data 
+            // TODO fix TODO labels, also, not a function
             y: "Type of value",
             series: [{ name: "graph-1", values: [10, 30, 70, 90, 100, 0] }, { name: "graph-2", values: [5, 26, 80, 70, 60, 0] }, { name: "graph-3", values: [3, 37, 82, 77, 66, 0] }],
             dates: [12, 13, 14, 15, 16, 17]
-        }))
+        })
     }
+
+
 }
