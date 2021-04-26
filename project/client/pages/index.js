@@ -32,14 +32,15 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-        <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
-        <pre>
-          {msg}
-        </pre>
+            <main className={styles.main}>
+                <h1 className={styles.title}>
+                    Welcome to <a href="https://nextjs.org">Next.js!</a>
+                </h1>
+                {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
+                <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
+                <pre>
+                    {msg}
+                </pre>
 
                 <p className={styles.description}>
                     Get started by editing{' '}
