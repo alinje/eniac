@@ -8,6 +8,7 @@ import {
 import Head from 'next/head'  // jsx
 import styles from '../styles/Home.module.css'
 import React, {useEffect} from 'react'
+import Link from 'next/link'
 
 export default function Home() {
   const queryClient = useQueryClient() // fetches queryClient defined in _app.js
@@ -25,6 +26,10 @@ export default function Home() {
         </h1>
         <pre>
           {JSON.stringify(hello.data)}
+          {' '}
+          <Link href="/data-grid">
+            <a>Click here for big grid</a>
+          </Link>
         </pre>
 
         <p className={styles.description}>
