@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/macos,windows,node
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,node
+# Created by https://www.toptal.com/developers/gitignore/api/macos,windows,node,react
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,node,react
 
 
 ### macOS ###
@@ -185,3 +185,19 @@ dist/
 tmp/
 temp/
 .idea/
+
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
