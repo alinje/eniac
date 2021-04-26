@@ -1,0 +1,11 @@
+What do I want to learn or understand better?
+Kopplingen mellan front-end och databas. Samt koppling mellan front-end och Infront
+
+How can I help someone else, or the entire team, to learn something new?
+Jag kan hjälpa förstå kopplingen mellan CSV och databas
+
+What is my contribution towards the team’s use of Scrum?
+Ingen speciell för denna vecka.
+
+What is my contribution towards the team’s deliveries?
+Databasutvecklingen nästintill färdig. Går att läsa från Alcurs CSV fil och lägga in i db.
