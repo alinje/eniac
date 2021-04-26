@@ -1,0 +1,48 @@
+- Kundvärde och omfattning
+
+· Hur har vi lyckats i veckan? Lärt oss något nytt?
+Vi har lyckats bra i veckan och har genomfört våra sprint. Vi har lärt oss mer om javascript, överföring CSV till data, React och D3.
+
+· Våra KPI:er
+
+Hur mår produkten? (100p är färdig produkt. 1p motsvarar en procent)
+26p/100p.
+
+Hur mår koden? (Antal defekter)
+3p
+* Tooltips syns fortfarande för dolda grafer
+* Graferna uppdateras ännu inte med states
+* CSS-sheeten för diagramsidan fungerar inte
+
+Hur mår vi? (Antal fingrar)
+
+Allmänt: 
+4p
+Gruppen mår till största delen bra.
+
+Nöjd med sin insats: 
+3.5p
+Gruppen i huvudsak nöjda med prestationen. 
+Taggade?:
+4.5p
+Gruppen är taggad.
+
+- Designbeslut och programstruktur
+
+· Hur stödjer designbesluten kundvärdet?
+Gränssnittet behöver bearbetas.
+
+· Hur använde vi och uppdaterade dokumentationen?
+Bra dokumenterade möten. Gruppen har börjat jobba igen missad dokumentation av koden, mer behöver göras.
+
+· Hur säkerställer vi kodkvaliteten och upprätthåller kodstandarden?
+Vi har konstaterat ett behov för en gedigen CSS-struktur. Ett par userstories har resulterat i kod som behöver struktureras upp ytterligare i mindre moduler, detta ska arbetas vidare med.
+
+- Scrum-användning
+
+ · Roller vi använt i veckan
+Vi använder ett system med roterande Scrum-master och sekreterare. Denna veckan har Alex varit Scrum-master och Aline sekreterare. Nästa vecka är Aline scrum-master och Albin sekreterare. 
+
+- Övrigt
+
+· Nästa vecka ska vi demonstrera frontend och databas för handledare och stakeholder.
