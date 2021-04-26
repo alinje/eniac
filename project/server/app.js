@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express') // node´s own import system
 const cors = require('cors')
 const app = express()
 const port = 3001
@@ -7,7 +7,7 @@ const port = 3001
 app.use(cors())
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+    res.send('Hello World!')
 })
 
 app.get("/home", (req, res) => {
@@ -23,5 +23,5 @@ app.get("/grid-data", (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Example app listening at http://localhost:${port}`)
 })
