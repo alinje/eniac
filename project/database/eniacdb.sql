@@ -15,25 +15,25 @@ CREATE TABLE Stocks (
     name TEXT,
     price INTEGER,
     country TEXT,
-    procent DECIMAL(7,2),
+    percent DECIMAL(7,2),
 
     PRIMARY KEY(name)
 );
 
 CREATE TABLE Labels(
     name TEXT,
-    weight INTEGER,
-
     PRIMARY KEY(name)
 );
 
 CREATE TABLE StocksWithLabels(
     stock TEXT,
     label TEXT,
+    weight DECIMAL(2,1),
 
     PRIMARY KEY(stock,label),
     FOREIGN KEY(stock) REFERENCES Stocks(name),
-    FOREIGN KEY(label) REFERENCES Labels(name)
+    FOREIGN KEY(label) REFERENCES Labels(name),
+    CHECK (weight>0 AND weight<=3)
 );
 
 CREATE TABLE Portfolios(
@@ -52,12 +52,12 @@ INSERT INTO Stocks VALUES('Scania',122,'SE',0.15);
 INSERT INTO Stocks VALUES('Snapchat',121,'USA',0.16);
 INSERT INTO Stocks VALUES('Einride',123,'GER',0.17);
 
-INSERT INTO Labels VALUES('coronavinnare',1);
-INSERT INTO Labels VALUES('coronaförlorare',1);
-INSERT INTO Labels VALUES('kort',1);
-INSERT INTO Labels VALUES('lång',1);
-INSERT INTO Labels VALUES('bred',1);
-INSERT INTO Labels VALUES('smal',1);
+INSERT INTO Labels VALUES('coronavinnare');
+INSERT INTO Labels VALUES('coronaförlorare');
+INSERT INTO Labels VALUES('kort');
+INSERT INTO Labels VALUES('lång');
+INSERT INTO Labels VALUES('bred');
+INSERT INTO Labels VALUES('smal');
 
 INSERT INTO Managers VALUES('Alex');
 INSERT INTO Managers VALUES('Albin');
@@ -65,11 +65,12 @@ INSERT INTO Managers VALUES('Carl');
 INSERT INTO Managers VALUES('Emil');
 INSERT INTO Managers VALUES('Aline');
 
-INSERT INTO StocksWithLabels VALUES('Tesla','kort');
-INSERT INTO StocksWithLabels VALUES('Volvo','lång');
-INSERT INTO StocksWithLabels VALUES('Scania','coronavinnare');
-INSERT INTO StocksWithLabels VALUES('Snapchat','coronaförlorare');
-INSERT INTO StocksWithLabels VALUES('Einride','bred');
+INSERT INTO StocksWithLabels VALUES('Tesla','kort', 0.5);
+INSERT INTO StocksWithLabels VALUES('Volvo','lång', 1);
+INSERT INTO StocksWithLabels VALUES('Scania','coronavinnare', 1.3);
+INSERT INTO StocksWithLabels VALUES('Snapchat','coronaförlorare', 0.7);
+INSERT INTO StocksWithLabels VALUES('Einride','bred', 0.9);
+INSERT INTO StocksWithLabels VALUES('Einride','lång', 1.1);
 
 INSERT INTO Portfolios VALUES('Alex','Volvo',100);
 INSERT INTO Portfolios VALUES('Alex','Tesla',312);
@@ -83,9 +84,9 @@ INSERT INTO Portfolios VALUES('Carl','Volvo',123);
 INSERT INTO Portfolios VALUES('Emil','Snapchat',123);
 
 CREATE VIEW PortfolioInfo AS 
-(SELECT manager, StocksWithLabels.label AS label, country, Portfolios.stock, procent, price*volume AS amount
+(SELECT manager, Portfolios.stock, StocksWithLabels.label AS label, weight, country, percent, volume, price*volume AS amount, price*volume*weight AS exposure
 FROM Managers, Portfolios, Stocks, StocksWithLabels
 WHERE (Managers.name = Portfolios.manager) AND (Portfolios.stock = StocksWithLabels.stock)
                                            AND (Portfolios.stock = Stocks.name)
-GROUP BY(Portfolios.manager, StocksWithLabels.label, country, Portfolios.stock,procent,amount)
+GROUP BY(Portfolios.manager, StocksWithLabels.label, country, Portfolios.stock,percent,amount,weight)
 );
