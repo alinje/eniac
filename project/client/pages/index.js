@@ -8,7 +8,7 @@ import {
 import Head from 'next/head'  // jsx
 import styles from '../styles/Home.module.css'
 
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -23,6 +23,8 @@ export default function Home() {
     const queryClient = useQueryClient() // fetches queryClient defined in _app.js        <TestGraph onClick={() => graphMsg()}/>
     const hello = useQuery("hello", () => fetch("http://localhost:3001/home").then((res) => res.json()))
     const [msg, setMsg] = useState("tjabba")
+    const [dBData, setDBData]
+    const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/dBInit").then(((res) => res.json)))
 
     return (
         <div className={styles.container}>
@@ -38,8 +40,14 @@ export default function Home() {
                 </h1>
                 {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
                 <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
+                <button onClick={() => setDBData(JSON.stringify(dBConnect.data))}>{dBData}</button>
                 <pre>
-                    {msg}
+                    {dBData}
+                    {JSON.stringify(hello.data)}
+                    {' '}
+                    <Link href="/data-grid">
+                        <a>Click here for big grid</a>
+                    </Link>
                 </pre>
 
                 <p className={styles.description}>
