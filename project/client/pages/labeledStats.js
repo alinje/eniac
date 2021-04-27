@@ -32,6 +32,7 @@ export default function LabeledStats() {
                     <div className={styles.card} >
                         <LineDiagram data={lDState} width={1000} />
                         <button onClick={() => theGreatDepression()}>Simulera börskrasch</button>
+                        <button onClick={() => prolongedEconomicCrisis()}>30-tal</button>
                         {JSON.stringify(lDState)}
                     </div>
 
@@ -48,6 +49,17 @@ export default function LabeledStats() {
             y: "Type of value",
             series: [{ name: "graph-1", values: [10, 30, 70, 90, 100, 0] }, { name: "graph-2", values: [5, 26, 80, 70, 60, 0] }, { name: "graph-3", values: [3, 37, 82, 77, 66, 0] }],
             dates: [12, 13, 14, 15, 16, 17]
+        })
+    }
+
+    function prolongedEconomicCrisis(){ 
+        setLDState({
+            ...lDState, // use the old state (stripped)
+            dates: [...lDState.dates, lDState.dates[lDState.dates.length-1] + 1], //redefine dates
+            series: lDState.series.map(serie => ( { // curly brackets lambda needs to explicitally return the result
+                ...serie,
+                values: [...serie.values, 0]
+        }))
         })
     }
 
