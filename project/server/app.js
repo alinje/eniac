@@ -1,7 +1,9 @@
+const dB = require("C:/Users/hanna/Documents/agileProjekt/eniac/project/server/database/connection.js")
+
 const express = require('express') // node´s own import system
 const cors = require('cors')
 const app = express()
-const port = 3001
+const port = 5432
 
 
 app.use(cors())
@@ -22,6 +24,15 @@ app.get("/grid-data", (req, res) => {
     })
 })
 
+app.get("/dBInit", (req, res) => {
+    res.send(
+        getPortfolioInfo("Alex")
+    )
+})
+
+
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
+

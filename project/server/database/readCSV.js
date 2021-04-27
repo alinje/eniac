@@ -6,7 +6,7 @@ const fs = require("fs");
 const fastcsv = require("fast-csv");
 //const conn = require("connection");
 
-let stream = fs.createReadStream("project/database/portfolio.csv");
+let stream = fs.createReadStream("/eniac/project/server/database/portfolio.csv");
 let csvData = [];
 let csvStream = fastcsv
   .parse({delimiter : ";"})
