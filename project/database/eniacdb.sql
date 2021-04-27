@@ -84,9 +84,15 @@ INSERT INTO Portfolios VALUES('Carl','Volvo',123);
 INSERT INTO Portfolios VALUES('Emil','Snapchat',123);
 
 CREATE VIEW PortfolioInfo AS 
-(SELECT manager, Portfolios.stock, StocksWithLabels.label AS label, weight, country, percent, volume, price*volume AS amount, price*volume*weight AS exposure
+(SELECT manager, Portfolios.stock, price, StocksWithLabels.label AS label, weight, country, percent, volume, price*volume AS amount, price*volume*weight AS exposure
 FROM Managers, Portfolios, Stocks, StocksWithLabels
 WHERE (Managers.name = Portfolios.manager) AND (Portfolios.stock = StocksWithLabels.stock)
                                            AND (Portfolios.stock = Stocks.name)
-GROUP BY(Portfolios.manager, StocksWithLabels.label, country, Portfolios.stock,percent,amount,weight)
+GROUP BY(Portfolios.manager, price, StocksWithLabels.label, country, Portfolios.stock,percent,amount,weight)
+);
+
+CREATE VIEW ManagersLabels AS
+(SELECT manager, label
+FROM StocksWithLabels, Portfolios
+WHERE StocksWithLabels.stock = Portfolios.stock 
 );
