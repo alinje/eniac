@@ -68,6 +68,21 @@ export default function Home() {
                             Redigera ettiketter
                         </div>
                     </Link>
+                    <Link href="performanceLabels" passHref>
+                        <div className={styles.card + ' ' + styles.link}>
+                            Performance labels
+                        </div>
+                    </Link>
+                    <Link href="specificLabel" passHref>
+                        <div className={styles.card + ' ' + styles.link}>
+                            Performance labels
+                        </div>
+                    </Link>
+                    <Link href="specificStock" passHref>
+                        <div className={styles.card + ' ' + styles.link}>
+                            Performance labels
+                        </div>
+                    </Link>
 
 
                     {/* This is us using a React element, that we made in file BarChart*/}
