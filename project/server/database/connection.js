@@ -30,30 +30,29 @@ AND label = 'something')
         connectionString:connectionString
         })
         client.connect()
-        return client.query('SELECT * FROM PortfolioInfo',(err,res)=>{
+        const res =  client.query('SELECT * FROM PortfolioInfo',(err,res)=>{
             console.log(err,JSON.stringify(res))
             client.end()
             return res
         })
+        return res
     }
 
     function printRandom(){
         return "This is a random message!";
     }
-
-    function getPortfolioInfo(manager) {
+    
+    async function getPortfolioInfo(manager) {
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
         connectionString:connectionString
         })
-        client.connect()
-        const res = await client.query('SELECT * FROM PortfolioInfo WHERE manager = $1', [manager],(err,res)=>{
-            //console.log(err,JSON.stringify(res))
-            client.end()
-            return res
-        })
-        console.log(res);
+        await client.connect()
+        const res = await client.query('SELECT * FROM PortfolioInfo WHERE manager = $1', [manager])
+        await client.end()
+        //console.log(res);
+        return res
     }
 
     /*
@@ -162,6 +161,8 @@ AND label = 'something')
         })
     }
 
+
+    exports.getPI = getPortfolioInfo()
 //}
 //var test = new Connection()
 //test.addManagers();

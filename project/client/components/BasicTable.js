@@ -5,7 +5,9 @@ import { COLUMNS } from './columns'
 //import './table.module.css'
 
 
-export const BasicTable = () => {
+export const BasicTable = (props) => {
+    console.log(props)
+    
 
     const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => DATA, [])
@@ -22,9 +24,11 @@ export const BasicTable = () => {
         rows,
         prepareRow,
     } = tableInstance
-
+    //https://stackoverflow.com/questions/63234735/how-to-extract-rows-from-a-queryresult-array-from-postgres
     return (
-        <table {...getTableProps()}>
+        <div>
+            <p>{JSON.stringify(props.rows)}</p>
+            <table {...getTableProps()}>
             <thead>
             {
                 headerGroups.map((headerGroup) => (
@@ -32,7 +36,7 @@ export const BasicTable = () => {
                         {
                             headerGroup.headers.map((column) => (
                                 <th {...headerGroup.getHeaderGroupProps()}> {/* Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
-                                    {column.render('Header')}
+                                   t {column.render('Header')}
 
                                 </th>
                             ))
@@ -58,8 +62,10 @@ export const BasicTable = () => {
                     }
                 )
             }
-
             </tbody>
+            
         </table>
+        </div>
+        
     )
 }

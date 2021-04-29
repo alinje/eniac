@@ -23,8 +23,8 @@ export default function Home() {
     const queryClient = useQueryClient() // fetches queryClient defined in _app.js        <TestGraph onClick={() => graphMsg()}/>
     const hello = useQuery("hello", () => fetch("http://localhost:3001/home").then((res) => res.json()))
     const [msg, setMsg] = useState("tjabba")
-    const [dBData, setDBData]
-    const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/dBInit").then(((res) => res.json)))
+    const [dBData, setDBData] = useState("ye")
+    const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/dBInit").then(((res) => res.json())))
 
     return (
         <div className={styles.container}>
@@ -42,7 +42,7 @@ export default function Home() {
                 <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
                 <button onClick={() => setDBData(JSON.stringify(dBConnect.data))}>{dBData}</button>
                 <pre>
-                    {dBData}
+                    {/*JSON.stringify(dBConnect.data)*/}
                     {JSON.stringify(hello.data)}
                     {' '}
                     <Link href="/data-grid">
