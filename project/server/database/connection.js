@@ -23,38 +23,43 @@ AND label = 'something')
     and amount.
     TODO: Give the method arguments that can be used in conditions.
     */
-    export default function getAllPortfolioInfo() {
+    function getAllPortfolioInfo() {
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
         connectionString:connectionString
         })
         client.connect()
-        client.query('SELECT * FROM PortfolioInfo',(err,res)=>{
+        return client.query('SELECT * FROM PortfolioInfo',(err,res)=>{
             console.log(err,JSON.stringify(res))
             client.end()
             return res
         })
     }
 
-    export function getPortfolioInfo(manager) {
+    function printRandom(){
+        return "This is a random message!";
+    }
+
+    function getPortfolioInfo(manager) {
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
         connectionString:connectionString
         })
         client.connect()
-        client.query('SELECT * FROM PortfolioInfo WHERE manager = $1', [manager],(err,res)=>{
-            console.log(err,JSON.stringify(res))
+        const res = await client.query('SELECT * FROM PortfolioInfo WHERE manager = $1', [manager],(err,res)=>{
+            //console.log(err,JSON.stringify(res))
             client.end()
             return res
         })
+        console.log(res);
     }
 
     /*
     Method that querys the eniacdb to obtain all managers in the Managers table.
     */
-    export function getManagers(){
+    function getManagers(){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -71,7 +76,7 @@ AND label = 'something')
     /*
     Method that querys the eniacdb to obtain all labels in the Labels table.
     */
-    export function getLabels(){
+    function getLabels(){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -123,7 +128,7 @@ AND label = 'something')
     Add label to Labels table with two argument. The arguments are the labels name and
     the labels weight.
     */
-    export function addLabel(label_name,label_weight){
+    function addLabel(label_name,label_weight){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -143,7 +148,7 @@ AND label = 'something')
     to exist in the Stocks table/Labels table. There is a condition in StocksWithLabels that monitor
     this.
     */
-    export function addLabelToStock(stock_name,label_name){
+    function addLabelToStock(stock_name,label_name){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -158,7 +163,8 @@ AND label = 'something')
     }
 
 //}
-var test = new Connection()
+//var test = new Connection()
 //test.addManagers();
 //test.getManagers()
-test.getPortfolioInfo("Alex");
+console.log(printRandom())
+console.log(getPortfolioInfo("Alex"))
