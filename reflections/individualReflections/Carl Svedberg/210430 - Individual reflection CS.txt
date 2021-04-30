@@ -1,0 +1,12 @@
+What do I want to learn or understand better?
+Fortsatt vill jag lära mig mer om JS och fortsätta utveckla mina kunskaper inom databaser. Tycker det är svårt med projekttänket och helhetsgreppet när man är van vid mindre uppgifter från tidigare kurser. Behöver våga testa mer!
+
+How can I help someone else, or the entire team, to learn something new?
+Fortsätta vara nyfiken och ställa frågor när jag inte förstår eller är tveksam till ett arbetssätt. Våga komma med inspel även i de programmeringstekniska frågorna!
+
+What is my contribution towards the team’s use of Scrum?
+Varit delaktig på båden den sprint planning och sprint review vi haft i veckan.
+
+
+What is my contribution towards the team’s deliveries?
+Var med och ändrade i databasen utifrån stakeholderns önskemål. Dessutom har jag varit med i arbetet kring integration av frontend och backend. Det har varit spännande men också svårt. Vill bidra mer nästa vecka!
