@@ -58,6 +58,33 @@ export default function Home() {
                         </div>
                     </Link>
 
+                    <Link href="trustees" passHref>
+                        <div className={styles.card + ' ' + styles.link}>
+                            Förvaltarlista
+                        </div>
+                    </Link>
+                    <Link href="editLabels" passHref>
+                        <div className={styles.card + ' ' + styles.link}>
+                            Redigera ettiketter
+                        </div>
+                    </Link>
+                    <Link href="performanceLabels" passHref>
+                        <div className={styles.card + ' ' + styles.link}>
+                            Performance labels
+                        </div>
+                    </Link>
+                    <Link href="specificLabel" passHref>
+                        <div className={styles.card + ' ' + styles.link}>
+                            Performance labels
+                        </div>
+                    </Link>
+                    <Link href="specificStock" passHref>
+                        <div className={styles.card + ' ' + styles.link}>
+                            Performance labels
+                        </div>
+                    </Link>
+
+
                     {/* This is us using a React element, that we made in file BarChart*/}
                     <div className={styles.card}>
                         <TestGraph onClick={() => setMsg(graphMsg())} />
