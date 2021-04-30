@@ -1,0 +1,11 @@
+What do I want to learn or understand better?
+Kopplingen mellan front-end och databas.
+
+How can I help someone else, or the entire team, to learn something new?
+Jag kan hjälpa till att förstå hur databaser fungerar och hur vi ska hämta data därifrån
+
+What is my contribution towards the team’s use of Scrum?
+Antecknat team reflection och fört mötesprotokoll
+
+What is my contribution towards the team’s deliveries?
+Delaktig i kopplingen mellan back-end och front-end.
