@@ -90,3 +90,10 @@ WHERE (Managers.name = Portfolios.manager) AND (Portfolios.stock = StocksWithLab
                                            AND (Portfolios.stock = Stocks.name)
 GROUP BY(Portfolios.manager, StocksWithLabels.label, country, Portfolios.stock,procent,amount)
 );
+
+CREATE VIEW LabelSummary AS 
+(SELECT label, SUM(Portfolios.volume) AS total_volume
+FROM StocksWithLabels, Portfolios
+WHERE (StocksWithLabels.stock = Portfolios.stock)
+GROUP BY label
+);
