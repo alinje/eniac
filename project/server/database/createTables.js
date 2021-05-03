@@ -41,20 +41,19 @@ WHERE (StocksWithLabels.stock = Portfolios.stock)
 GROUP BY label
 );`
 
-
 pool.connect((err, client, done) => {
     if (err) throw err;
     try {
 
-          //Adding all tables and views
-          addToDatabase(client, startQuery);
-          addToDatabase(client, ManagersTblQuery);
-          addToDatabase(client, StocksTblQuery);
-          addToDatabase(client, LabelsTblQuery);
-          addToDatabase(client, StocksWithLabelsTblQuery);
-          addToDatabase(client, PortfoliosTblQuery);
-          addToDatabase(client, PortfolioInfoViewQuery);
-          addToDatabase(client, LabelSummaryViewQuery);
+        //Adding all tables and views
+        addToDatabase(client, startQuery);
+        addToDatabase(client, ManagersTblQuery);
+        addToDatabase(client, StocksTblQuery);
+        addToDatabase(client, LabelsTblQuery);
+        addToDatabase(client, StocksWithLabelsTblQuery);
+        addToDatabase(client, PortfoliosTblQuery);
+        addToDatabase(client, PortfolioInfoViewQuery);
+        addToDatabase(client, LabelSummaryViewQuery);
         } 
     finally {
         done();
@@ -69,4 +68,6 @@ pool.connect((err, client, done) => {
         console.log("Query success!");
       }
     });
+    return client;
   }
+

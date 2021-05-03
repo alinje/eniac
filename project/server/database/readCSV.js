@@ -58,6 +58,31 @@ pool.connect((err, client, done) => {
     for (i = 0 ; i < csvData.length ; i++ ){
       row = csvData[i];
       if (row[0] == "SHORT"){
+        /*
+        let volvoInserts = ["Cyklisk", "Value", "Beta 1,8"]
+        let nibeInserts = ["Hållbar", "Quality", "Momentum", "Beta 1,2"]
+        let embracerInserts = ["Growth", "Tech", "Förvärv", "Momentum", "Beta 1"]
+        let labels = ["Cyklisk", "Value", "Beta 1,8", "Hållbar", "Quality", "Momentum", "Beta 1,2", "Growth", "Tech", "Förvärv", "Momentum", "Beta 1" ]
+
+        for (i=0 ; i< labels;i++){
+          addToDatabase(client, "INSERT INTO Labels (name, weight) VALUES ($1, $2)", [labels[i], 1]);
+        }
+
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["VOLV B", volvoInserts[0]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["VOLV B", volvoInserts[1]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["VOLV B", volvoInserts[2]])
+
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["NIBE B", nibeInserts[0]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["NIBE B", nibeInserts[1]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["NIBE B", nibeInserts[2]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["NIBE B", nibeInserts[3]])
+
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["EMBRAC B", embracerInserts[0]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["EMBRAC B", embracerInserts[1]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["EMBRAC B", embracerInserts[2]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["EMBRAC B", embracerInserts[3]])
+        addToDatabase(client, "INSERT INTO StocksWithLabels (stock, label) VALUES ($1, $2)", ["EMBRAC B", embracerInserts[i]])
+        */
         break;
       }
 
@@ -73,6 +98,8 @@ pool.connect((err, client, done) => {
         addToDatabase(client, addPortfolioQuery, [row[10], row[0], row[12].replace(" ", "")]);
 
       }
+      
+      
     }
   } finally {
       done();
@@ -82,9 +109,12 @@ pool.connect((err, client, done) => {
 function addToDatabase(client, query, data){
   client.query(query, data, (err, res) => {
     if (err) {
+      console.log(err.stack)
       return (err.stack);
     } else {
+      //console.log(res.rowCount)
       return ("inserted " + res.rowCount + " row:", data);
     }
   });
+  return client
 }
