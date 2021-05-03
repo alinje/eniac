@@ -123,14 +123,14 @@ class Connection{
     Add label to Labels table with two argument. The arguments are the labels name and
     the labels weight.
     */
-    addLabel(label_name,label_weight){
+    addLabel(label_name){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
         connectionString:connectionString
         })
         client.connect()
-        client.query('INSERT INTO Labels VALUES($1,$2)', [label_name,label_weight],(err,res)=>{
+        client.query('INSERT INTO Labels VALUES($1)', [label_name],(err,res)=>{
             console.log(err,res)
             client.end()
             return res
@@ -143,14 +143,14 @@ class Connection{
     to exist in the Stocks table/Labels table. There is a condition in StocksWithLabels that monitor
     this.
     */
-    addLabelToStock(stock_name,label_name){
+    addLabelToStock(stock_name,label_name,weight){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
         connectionString:connectionString
         })
         client.connect()
-        client.query('INSERT INTO StocksWithLabels VALUES($1,$2)', [stock_name,label_name],(err,res)=>{
+        client.query('INSERT INTO StocksWithLabels VALUES($1,$2, $3)', [stock_name,label_name,weight],(err,res)=>{
             console.log(err,res)
             client.end()
             return res

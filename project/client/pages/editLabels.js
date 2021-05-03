@@ -16,6 +16,35 @@ export default function EditLabels() {
             </Head>
             <main /*className={styles.main}*/>
                 {/* Link to homepage*/}
+				<h1>Edit labels</h1>
+				
+                <h2>Add new label</h2>
+                <form>
+                    <label>
+                        Label name:
+                        <input type="text" name="label" />
+                    </label>
+                        <input type="submit" value="Submit" />
+				</form>
+				
+                <h2>Add labels to stock</h2>
+                <form>
+                    <label>
+                        Stock:
+                        <input type="text" name="stock" />
+                    </label>
+                        <input type="submit" value="Submit" />
+				</form>
+
+                <form>
+                    <label>
+                        Label:
+                        <input type="text" name="label" />
+                    </label>
+                        <input type="submit" value="Submit" />
+				</form>
+
+
                 <div className={styles.grid}>
                     <Link href="/" passHref>
                         <div className={styles.card}>
