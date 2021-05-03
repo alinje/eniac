@@ -1,54 +1,56 @@
-import React, { useMemo } from 'react'
-import { useTable } from 'react-table'
-import DATA from '../../server/test-aktie.json' //Not the right JSON!!
+import React, { useMemo, useEffect } from 'react'
+import { usePagination, useTable } from 'react-table'
 import { COLUMNS } from './columns'
 //import './table.module.css'
 
 
-export const BasicTable = (props) => {
-    console.log(props)
+export default function BasicTable(props) {
+
+    const columns = COLUMNS
+    const {dataRows = []} = props
+    var data = dataRows
     
 
-    const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => props.rows, [])
 
-    const tableInstance = useTable({
+    
+    var tableInstance = useTable({
         columns,
-        data
+        data,
     })
 
-    const {
+    var {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
         prepareRow,
-    } = tableInstance
+    } = tableInstance 
+
 
     return (
-            <table {...getTableProps()}>
+        <table {...getTableProps()}>
             <thead>
-            {
-                headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                        {
-                            headerGroup.headers.map((column) => (
-                                <th {...headerGroup.getHeaderGroupProps()}> {/* Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
+                {
+                    headerGroups.map((headerGroup) => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {
+                                headerGroup.headers.map((column) => (
+                                    <th {...headerGroup.getHeaderGroupProps()}> {/* Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
                                    t {column.render('Header')}
 
-                                </th>
-                            ))
-                        }
+                                    </th>
+                                ))
+                            }
 
-                    </tr>
-                ))
-            }
+                        </tr>
+                    ))
+                }
             </thead>
             <tbody {...getTableBodyProps()}>
-            {
-                rows.map(row => {
-                    prepareRow(row)
-                        return(
+                {
+                    rows.map(row => {
+                        prepareRow(row)
+                        return (
                             <tr {...row.getRowProps()}>
                                 {
                                     row.cells.map((cell) => {
@@ -58,11 +60,11 @@ export const BasicTable = (props) => {
                             </tr>
                         )
                     }
-                )
-            }
+                    )
+                }
             </tbody>
 
         </table>
-        
+
     )
 }
