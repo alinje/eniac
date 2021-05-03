@@ -19,6 +19,8 @@ export default function FirstPost() {
 	const queryClient = useQueryClient()
 
 	const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/dBInit").then(((res) => res.json())))
+
+
 	const [dBData, setDBData] = useState(dBConnect)
 
     //console.log(dBConnect)
@@ -35,7 +37,7 @@ export default function FirstPost() {
 			<Head>
 				<title>Data grid</title>
 			</Head>
-			<h1>Big grid</h1>
+			<h1>Big grid, DONT RELOAD THE PAGE</h1>
 
 			<p><BasicTable rows={dBConnect.data} /></p>
 

@@ -10,7 +10,7 @@ export const BasicTable = (props) => {
     
 
     const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => DATA, [])
+    const data = useMemo(() => props.rows, [])
 
     const tableInstance = useTable({
         columns,
@@ -24,10 +24,8 @@ export const BasicTable = (props) => {
         rows,
         prepareRow,
     } = tableInstance
-    //https://stackoverflow.com/questions/63234735/how-to-extract-rows-from-a-queryresult-array-from-postgres
+
     return (
-        <div>
-            <p>{JSON.stringify(props.rows)}</p>
             <table {...getTableProps()}>
             <thead>
             {
@@ -63,9 +61,8 @@ export const BasicTable = (props) => {
                 )
             }
             </tbody>
-            
+
         </table>
-        </div>
         
     )
 }
