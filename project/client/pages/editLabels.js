@@ -6,6 +6,8 @@ import React, { useState } from 'react'
 import LineDiagram from '../public/LineDiagram.js'
 import DistributionChart from '../public/DistributionChart.js'
 
+
+
 export default function EditLabels() {
     return (
         /* TODO something about flex is messing with the style classes */
@@ -15,17 +17,25 @@ export default function EditLabels() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main /*className={styles.main}*/>
-                {/* Link to homepage*/}
+                {/* Link to homepage*/
+                /* Forms for editing labels*/
+                }
+
+                
 				<h1>Edit labels</h1>
 				
                 <h2>Add new label</h2>
                 <form>
                     <label>
                         Label name:
-                        <input type="text" name="label" />
+                        <input1 type="text" name="label" />
                     </label>
-                        <input type="submit" value="Submit" />
+                        <input1 type="submit" value="Submit" />
 				</form>
+				{/* fdfdfd */}
+                <script src="connection.js"></script>
+                <input type = "submit" onclick = "addLabel()" value = "input1">
+                </input>      
 				
                 <h2>Add labels to stock</h2>
                 <form>
@@ -55,7 +65,4 @@ export default function EditLabels() {
             </main>
         </div>
     )
-
-
-
 }
