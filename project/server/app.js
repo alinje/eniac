@@ -29,7 +29,12 @@ const client = new Client({
 })*/
 
 async function getPortfolioInfo(manager) {
-
+    const { Pool, Client } = require('pg')
+    const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+    
+    const client = new Client({
+        connectionString: connectionString
+    })
 
     await client.connect()
     const res = await client.query('SELECT * FROM PortfolioInfo WHERE manager = $1', [manager])
