@@ -10,6 +10,11 @@ const express = require('express') // node´s own import system
 const cors = require('cors')
 const app = express()
 const port = 3001
+const db = require("./database")
+
+async function getLabelSummary() {
+    db.query("SELECT * FROM LabelSummary", [])
+}
 
 // pool connection
 const { Pool, Client } = require('pg')
@@ -50,6 +55,11 @@ app.get("/grid-data", (req, res) => {
     res.send({
 
     })
+})
+
+app.get("/labelsummary", async (req, res) => {
+    const pi = await getLabelSummary()
+    res.send(pi.rows)
 })
 
 app.get("/dBInit", async (req, res) => {
