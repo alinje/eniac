@@ -68,8 +68,12 @@ export default function EditLabels() {
             <Head>
                 <title>Stocks sorted by labels</title>
                 <link rel="icon" href="/favicon.ico" />
+<<<<<<< HEAD
             
 
+=======
+                <script type = "text/javascript" src="connection.js"></script> 
+>>>>>>> 5e2da6afbc466bd7e8ff26f31057532038fbd44d
             </Head>
             <main /*className={styles.main}*/>
                 {/* Link to homepage*/
@@ -79,11 +83,25 @@ export default function EditLabels() {
 				<h1>Edit labels</h1>
 				
                 <h2>Add new label</h2>
+<<<<<<< HEAD
                 <form>
                     Label name: <input type="text" name="labelName" id="a"></input>
                     <button onclick={Form()}>Add</button>
                 </form>
 
+=======
+                <form action="" onsubmit="addLabelFunction()" name="form1" id="form1">
+                    label: <input type="text" name="label" id="a"></input>
+                    <input type="submit" value="Submit" name="submit"></input>
+                </form>
+
+                <script>
+                    function addLabelFunction(){
+                        console.log('alex')
+                    }
+                </script>
+
+>>>>>>> 5e2da6afbc466bd7e8ff26f31057532038fbd44d
                 <h2>Add labels to stock</h2>
                 <form>
                     <label onSubmit={createLabel}>
