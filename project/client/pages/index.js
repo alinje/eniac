@@ -89,25 +89,6 @@ export default function Home() {
                         <p>Label editor (ingen länk ännu)</p>
                     </div>
 
-                    {/* This is us using a React element, that we made in file BarChart*/}
-                    <div className={styles.card}>
-                        <TestGraph onClick={() => setMsg(graphMsg())} />
-                        {msg}
-                    </div>
-
-                    <div className={styles.card}>
-                        <BarChart />
-                    </div>
-
-                    <div className={styles.card}>
-                        <Image
-                            src="/images/vader.jpg" // Route of the image file, I believe the file must be inside the public folder
-                            height={464} // Desired size with correct aspect ratio
-                            width={348} // Desired size with correct aspect ratio
-                            alt="Utanför mitt fönster"
-                        />
-                    </div>
-
 
                     {/* a tag for hyperlink 
 

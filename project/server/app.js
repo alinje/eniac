@@ -10,15 +10,15 @@ const express = require('express') // node´s own import system
 const cors = require('cors')
 const app = express()
 const port = 3001
-const db = require("./database")
-
+//const db = require("./database")
+/*
 async function getLabelSummary() {
     db.query("SELECT * FROM LabelSummary", [])
-}
+}*/
 
 // pool connection
-const { Pool, Client } = require('pg')
-const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+//const { Pool, Client } = require('pg')
+//const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
 
 
 
@@ -68,7 +68,7 @@ app.get("/labelsummary", async (req, res) => {
 })
 
 app.get("/dBInit", async (req, res) => {
-    const pi = await getPortfolioInfo("Alex")
+    const pi = await getPortfolioInfo("EE")
     //console.log(pi)
     res.send(pi.rows
         //dB.getPI("Alex")
@@ -94,7 +94,7 @@ app.get("/get-labels", async (req, res, next) => {
 //https://stackoverflow.com/questions/25962958/calling-a-javascript-function-in-another-js-file
 
 app.listen(port, () => {
-
+/*
     pg.connect(connectionString, function (err, client, done) {
         if (err) {
             return console.error('error fetching client from pool', err);
@@ -109,7 +109,7 @@ app.listen(port, () => {
             console.log(result.rows[0].number);
             //output: 1
         });
-    });
+    });*/
 
 
 
