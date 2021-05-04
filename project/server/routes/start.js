@@ -8,8 +8,11 @@ const pool = new Pool({
     port: 5432  
   });
 
+//const db = require("./database")
+
+
 const startQuery = ` 
- SET client_min_messages TO WARNING; -- Less talk please.
+ SET client_min_messages TO WARNING;
  DROP SCHEMA public CASCADE;
  CREATE SCHEMA public;
  GRANT ALL ON SCHEMA public TO postgres;
@@ -19,9 +22,9 @@ const ManagersTblQuery = "CREATE TABLE Managers(name TEXT, PRIMARY KEY (name) );
 
 const StocksTblQuery = "CREATE TABLE Stocks (name TEXT, price INTEGER, country TEXT, procent DECIMAL(7,2), PRIMARY KEY(name) );"
 
-const LabelsTblQuery = "CREATE TABLE Labels( name TEXT, weight INTEGER, PRIMARY KEY(name) );"
+const LabelsTblQuery = "CREATE TABLE Labels( name TEXT, PRIMARY KEY(name) );"
 
-const StocksWithLabelsTblQuery = "CREATE TABLE StocksWithLabels( stock TEXT, label TEXT, PRIMARY KEY(stock,label), FOREIGN KEY(stock) REFERENCES Stocks(name), FOREIGN KEY(label) REFERENCES Labels(name) );"
+const StocksWithLabelsTblQuery = "CREATE TABLE StocksWithLabels( stock TEXT, label TEXT, weight INTEGER, PRIMARY KEY(stock,label), FOREIGN KEY(stock) REFERENCES Stocks(name), FOREIGN KEY(label) REFERENCES Labels(name) );"
 
 const PortfoliosTblQuery = "CREATE TABLE Portfolios( manager TEXT, stock TEXT, volume INTEGER, PRIMARY KEY (manager,stock), FOREIGN KEY (manager) REFERENCES Managers(name), FOREIGN KEY (stock) REFERENCES Stocks(name) );"
 
