@@ -8,11 +8,20 @@
 }
 
 .main {
-    padding: 5rem 0;
+    padding: 2rem 0;
     flex: 1; /* https://developer.mozilla.org/en-US/docs/Web/CSS/flex */
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     /* changed from 'column' for possible adaption for huge gaming screens */
+    /* changed back to 'column' because everything side by side didn't look too good in my opinion*/
+    justify-content: center;
+    align-items: center;
+}
+
+.fillLeftRight {
+    padding: 3rem 0;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
