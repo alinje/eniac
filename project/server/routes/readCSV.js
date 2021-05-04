@@ -73,6 +73,8 @@ pool.connect((err, client, done) => {
         addToDatabase(client, addPortfolioQuery, [row[10], row[0], row[12].replace(" ", "")]);
 
       }
+      
+      
     }
   } finally {
       done();
@@ -82,9 +84,12 @@ pool.connect((err, client, done) => {
 function addToDatabase(client, query, data){
   client.query(query, data, (err, res) => {
     if (err) {
+      console.log(err.stack)
       return (err.stack);
     } else {
+      //console.log(res.rowCount)
       return ("inserted " + res.rowCount + " row:", data);
     }
   });
+  return client
 }
