@@ -36,7 +36,7 @@ export default function BasicTable(props) {
                             {
                                 headerGroup.headers.map((column) => (
                                     <th {...headerGroup.getHeaderGroupProps()}> {/* Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
-                                   t {column.render('Header')}
+                                        {column.render('Header')}
 
                                     </th>
                                 ))

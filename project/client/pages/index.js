@@ -16,6 +16,7 @@ import TestGraph, { GraphClass, graphMsg } from '../public/testVisual.js'
 import BarChart from '../public/BarChart.js'
 import DistributionChart from "../public/DistributionChart";
 import BarPlotChart from "../public/BarPlotChart";
+import BasicTable from "../components/BasicTable";
 //import App from '../public/app.js'
 
 
@@ -25,35 +26,47 @@ export default function Home() {
     const [msg, setMsg] = useState("tjabba")
     const [dBData, setDBData] = useState("ye")
     const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/dBInit").then(((res) => res.json())))
+    const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/dBInit").then(((res) => res.json()))) // despite the name, does not return a JSON object
 
     return (
         <div className={styles.container}>
             {/* html elements beginning with capital letters are actually React elements */}
             <Head>
-                <title>Create Next App</title>
+                <title>Label Master 3000</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.main}>
-                <h1 className={styles.title}>
-                    Welcome to <a href="https://nextjs.org">Next.js!</a>
-                </h1>
-                {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
-                <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
-                <button onClick={() => setDBData(JSON.stringify(dBConnect.data))}>{dBData}</button>
-                <pre>
+            <br/> {/*I didn't want the title so close to the top. There's probably a more elegant way to do this.*/}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <h1 className={styles.title}>
+                Label Master 3000
+            </h1>
+            <pre>
                     {/*JSON.stringify(dBConnect.data)*/}
-                    {JSON.stringify(hello.data)}
-                    {' '}
-                    <Link href="/data-grid">
+                {JSON.stringify(hello.data)}
+                {' '}
+                <Link href="/data-grid">
                         <a>Click here for big grid</a>
                     </Link>
-                </pre>
+            </pre>
 
-                <p className={styles.description}>
-                    Get started by editing{' '}
-                    <code className={styles.code}>pages/index.js</code>
-                </p>
+
+            <main className={styles.main}>
+                {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
+                <div className={styles.fillLeftRight}>
+                    <p><BasicTable dataRows={data} /></p>
+                </div>
+
+                <div>
+                    <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
+                    <button onClick={() => setDBData(JSON.stringify(dBConnect.data))}>{dBData}</button>
+                </div>
+
 
                 <div className={styles.grid}>
                     {/* This is a link to another page. https://nextjs.org/docs/api-reference/next/link
@@ -62,9 +75,19 @@ export default function Home() {
                     <Link href="labeledStats" passHref>
                         {/* This is how to use multiple style classes*/}
                         <div className={styles.card + ' ' + styles.link}>
-                            Ettikerade aktier
+                            Fina grafer!
                         </div>
                     </Link>
+
+                    <div className={styles.card}>
+                        <Image
+                            src="/images/labelmakerStockPhoto.jpg" // Route of the image file, I believe the file must be inside the public folder
+                            height={200} // Desired size with correct aspect ratio
+                            width={266} // Desired size with correct aspect ratio
+                            alt="Stock foto av an etikettmaskin"
+                        />
+                        <p>Label editor (ingen länk ännu)</p>
+                    </div>
 
                     {/* This is us using a React element, that we made in file BarChart*/}
                     <div className={styles.card}>
@@ -84,6 +107,7 @@ export default function Home() {
                             alt="Utanför mitt fönster"
                         />
                     </div>
+
 
                     {/* a tag for hyperlink 
 
@@ -118,6 +142,8 @@ export default function Home() {
                 </div>
             </main>
 
+            <p><a href="https://youtube.com/playlist?list=PLZ4DbyIWUwCq4V8bIEa8jm2ozHZVuREJP">Click here for a good time!</a></p>
+
             <footer className={styles.footer}>
                 <a
                     href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
@@ -129,5 +155,7 @@ export default function Home() {
                 </a>
             </footer>
         </div>
+
+
     )
 }
