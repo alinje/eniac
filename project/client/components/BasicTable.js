@@ -6,13 +6,29 @@ import { COLUMNS } from './columns'
 
 export default function BasicTable(props) {
 
-    const columns = COLUMNS
-    const {dataRows = []} = props
+    const { dataRows = [] } = props
     var data = dataRows
-    
+
+    // sets columns based on the keys of the first item in data list
+    const columns = useMemo(() => {
+        try {
+            let keys = Object.keys(dataRows[0])
+            if (keys.length == COLUMNS.length) {
+                return Object.keys(dataRows[0]).map((key, id) => {
+                    return {
+                        Header: key.charAt(0).toUpperCase() + key.slice(1), //TODO handle short strings
+                        accessor: key
+                    }
+                })
+            } else {
+                return COLUMNS //TODO some kind of nicer default
+            }
+        } catch (TypeError) {
+            return COLUMNS
+        } 
+    }, [props.dataRows])
 
 
-    
     var tableInstance = useTable({
         columns,
         data,
@@ -24,18 +40,18 @@ export default function BasicTable(props) {
         headerGroups,
         rows,
         prepareRow,
-    } = tableInstance 
+    } = tableInstance
 
 
     return (
-        <table {...getTableProps()}>
-            <thead>
+        <table {...getTableProps()} className="tableWhole">
+            <thead className="tableHeader" >
                 {
                     headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {
                                 headerGroup.headers.map((column) => (
-                                    <th {...headerGroup.getHeaderGroupProps()}> {/* Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
+                                    <th className="tableHeaderLabels" {...headerGroup.getHeaderGroupProps()}> {/* Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
                                         {column.render('Header')}
 
                                     </th>
@@ -51,10 +67,10 @@ export default function BasicTable(props) {
                     rows.map(row => {
                         prepareRow(row)
                         return (
-                            <tr {...row.getRowProps()}>
+                            <tr {...row.getRowProps()} className="tableRows">
                                 {
                                     row.cells.map((cell) => {
-                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                        return <td className="tableItems"{...cell.getCellProps()}>{cell.render('Cell')}</td>
                                     })
                                 }
                             </tr>
