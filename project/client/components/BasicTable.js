@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect } from 'react'
-import { usePagination, useTable } from 'react-table'
+import { usePagination, useSortBy, useTable } from 'react-table'
 import { COLUMNS } from './columns'
 //import './table.module.css'
 
@@ -7,7 +7,7 @@ import { COLUMNS } from './columns'
 export default function BasicTable(props) {
 
     const { dataRows = [] } = props
-    var data = dataRows
+    const data = useMemo(() => dataRows, [props.dataRows]) // when not memoizing both data and columns the component complains of maximum update depth exceeded
 
     // sets columns based on the keys of the first item in data list
     const columns = useMemo(() => {
@@ -25,14 +25,16 @@ export default function BasicTable(props) {
             }
         } catch (TypeError) {
             return COLUMNS
-        } 
+        }
     }, [props.dataRows])
 
 
     var tableInstance = useTable({
         columns,
         data,
-    })
+    },
+        useSortBy
+    )
 
     var {
         getTableProps,
@@ -51,9 +53,17 @@ export default function BasicTable(props) {
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {
                                 headerGroup.headers.map((column) => (
-                                    <th className="tableHeaderLabels" {...headerGroup.getHeaderGroupProps()}> {/* Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
+                                    <th className="tableHeaderLabels" {...column.getHeaderProps(column.getSortByToggleProps())}>  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
                                         {column.render('Header')}
-
+                                        {/* Add a sort direction indicator */}
+                                        <span>
+                                            {column.isSorted
+                                                ? column.isSortedDesc
+                                                    ? ' 🔽'
+                                                    : ' 🔼'
+                                                : ' ⏫'}
+                                        </span>
+                                            
                                     </th>
                                 ))
                             }
