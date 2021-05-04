@@ -15,7 +15,7 @@ AND label = 'something')
 */
 
 
-class Connection{
+
 
     /*
     Method that querys the eniacdb to obtain portfolioinfo. The portfolioinfo contains
@@ -23,7 +23,7 @@ class Connection{
     and amount.
     TODO: Give the method arguments that can be used in conditions.
     */
-    getAllPortfolioInfo() {
+    function getAllPortfolioInfo() {
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -37,7 +37,7 @@ class Connection{
         })
     }
 
-    getPortfolioInfo(manager) {
+    function getPortfolioInfo(manager) {
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -54,7 +54,7 @@ class Connection{
     /*
     Method that querys the eniacdb to obtain all managers in the Managers table.
     */
-    getManagers(){
+    function getManagers(){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -71,7 +71,7 @@ class Connection{
     /*
     Method that querys the eniacdb to obtain all labels in the Labels table.
     */
-    getLabels(){
+    function getLabels(){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -88,7 +88,7 @@ class Connection{
       /*
     Method that querys the eniacdb to obtain all stocks in the Stocks table.
     */
-    getStocks(){
+    function getStocks(){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -105,7 +105,7 @@ class Connection{
     Adds manager to the Managers table. The argument is the identifior for the manager.
     For Alcur the manager identifior is the manager's initials.
     */
-    addManager(manager_initials){
+    function addManager(manager_initials){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -123,7 +123,7 @@ class Connection{
     Add label to Labels table with two argument. The arguments are the labels name and
     the labels weight.
     */
-    addLabel(label_name){
+    function addLabel(label_name){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -143,7 +143,7 @@ class Connection{
     to exist in the Stocks table/Labels table. There is a condition in StocksWithLabels that monitor
     this.
     */
-    addLabelToStock(stock_name,label_name,weight){
+    function addLabelToStock(stock_name,label_name,weight){
         const {Pool,Client} = require('pg')
         const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
         const client = new Client({
@@ -156,9 +156,3 @@ class Connection{
             return res
         })
     }
-
-}
-var test = new Connection()
-//test.addManagers();
-//test.getManagers()
-test.getPortfolioInfo("Alex");
