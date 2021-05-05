@@ -8,23 +8,29 @@ import DistributionChart from '../public/DistributionChart.js'
 
 
 export default function EditLabels() {
-	
 	const addLabel = async event => {
-    event.preventDefault()
-
-    const res = await fetch("http://localhost:3001/addLabels", {
-      body: JSON.stringify({
-        name: event.target.name.value
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    })
-
-    const result = await res.json()
-    // result.user => 'Ada Lovelace'
-  }
+        event.preventDefault()
+        const res = await fetch('http://localhost:3001/addLabels', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({label: event.target.name.value})           //Sends the added name
+        })
+        const result = await res.json()
+	}
+	    const addLabelToStock= async event => {
+            event.preventDefault()
+			const newJSON = {
+				'stock': event.target.stock.value,
+				'label': event.target.label.value,
+				'weight': event.target.weight.value
+			};
+        const res = await fetch('http://localhost:3001/addLabelsToStock', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(newJSON)           //Sends the added stock
+        })
+        const result = await res.json()
+    }
 	
     return (
         /* TODO something about flex is messing with the style classes */
@@ -44,30 +50,17 @@ export default function EditLabels() {
 				
                 <h2>Add new label</h2>
                 <form onSubmit={addLabel}>
-                    <label htmlFor="name">Name</label>
-                    <input id="name" name="name" type="text" autoComplete="name" required />
-                    <button type="submit">Register</button>
-                 </form>
+                    <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
+                    <button type="submit">Add label</button>
+                </form>
 
-                <h2>Add labels to stock</h2>
-                <form>
-                    <label onSubmit={createLabel}>
-                        Stock:
-                        <input type="text" name="stock" />
-                    </label>
-                        <input type="submit" value="Submit" />
-				</form>
-                
-                <form>
-                    <label>
-                        Label:
-                        <input type="text" name="label" />
-                    </label>
-                        <input type="submit" value="Submit" />
-				</form>
-
-				
-				 
+                <h2>Add labels to stock with associated weight</h2>
+                <form onSubmit={addLabelToStock}>
+                    <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
+                    <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
+                    <input id="weight" name="weight" type="number" step=".1" min="0" max="3" placeholder= "weight" autoComplete="weight" required />
+                    <button type="submit">Add label to stock with associated weight</button>
+                </form>
 
                 <div className={styles.grid}>
                     <Link href="/" passHref>
