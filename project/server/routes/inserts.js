@@ -17,7 +17,7 @@ const fs = require("fs");
 const fastcsv = require("fast-csv");
 //const conn = require("connection");
 
-let stream = fs.createReadStream("../project/server/database/portfolio.csv");
+let stream = fs.createReadStream("../project/server/database/PORTFOLIO_ALCUR.csv");
 let csvData = [];
 let csvStream = fastcsv
   .parse({delimiter : ";"})
@@ -42,10 +42,11 @@ stream.pipe(csvStream);
     try {
         await client.query('BEGIN')
         //#region Adding the CSV data from portfolios.csv
-        const addStockQuery = "INSERT INTO Stocks (name, price, country, procent) VALUES ($1, $2, $3, $4)";
+        const addStockQuery = "INSERT INTO Stocks (name, market, price) VALUES ($1, $2, $3)";
         const addManagerQuery = "INSERT INTO Managers (name) VALUES ($1)";
-        const addPortfolioQuery = "INSERT INTO Portfolios (manager, stock, volume) VALUES ($1, $2, $3)";
+        const addPortfolioQuery = "INSERT INTO Portfolios (manager, stock, volume, classification) VALUES ($1, $2, $3, $4)";
         let skipList = ["", "LONG", "TICKER"];
+        var classification = "LONG"
         let stockList = [];
         let managerList = [];
 
@@ -55,11 +56,15 @@ stream.pipe(csvStream);
             if (row[0] == "SHORT"){
               break;
             }
+            if (row[0] == "LONG"){
+              classification = "SHORT"
+            }
+
       
             if (!skipList.includes(row[0])){
                 //Adding stocks from CSV to database
                 if (!stockList.includes(row[0])){
-                    await client.query(addStockQuery, [row[0], 100,"SE", 0.12])
+                    await client.query(addStockQuery, [row[0], row[3],row[9]])
                 }
 
                 //Adding Managers from CSV to database
@@ -70,7 +75,7 @@ stream.pipe(csvStream);
                 }
 
                 //Adding Portfolios from CSV to database
-                await client.query(addPortfolioQuery,[row[10], row[0], row[12].replace(/ /g,'')])
+                await client.query(addPortfolioQuery,[row[10], row[0], row[12].replace(/ /g,''), classification])
 
                 stockList.push(row[0])
                 managerList.push(row[10])

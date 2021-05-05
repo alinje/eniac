@@ -20,8 +20,8 @@ export const COLUMNS = [
         accessor: 'procent'
     },
     {
-        Header: 'Amount',
-        accessor: 'amount'
+        Header: 'Total_volume',
+        accessor: 'total_volume'
     },
 
 ]
