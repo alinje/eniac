@@ -1,10 +1,12 @@
 const express = require('express') // node´s own import system
 const cors = require('cors')
 const app = express()
+const bodyParser = require("body-parser");
 const port = 3001
 
 
 app.use(cors())
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
@@ -22,11 +24,11 @@ app.get("/grid-data", (req, res) => {
     })
 })
 
-app.post('/api/label', (req, res) => {
+app.post('/addLabels', (req, res) => {
   const label = req.body.label;
   console.log('Adding label', label);
   addLabel(label)
-  res.json("Label addedd");
+  res.json("Label added");
 });
 
 
