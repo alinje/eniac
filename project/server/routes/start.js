@@ -20,14 +20,31 @@ const startQuery = `
 
 const ManagersTblQuery = "CREATE TABLE Managers(name TEXT, PRIMARY KEY (name) );"
 
-const StocksTblQuery = "CREATE TABLE Stocks (name TEXT, price INTEGER, country TEXT, procent DECIMAL(7,2), PRIMARY KEY(name) );"
+const StocksTblQuery = 
+  `CREATE TABLE Stocks (
+    name TEXT,
+    market TEXT,
+    price INTEGER,
+
+    PRIMARY KEY(name)
+  );`
 
 const LabelsTblQuery = "CREATE TABLE Labels( name TEXT, PRIMARY KEY(name) );"
 
 const StocksWithLabelsTblQuery = "CREATE TABLE StocksWithLabels( stock TEXT, label TEXT, weight INTEGER, PRIMARY KEY(stock,label), FOREIGN KEY(stock) REFERENCES Stocks(name), FOREIGN KEY(label) REFERENCES Labels(name) );"
 
-const PortfoliosTblQuery = "CREATE TABLE Portfolios( manager TEXT, stock TEXT, volume INTEGER, PRIMARY KEY (manager,stock), FOREIGN KEY (manager) REFERENCES Managers(name), FOREIGN KEY (stock) REFERENCES Stocks(name) );"
+const PortfoliosTblQuery = 
+  `CREATE TABLE Portfolios(
+    manager TEXT,
+    stock TEXT,
+    volume INTEGER,
+    classification TEXT 
 
+    PRIMARY KEY (manager,stock),
+    FOREIGN KEY (manager) REFERENCES Managers(name),
+    FOREIGN KEY (stock) REFERENCES Stocks(name)
+    CHECK (classification = 'SHORT' OR classification = 'LONG');
+  );`
 const PortfolioInfoViewQuery = `
 CREATE VIEW PortfolioInfo AS
 (SELECT manager, StocksWithLabels.label AS label, country, Portfolios.stock, procent, price*volume AS amount

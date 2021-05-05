@@ -5,7 +5,7 @@ const client = new Client({
 connectionString:connectionString
 })*/
 //const getPortfolioInfo = require('../../project/server/database/connection.js')
-const dB = require('../../project/server/database/connection.js')
+const dB = require('../server/database/index.js')
 const express = require('express') // node´s own import system
 const cors = require('cors')
 const app = express()
@@ -63,12 +63,12 @@ app.get("/grid-data", (req, res) => {
 })
 
 app.get("/labelsummary", async (req, res) => {
-    const pi = await getLabelSummary()
-    res.send(pi.rows)
+    //const pi = await db.query()
+    //res.send(pi.rows)
 })
 
 app.get("/dBInit", async (req, res) => {
-    const pi = await getPortfolioInfo("EE")
+    const pi = await dB.query("SELECT * FROM PortfolioInfo", [])
     //console.log(pi)
     res.send(pi.rows
         //dB.getPI("Alex")
@@ -78,17 +78,16 @@ app.get("/dBInit", async (req, res) => {
 
 
 app.get("/get-labels", async (req, res, next) => {
-
-
-
-    db.query('SELECT * FROM Labels', (err, res) => {
+    const pi = await  dB.query("SELECT * FROM Portfolios", [])
+    res.send(pi.rows)
+    /*
+    db.query('SELECT * FROM LabelSummary', (err, res) => {
         if (err) {
             return next(err)
         }
         res.send(res.rows[0])
     })
-
-
+    */
 })
 
 //https://stackoverflow.com/questions/25962958/calling-a-javascript-function-in-another-js-file
