@@ -67,7 +67,7 @@ app.get("/labelsummary", async (req, res) => {
     //res.send(pi.rows)
 })
 
-app.get("/dBInit", async (req, res) => {
+app.get("/get-portfolioinfo", async (req, res) => {
     const pi = await dB.query("SELECT * FROM PortfolioInfo", [])
     //console.log(pi)
     res.send(pi.rows
@@ -76,18 +76,9 @@ app.get("/dBInit", async (req, res) => {
     )
 })
 
-
-app.get("/get-labels", async (req, res, next) => {
-    const pi = await  dB.query("SELECT * FROM Portfolios", [])
+app.get("/get-labels", async (req, res) => {
+    const pi = await  dB.query("SELECT * FROM LabelSummary", [])
     res.send(pi.rows)
-    /*
-    db.query('SELECT * FROM LabelSummary', (err, res) => {
-        if (err) {
-            return next(err)
-        }
-        res.send(res.rows[0])
-    })
-    */
 })
 
 //https://stackoverflow.com/questions/25962958/calling-a-javascript-function-in-another-js-file

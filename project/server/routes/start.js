@@ -24,7 +24,7 @@ const StocksTblQuery =
   `CREATE TABLE Stocks (
     name TEXT,
     market TEXT,
-    price INTEGER,
+    price FLOAT,
 
     PRIMARY KEY(name)
   );`
@@ -34,31 +34,30 @@ const LabelsTblQuery = "CREATE TABLE Labels( name TEXT, PRIMARY KEY(name) );"
 const StocksWithLabelsTblQuery = "CREATE TABLE StocksWithLabels( stock TEXT, label TEXT, weight INTEGER, PRIMARY KEY(stock,label), FOREIGN KEY(stock) REFERENCES Stocks(name), FOREIGN KEY(label) REFERENCES Labels(name) );"
 
 const PortfoliosTblQuery = 
-  `CREATE TABLE Portfolios(
+  `CREATE TABLE Portfolios (
     manager TEXT,
     stock TEXT,
     volume INTEGER,
-    classification TEXT 
+    classification TEXT,
 
     PRIMARY KEY (manager,stock),
     FOREIGN KEY (manager) REFERENCES Managers(name),
-    FOREIGN KEY (stock) REFERENCES Stocks(name)
-    CHECK (classification = 'SHORT' OR classification = 'LONG');
+    FOREIGN KEY (stock) REFERENCES Stocks(name),
+    CHECK (classification = 'SHORT' OR classification = 'LONG')
   );`
 const PortfolioInfoViewQuery = `
 CREATE VIEW PortfolioInfo AS
-(SELECT manager, StocksWithLabels.label AS label, country, Portfolios.stock, procent, price*volume AS amount
+(SELECT manager, StocksWithLabels.label AS label, Portfolios.stock, price*volume AS value
 FROM Managers, Portfolios, Stocks, StocksWithLabels
-WHERE (Managers.name = Portfolios.manager) AND (Portfolios.stock = StocksWithLabels.stock)
-                                           AND (Portfolios.stock = Stocks.name)
-GROUP BY(Portfolios.manager, StocksWithLabels.label, country, Portfolios.stock,procent,amount)
+WHERE (Managers.name = Portfolios.manager) AND (Portfolios.stock = StocksWithLabels.stock) AND
+      (Portfolios.stock = Stocks.name)
 );`
 
 const LabelSummaryViewQuery = `CREATE VIEW LabelSummary AS
-(SELECT label, SUM(Portfolios.volume) AS total_volume
-FROM StocksWithLabels, Portfolios
-WHERE (StocksWithLabels.stock = Portfolios.stock)
-GROUP BY label
+(SELECT StocksWithLabels.label, SUM(PortfolioInfo.value) AS total_value
+FROM StocksWithLabels, PortfolioInfo
+WHERE (StocksWithLabels.stock = PortfolioInfo.stock)
+GROUP BY StocksWithLabels.label
 );`
 
 pool.connect((err, client, done) => {
