@@ -31,7 +31,17 @@ const StocksTblQuery =
 
 const LabelsTblQuery = "CREATE TABLE Labels( name TEXT, PRIMARY KEY(name) );"
 
-const StocksWithLabelsTblQuery = "CREATE TABLE StocksWithLabels( stock TEXT, label TEXT, weight INTEGER, PRIMARY KEY(stock,label), FOREIGN KEY(stock) REFERENCES Stocks(name), FOREIGN KEY(label) REFERENCES Labels(name) );"
+const StocksWithLabelsTblQuery =`
+CREATE TABLE StocksWithLabels(
+  stock TEXT,
+  label TEXT,
+  weight DECIMAL(2,1),
+
+  PRIMARY KEY(stock,label),
+  FOREIGN KEY(stock) REFERENCES Stocks(name),
+  FOREIGN KEY(label) REFERENCES Labels(name) ON DELETE CASCADE,
+  CHECK (weight>0 AND weight<=3)
+);`
 
 const PortfoliosTblQuery = 
   `CREATE TABLE Portfolios (
@@ -45,9 +55,10 @@ const PortfoliosTblQuery =
     FOREIGN KEY (stock) REFERENCES Stocks(name),
     CHECK (classification = 'SHORT' OR classification = 'LONG')
   );`
+
 const PortfolioInfoViewQuery = `
 CREATE VIEW PortfolioInfo AS
-(SELECT manager, StocksWithLabels.label AS label, Portfolios.stock, price*volume AS value
+(SELECT manager, StocksWithLabels.label AS label, Portfolios.stock, classification, price*volume AS value
 FROM Managers, Portfolios, Stocks, StocksWithLabels
 WHERE (Managers.name = Portfolios.manager) AND (Portfolios.stock = StocksWithLabels.stock) AND
       (Portfolios.stock = Stocks.name)
