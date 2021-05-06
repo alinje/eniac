@@ -17,7 +17,7 @@ const fs = require("fs");
 const fastcsv = require("fast-csv");
 //const conn = require("connection");
 
-let stream = fs.createReadStream("../project/server/database/PORTFOLIO_ALCUR.csv");
+let stream = fs.createReadStream('./project/server/database/PORTFOLIO_ALCUR.csv');
 let csvData = [];
 let csvStream = fastcsv
   .parse({delimiter : ";"})
@@ -53,32 +53,33 @@ stream.pipe(csvStream);
 
         for (i = 0 ; i < csvData.length ; i++ ){
             row = csvData[i];
-            if (row[0] == "SHORT"){
+            //console.log(row[1])
+            if (row[1] == "SHORT"){
               break;
             }
-            if (row[0] == "LONG"){
+            if (row[1] == "LONG"){
               classification = "SHORT"
             }
 
       
-            if (!skipList.includes(row[0])){
+            if (!skipList.includes(row[1])){
                 //Adding stocks from CSV to database
-                if (!stockList.includes(row[0])){
-                    await client.query(addStockQuery, [row[0], row[3],row[9]])
+                if (!stockList.includes(row[1])){
+                    await client.query(addStockQuery, [row[1], row[4],row[9].replace(",",".")])
                 }
 
                 //Adding Managers from CSV to database
-                if (!managerList.includes(row[10])){
+                if (!managerList.includes(row[11])){
                     //console.log(row[10])
                     //console.log(managerList.includes(row[0]))
-                    await client.query(addManagerQuery, [row[10]])
+                    await client.query(addManagerQuery, [row[11]])
                 }
 
                 //Adding Portfolios from CSV to database
-                await client.query(addPortfolioQuery,[row[10], row[0], row[12].replace(/ /g,''), classification])
+                await client.query(addPortfolioQuery,[row[11], row[1], row[13].replace(/ /g,''), classification])
 
-                stockList.push(row[0])
-                managerList.push(row[10])
+                stockList.push(row[1])
+                managerList.push(row[11])
             }
         }
         //#endregion
