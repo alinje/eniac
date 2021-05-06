@@ -79,6 +79,7 @@ INSERT INTO Portfolios VALUES('Alex','Scania',654);
 INSERT INTO Portfolios VALUES('Albin','Volvo',43);
 INSERT INTO Portfolios VALUES('Albin','Scania',654);
 INSERT INTO Portfolios VALUES('Albin','Einride',345);
+INSERT INTO Portfolios VALUES('Alex','Einride',345);
 INSERT INTO Portfolios VALUES('Carl','Einride',1234);
 INSERT INTO Portfolios VALUES('Carl','Volvo',123);
 INSERT INTO Portfolios VALUES('Emil','Snapchat',123);
@@ -95,4 +96,11 @@ CREATE VIEW ManagersLabels AS
 (SELECT manager, label
 FROM StocksWithLabels, Portfolios
 WHERE StocksWithLabels.stock = Portfolios.stock 
+);
+
+CREATE VIEW LabelSummary AS 
+(SELECT label, SUM(Portfolios.volume) AS total_volume
+FROM StocksWithLabels, Portfolios
+WHERE (StocksWithLabels.stock = Portfolios.stock)
+GROUP BY label
 );

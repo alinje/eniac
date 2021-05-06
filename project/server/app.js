@@ -1,8 +1,48 @@
+//import {getPortfolioInfo} from '/project/server/database/connection.js'
+/*const {Pool,Client} = require('pg')
+const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+const client = new Client({
+connectionString:connectionString
+})*/
+//const getPortfolioInfo = require('../../project/server/database/connection.js')
+const dB = require('../server/database/index.js')
 const express = require('express') // node´s own import system
 const cors = require('cors')
 const app = express()
 const bodyParser = require("body-parser");
 const port = 3001
+//const db = require("./database")
+/*
+async function getLabelSummary() {
+    db.query("SELECT * FROM LabelSummary", [])
+}*/
+
+// pool connection
+//const { Pool, Client } = require('pg')
+//const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+
+
+
+
+/*
+const client = new Client({
+    connectionString: connectionString
+})*/
+
+async function getPortfolioInfo(manager) {
+    const { Pool, Client } = require('pg')
+    const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
+    
+    const client = new Client({
+        connectionString: connectionString
+    })
+
+    await client.connect()
+    const res = await client.query('SELECT * FROM PortfolioInfo WHERE manager = $1', [manager])
+    await client.end()
+    //console.log(res);
+    return res
+}
 
 
 app.use(cors())
@@ -16,7 +56,7 @@ app.get('/', (req, res) => {
 
 app.get("/home", (req, res) => {
     res.send({
-        hello:'noob'
+        hello: 'noob'
     })
 })
 
@@ -73,8 +113,48 @@ app.post('/deleteLabelFromStock', (req, res) => {
 });
 
 
+app.get("/labelsummary", async (req, res) => {
+    //const pi = await db.query()
+    //res.send(pi.rows)
+})
+
+app.get("/get-portfolioinfo", async (req, res) => {
+    const pi = await dB.query("SELECT * FROM PortfolioInfo", [])
+    //console.log(pi)
+    res.send(pi.rows
+        //dB.getPI("Alex")
+        //jQuery.getscript("../../project/server/database/connection.js",getPortfolioInfo("Alex"))
+    )
+})
+
+app.get("/get-labels", async (req, res) => {
+    const pi = await  dB.query("SELECT * FROM LabelSummary", [])
+    res.send(pi.rows)
+})
+
+//https://stackoverflow.com/questions/25962958/calling-a-javascript-function-in-another-js-file
 
 app.listen(port, () => {
+/*
+    pg.connect(connectionString, function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT $1::int AS number', ['1'], function (err, result) {
+            //call `done()` to release the client back to the pool
+            done();
+
+            if (err) {
+                return console.error('error running query', err);
+            }
+            console.log(result.rows[0].number);
+            //output: 1
+        });
+    });*/
+
+
+
+    // await client.connect()
     console.log(`Example app listening at http://localhost:${port}`)
 })
 
