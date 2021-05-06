@@ -13,7 +13,7 @@ export default function BasicTable(props) {
     const columns = useMemo(() => {
         try {
             let keys = Object.keys(dataRows[0])
-            if (keys.length >0) {
+            if (keys.length > 0) {
                 return Object.keys(dataRows[0]).map((key, id) => {
                     return {
                         Header: key.charAt(0).toUpperCase() + key.slice(1), //TODO handle short strings
