@@ -6,16 +6,133 @@ import React, { useState } from 'react'
 import LineDiagram from '../public/LineDiagram.js'
 import DistributionChart from '../public/DistributionChart.js'
 
+
 export default function EditLabels() {
+	
+    //Sends the added label name through JSON to the server
+	const addLabel = async event => {
+        event.preventDefault()
+        const res = await fetch('http://localhost:3001/addLabels', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({label: event.target.name.value})
+        })
+        const result = await res.json()
+	}
+	
+	 //Sends the added label name through JSON to the server
+	const deleteLabel = async event => {
+        event.preventDefault()
+        const res = await fetch('http://localhost:3001/deleteLabel', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({label: event.target.name.value})
+        })
+        const result = await res.json()
+	}
+	
+	//Sends the stock, label and weight through JSON to the server
+	const addLabelToStock= async event => {
+        event.preventDefault()
+		const newJSON = {
+				'stock': event.target.stock.value,
+				'label': event.target.label.value,
+				'weight': event.target.weight.value
+			};
+        const res = await fetch('http://localhost:3001/addLabelsToStock', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(newJSON)           //Sends the added stock
+        })
+        const result = await res.json()
+	}
+	
+	//Sends the stock, label and weight through JSON to the server
+    const editWeight= async event => {
+        event.preventDefault()
+		const newJSON = {
+				'stock': event.target.stock.value,
+				'label': event.target.label.value,
+				'weight': event.target.weight.value
+			};
+        const res = await fetch('http://localhost:3001/editWeight', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(newJSON)           //Sends the edited weight
+        })
+		const result = await res.json()
+	}
+	
+	//Sends the stocka and label through JSON to the server
+    const deleteLabelFromStock= async event => {
+        event.preventDefault()
+		const newJSON = {
+				'stock': event.target.stock.value,
+				'label': event.target.label.value,
+			};
+        const res = await fetch('http://localhost:3001/deleteLabelFromStock', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(newJSON)
+        })
+		const result = await res.json()
+    }
+	
     return (
         /* TODO something about flex is messing with the style classes */
         <div /*className={styles.container}*/>
             <Head>
                 <title>Stocks sorted by labels</title>
                 <link rel="icon" href="/favicon.ico" />
+
             </Head>
             <main /*className={styles.main}*/>
-                {/* Link to homepage*/}
+                {/* Link to homepage*/
+                /* Forms for editing and adding labels*/
+                }
+         
+				<h1>Edit labels</h1>
+				
+                {/* A form for adding a label*/}
+                <h2>Add new label</h2>
+                <form onSubmit={addLabel}>
+                    <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
+                    <button type="submit">Add label</button>
+                </form>
+
+                {/* A form for deleting a label*/}
+                <h2>Delete label</h2>
+                <form onSubmit={deleteLabel}>
+                    <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
+                    <button type="submit">Delete label</button>
+                </form>
+
+                {/* A form for adding labels to stocks with associated weight*/}
+                <h2>Add labels to stock with associated weight</h2>
+                <form onSubmit={addLabelToStock}>
+                    <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
+                    <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
+                    <input id="weight" name="weight" type="number" step=".1" min="0" max="3" placeholder= "weight" autoComplete="weight" required />
+                    <button type="submit">Add label to stock with associated weight</button>
+                </form>
+
+                {/* A form for editing weights*/}
+                <h2>Edit weight</h2>
+                <form onSubmit={editWeight}>
+                    <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
+                    <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
+                    <input id="weight" name="weight" type="number" step=".1" min="0" max="3" placeholder= "weight" autoComplete="weight" required />
+                    <button type="submit">Edit weight</button>
+                </form>
+
+                {/* A form for deleting labels from specific stocks*/}
+                <h2>Delete label from stock</h2>
+                <form onSubmit={deleteLabelFromStock}>
+                    <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
+                    <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
+                    <button type="submit">Delete label from stock</button>
+                </form>
+
                 <div className={styles.grid}>
                     <Link href="/" passHref>
                         <div className={styles.card}>
@@ -26,7 +143,4 @@ export default function EditLabels() {
             </main>
         </div>
     )
-
-
-
 }
