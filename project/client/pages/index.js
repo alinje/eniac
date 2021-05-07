@@ -16,7 +16,9 @@ import TestGraph, { GraphClass, graphMsg } from '../public/testVisual.js'
 import BarChart from '../public/BarChart.js'
 import DistributionChart from "../public/DistributionChart";
 import BarPlotChart from "../public/BarPlotChart";
+
 import BasicTable from "../components/BasicTable";
+
 //import App from '../public/app.js'
 
 
@@ -96,12 +98,12 @@ export default function Home() {
                     </Link>
                     <Link href="specificLabel" passHref>
                         <div className={styles.card + ' ' + styles.link}>
-                            Performance labels
+                            Specifika labels
                         </div>
                     </Link>
                     <Link href="specificStock" passHref>
                         <div className={styles.card + ' ' + styles.link}>
-                            Performance labels
+                            Specifika aktier
                         </div>
                     </Link>
 
@@ -115,6 +117,9 @@ export default function Home() {
                     <div className={styles.card}>
                         <BarChart />
                     </div>
+                    {/*<div className={styles.card}>
+                        <PieChart/>
+                    </div>*/}
 
                     <div className={styles.card}>
                         <Image
