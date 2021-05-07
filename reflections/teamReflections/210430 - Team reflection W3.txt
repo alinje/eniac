@@ -1,0 +1,30 @@
+Customer value and scope:
+Navigationen är klar => Value
+Värde för vi visar faktisk data från databasen (trots att det just nu är alex data som visas så kommer de från databasen)
+Arbetat tillsammans i större utsträckning. Allmänt lärt oss om databaser och mer och js. 
+
+Skrivit en tydligare definition of done och acceptance tests. 
+
+Definition of done:
+Mergat i main
+Klarat alla tasks under user storyn
+Koden ska vara tillräckligt kommenterad och testad.  
+
+
+KPI:
+Hur mår produkten?  34
+Antal defekter:
+Tabellsidan kan inte uppdateras
+Det står “t” i tabellrubrikerna
+Tooltips syns fortfarande för dolda grafer
+Hur mår vi?
+Allmänt mående:3,8
+Arbetsinsats: 2,4
+Taggade: 3,9
+
+
+Social contract and effort:
+
+Upptäckt att det finns brister i vårt social contract. Reviderat det (exempelvis definition of done). 
+
+Vissa har lagt mindre tid än tidigare och vissa känner att de lagt mer.
