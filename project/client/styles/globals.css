@@ -36,3 +36,30 @@ a {
     text-anchor: start;
     font-weight: bold;
 }
+
+/* related to BasicTable.js */
+.tableWhole {
+    border: 2px solid black;
+}
+
+.tableHeader {
+    /* works */
+    border: 1px solid black;
+}
+
+.tableHeaderLabels {
+    border: 2px solid black;
+    padding: 3px;
+}
+
+.tableRows {
+    /* works */
+    border: 1px solid black;
+
+}
+
+.tableItems{
+    border: 1px solid black;
+    padding: 3px;
+
+}

@@ -23,6 +23,7 @@ export default function LineDiagram(props) {
 
 
 
+        console.log(props.data)
         //TODO create as states in this function
         var x = d3.scaleUtc()
             .domain(d3.extent(props.data.dates))
@@ -172,6 +173,7 @@ export default function LineDiagram(props) {
                 .attr("r", 10)
                 .attr("stroke-width", 2)
                 .attr("stroke", "black")
+                .style("opacity", path.style("opacity"))
                 .attr("fill", "none")
 
             dot.append("text")
