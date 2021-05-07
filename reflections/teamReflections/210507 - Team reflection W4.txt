@@ -1,0 +1,87 @@
+
+Bra vecka, majoriteten av våra user stories är avklarade.
+Endast problem med cirkeldiagram.
+
+
+Customer value and scope
+
+	A (var vi är)
+
+		Går att se tabell för aktier och labels,
+		tabell går att sortera,
+		går att redigera labels
+	
+		Bättre formulerade tasks och checklistor 
+		kopplade till våra user stories har hjälpt 
+		oss att på ett mer effektivt sätt leverera 
+		värde för kunden
+	
+	B (vart vi vill komma)
+	
+		Vi vill visa ett cirkeldiagram som visar 
+		fördelningen mellan olika etiketter
+
+		Bättre användargränssnitt för att redigera
+		etiketter (bättre controllers som rullgardinsmeny 
+		för att välja etiketter, mer feedback) samt tabell 
+		som visar etiketter på sidan för etikettredigering
+	
+	A -> B (hur vi kommer dit)
+		
+		Vi lär oss mer om d3 för att kunna 
+		implementera ett cirkeldiagram 
+	
+		Lära oss att skapa en rullgardinsmeny
+
+
+Application of Scrum
+
+	A (var vi är)
+
+		Ny Scrum master samt sekreterare varje vecka
+		
+		Varje person granskar kod av Scrum mastern den 
+		är sekreterare för
+
+		Vi lär oss använda olika verktyg genom att 
+		utnyttja internet och mer erfarna gruppmedlemmar
+
+	B (vart vi vill komma)
+
+		Vill förfina vår process för att testa och 
+		granska kod, för att inte gammal funktionalitet 
+		ska försvinna vid implementationen av ny kod
+		
+		Bli bättre på att löpande uppdatera vår Scrum 
+		board (avklarade tasks, etc.)
+
+		Bli bättre på att mergea ofta
+		
+	A -> B (hur vi kommer dit)
+
+		Vi skapar ett dokument där vi listar tester 
+		som ska genomföras för varje ny merge	
+
+		Scrum master ska piska gruppmedlemmar om de 
+		inte följer rätt protokoll
+
+
+KPI
+
+	Hur mår produkten:
+		52% av en färdig produkt
+
+	Kända defekter:
+		Inga kända defekter bland de funktioner vi 
+		vill behålla.
+		(Tooltips syns fortfarande för dolda grafer, men 
+		detta är funktionalitet som vi inte ska ha kvar)
+
+	Allmänt välmående:
+		3,9 /5
+
+	Hur nöjda är vi med vår arbetsinsats?:
+		3,76 /5
+
+	Hur taggade är vi?
+		4,4 /5
