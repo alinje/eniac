@@ -1,0 +1,11 @@
+What do I want to learn or understand better?
+Den här veckan har jag lärt mig mycket nytt om Javascript och kopplingen till databaser. Det känns roligt eftersom jag tidigare veckor önskat lära mig mer om just detta. Självklart finns det mer att lära sig men känns bra! Kan lära mig grunderna i JS ännu bättre framöver för att bli mer självgående i programmeringen.
+
+How can I help someone else, or the entire team, to learn something new?
+Tycker det är svårt nu faktiskt... Vi är många som är nya på det här med webbapplikation så därför lär vi oss alla mer efterhand. Därför vet jag inte vad jag kan bidra med för hjälp till gruppen mer än det jag skrivit tidigare.
+
+What is my contribution towards the team’s use of Scrum?
+Fortsatt arbeta agilt i de arbetspass vi har! Efter tilldelning av user story så satt vi ner i början av veckan och började på arbetet och har sen succesivt jobbat framåt och definierat nya arbetsuppgifter efter hand. Dessutom varit delaktig i sprint planning och review och bidragit med mina tankar och åsikter.
+
+What is my contribution towards the team’s deliveries?
+Tycker jag bidragit mer än någonsin! Känt mig delaktig i utformandet av webbsidan där man i applikationen kan redigera labels vilket var en stor user story. Riktigt kul att förstå mer och i större omfattning känna att jag varit med och bidragit med resultat!
