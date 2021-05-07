@@ -1,0 +1,14 @@
+What do I want to learn or understand better
+Jag vill lära mig mer om hur front-end byggts upp och hur man exempelvis lägger in en tabell på hemsidan. 
+Jag vill också lära mig mer om interaktion på hemsidan.
+
+How can I help someone else, or the entire team, to learn something new
+Jag kan hjälpa mitt team att lära sig mer om databaser och hur man sätter upp en gemensam pool istället för att skapa en ny varje gång man gör en förfrågan till databasen.
+
+
+What is my contribution towards the team’s use of Scrum
+Denna vecka har jag varit scrum master, och jag har hållt i dels det inledande mötet och sprint reviewen. 
+Som Scrum Master har jag även hållt koll på vår Scrum Board (Trello) och flyttat/skapat kort vid behov
+
+What is my contribution towards the team’s deliveries
+Delaktig i user story för att få in databas tabeller på hemsidan. 
