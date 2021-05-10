@@ -1,8 +1,10 @@
-import 'regenerator-runtime/runtime'
+import 'regenerator-runtime/runtime' // https://github.com/tannerlinsley/react-table/issues/2071
 import React, { useMemo, useEffect, useState } from 'react'
 import { useFilters, useGlobalFilter, usePagination, useSortBy, useTable, useAsyncDebounce } from 'react-table'
-import {matchSorter} from "match-sorter"
+import { matchSorter } from "match-sorter"
 import { COLUMNS } from './columns'
+
+import Slider from '@material-ui/core/Slider';
 //import './table.module.css'
 
 
@@ -93,13 +95,18 @@ export default function BasicTable(props) {
 
     filterGreaterThan.autoRemove = (val) => typeof val !== "number";
 
+
+
     function SliderColumnFilter({
-        column: { filterValue, setFilter, preFilteredRows, id },
+        column: { filterValue = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER], preFilteredRows, setFilter, id },
     }) {
         // Calculate the min and max
         // using the preFilteredRows
 
-        const [min, max] = React.useMemo(() => {
+        //TODO https://codesandbox.io/s/91yti?file=/demo.js
+
+
+        const [min, max] = useMemo(() => {
             let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
             let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
             preFilteredRows.forEach(row => {
@@ -109,20 +116,79 @@ export default function BasicTable(props) {
             return [min, max]
         }, [id, preFilteredRows])
 
+
         return (
             <>
-                <input
-                    type="range"
+                <Slider
                     min={min}
                     max={max}
-                    value={filterValue || min}
-                    onChange={e => {
-                        setFilter(parseInt(e.target.value, 10))
+                    value={filterValue || [min, max]}
+                    valueLabelDisplay="auto"
+                    aria-labelledby="range-slider"
+                    getAriaValueText={(val) => (String(val) || "")}
+                    onChange={(e, val) => {
+                        setFilter(val || undefined)
                     }}
                 />
                 <button onClick={() => setFilter(undefined)}>Off</button>
             </>
         )
+    }
+
+    function NumberRangeColumnFilter({
+        column: { filterValue = [], preFilteredRows, setFilter, id }
+    }) {
+        const [min, max] = React.useMemo(() => {
+            let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
+            let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
+            preFilteredRows.forEach((row) => {
+                min = Math.min(row.values[id], min);
+                max = Math.max(row.values[id], max);
+            });
+            return [min, max];
+        }, [id, preFilteredRows]);
+
+        return (
+            <div
+                style={{
+                    display: "flex"
+                }}
+            >
+                <input
+                    value={filterValue[0] || ""}
+                    type="number"
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setFilter((old = []) => [
+                            val ? parseInt(val, 10) : undefined,
+                            old[1]
+                        ]);
+                    }}
+                    placeholder={`Min (${min})`}
+                    style={{
+                        width: "70px",
+                        marginRight: "0.5rem"
+                    }}
+                />
+            to
+                <input
+                    value={filterValue[1] || ""}
+                    type="number"
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setFilter((old = []) => [
+                            old[0],
+                            val ? parseInt(val, 10) : undefined
+                        ]);
+                    }}
+                    placeholder={`Max (${max})`}
+                    style={{
+                        width: "70px",
+                        marginLeft: "0.5rem"
+                    }}
+                />
+            </div>
+        );
     }
 
     function fuzzyTextFilterFn(rows, id, filterValue) {
@@ -136,26 +202,25 @@ export default function BasicTable(props) {
     const data = useMemo(() => dataRows, [props.dataRows]) // when not memoizing both data and columns the component complains of maximum update depth exceeded
 
     const findFilterFunc = (dataEx) => {
-        //var dataEx = dataRows[0].key
-        console.log({filterFunc: dataEx})
-
         switch (dataEx) {
-            case (typeof dataEx == "number"):
+            case "total_volume":
                 return SliderColumnFilter
-            case (typeof dataEx == "object"): // list, aka labels
+            case "labels":
                 return CheckboxColumnFilter
+            case "label":
             default:
                 return DefaultColumnFilter
         }
     }
 
+
     const findFilter = (dataEx) => {
-        console.log({filterGen: dataEx})
         switch (dataEx) {
-            case (typeof dataEx == "number"):
-                return "equals"
-            case (typeof dataEx == "object"): // list, aka labels
+            case "total_volume":
+                return "between"
+            case "labels":
                 return "includes"
+            case "label":
             default:
                 return "fuzzyText"
         }
@@ -170,36 +235,15 @@ export default function BasicTable(props) {
                     return ({
                         Header: key.charAt(0).toUpperCase() + key.slice(1), //TODO handle short strings
                         accessor: key,
-                        Filter: findFilterFunc(dataRows[0][key]),
-                        filter: findFilter(dataRows[0][key])
-                        /*() => {
-                            var dataEx = dataRows[0].key
-                            switch (dataEx) {
-                                case (typeof dataEx == "number"):
-                                    return SliderColumnFilter
-                                case (typeof dataEx == "object"): // list, aka labels
-                                    return CheckboxColumnFilter
-                                default:
-                                    return DefaultColumnFilter
-                            }
-                        },
-                        filter: () => {
-                            var dataEx = dataRows[0].key
-                            switch (dataEx) {
-                                case (typeof dataEx == "number"):
-                                    return "equals"
-                                case (typeof dataEx == "object"): // list, aka labels
-                                    return "includes"
-                                default:
-                                    return "fuzzyText"
-                            }
-                        }*/
+                        Filter: findFilterFunc(key),
+                        filter: findFilter(key)
                     })
                 })
             } else {
                 return COLUMNS //TODO some kind of nicer default
             }
         } catch (TypeError) {
+
             return COLUMNS
         }
     }, [props.dataRows])
@@ -281,7 +325,7 @@ export default function BasicTable(props) {
                                                     : ' ⏫'}
                                             </div>
                                             <div>{column.canFilter ? column.render('Filter') : null}</div>
-                                            
+
                                         </th>
                                     ))
                                 }
