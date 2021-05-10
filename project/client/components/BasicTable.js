@@ -263,68 +263,68 @@ export default function BasicTable(props) {
 
     return (
         <div>
-        <table {...getTableProps()} className="tableWhole">
-            <thead className="tableHeader" >
-                {
-                    headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {
-                                headerGroup.headers.map((column) => (
-                                    <th className="tableHeaderLabels" {...column.getHeaderProps(column.getSortByToggleProps())}>  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
-                                        {column.render('Header')}
-                                        <div>{column.canFilter ? column.render('Filter') : null}</div>
-                                        {/* Add a sort direction indicator */}
-                                        <span>
-                                            {column.isSorted
-                                                ? column.isSortedDesc
-                                                    ? ' 🔽'
-                                                    : ' 🔼'
-                                                : ' ⏫'}
-                                        </span>
-
-                                    </th>
-                                ))
-                            }
-
-                        </tr>
-                    ))
-                }
-                <tr>
-                    <th colSpan={visibleColumns.length} style={{
-                        textAlign: "left"
-                    }}>
-                        <GlobalFilter
-                            preGlobalFilteredRows={preGlobalFilteredRows}
-                            globalFilter={state.globalFilter}
-                            setGlobalFilter={setGlobalFilter}
-                        />
-                    </th>
-                </tr>
-            </thead>
-            <tbody {...getTableBodyProps()}>
-                {
-                    rows.map(row => {
-                        prepareRow(row)
-                        return (
-                            <tr {...row.getRowProps()} className="tableRows">
+            <table {...getTableProps()} className="tableWhole">
+                <thead className="tableHeader" >
+                    {
+                        headerGroups.map((headerGroup) => (
+                            <tr {...headerGroup.getHeaderGroupProps()}>
                                 {
-                                    row.cells.map((cell) => {
-                                        return <td className="tableItems"{...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                    })
+                                    headerGroup.headers.map((column) => (
+                                        <th className="tableHeaderLabels" >  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
+                                            {column.render('Header')}
+                                            {/* Add a sort direction indicator */}
+                                            <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                                {column.isSorted
+                                                    ? column.isSortedDesc
+                                                        ? ' 🔽'
+                                                        : ' 🔼'
+                                                    : ' ⏫'}
+                                            </div>
+                                            <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                            
+                                        </th>
+                                    ))
                                 }
+
                             </tr>
+                        ))
+                    }
+                    <tr>
+                        <th colSpan={visibleColumns.length} style={{
+                            textAlign: "left"
+                        }}>
+                            <GlobalFilter
+                                preGlobalFilteredRows={preGlobalFilteredRows}
+                                globalFilter={state.globalFilter}
+                                setGlobalFilter={setGlobalFilter}
+                            />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {
+                        rows.map(row => {
+                            prepareRow(row)
+                            return (
+                                <tr {...row.getRowProps()} className="tableRows">
+                                    {
+                                        row.cells.map((cell) => {
+                                            return <td className="tableItems"{...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                        })
+                                    }
+                                </tr>
+                            )
+                        }
                         )
                     }
-                    )
-                }
-            </tbody>
+                </tbody>
 
-        </table>
-      <div>
-      <pre>
-        <code>{JSON.stringify(state.filters, null, 2)}</code>
-      </pre>
-    </div>
-    </div>
+            </table>
+            <div>
+                <pre>
+                    <code>{JSON.stringify(state.filters, null, 2)}</code>
+                </pre>
+            </div>
+        </div>
     )
 }
