@@ -135,6 +135,32 @@ export default function BasicTable(props) {
     const { dataRows = [] } = props
     const data = useMemo(() => dataRows, [props.dataRows]) // when not memoizing both data and columns the component complains of maximum update depth exceeded
 
+    const findFilterFunc = (dataEx) => {
+        //var dataEx = dataRows[0].key
+        console.log({filterFunc: dataEx})
+
+        switch (dataEx) {
+            case (typeof dataEx == "number"):
+                return SliderColumnFilter
+            case (typeof dataEx == "object"): // list, aka labels
+                return CheckboxColumnFilter
+            default:
+                return DefaultColumnFilter
+        }
+    }
+
+    const findFilter = (dataEx) => {
+        console.log({filterGen: dataEx})
+        switch (dataEx) {
+            case (typeof dataEx == "number"):
+                return "equals"
+            case (typeof dataEx == "object"): // list, aka labels
+                return "includes"
+            default:
+                return "fuzzyText"
+        }
+    }
+
     // sets columns based on the keys of the first item in data list
     const columns = useMemo(() => {
         try {
@@ -144,7 +170,9 @@ export default function BasicTable(props) {
                     return ({
                         Header: key.charAt(0).toUpperCase() + key.slice(1), //TODO handle short strings
                         accessor: key,
-                        Filter: () => {
+                        Filter: findFilterFunc(dataRows[0][key]),
+                        filter: findFilter(dataRows[0][key])
+                        /*() => {
                             var dataEx = dataRows[0].key
                             switch (dataEx) {
                                 case (typeof dataEx == "number"):
@@ -154,7 +182,18 @@ export default function BasicTable(props) {
                                 default:
                                     return DefaultColumnFilter
                             }
-                        }
+                        },
+                        filter: () => {
+                            var dataEx = dataRows[0].key
+                            switch (dataEx) {
+                                case (typeof dataEx == "number"):
+                                    return "equals"
+                                case (typeof dataEx == "object"): // list, aka labels
+                                    return "includes"
+                                default:
+                                    return "fuzzyText"
+                            }
+                        }*/
                     })
                 })
             } else {
@@ -223,6 +262,7 @@ export default function BasicTable(props) {
 
 
     return (
+        <div>
         <table {...getTableProps()} className="tableWhole">
             <thead className="tableHeader" >
                 {
@@ -280,6 +320,11 @@ export default function BasicTable(props) {
             </tbody>
 
         </table>
-
+      <div>
+      <pre>
+        <code>{JSON.stringify(state.filters, null, 2)}</code>
+      </pre>
+    </div>
+    </div>
     )
 }
