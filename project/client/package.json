@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
     "d3": "^6.7.0",
     "match-sorter": "^6.3.0",
     "next": "10.1.3",
