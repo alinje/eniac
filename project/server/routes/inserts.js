@@ -45,7 +45,7 @@ stream.pipe(csvStream);
         const addStockQuery = "INSERT INTO Stocks (name, market, price) VALUES ($1, $2, $3)";
         const addManagerQuery = "INSERT INTO Managers (name) VALUES ($1)";
         const addPortfolioQuery = "INSERT INTO Portfolios (manager, stock, volume, classification) VALUES ($1, $2, $3, $4)";
-        let skipList = ["", "LONG", "TICKER"];
+        let skipList = ["", "LONG", "TICKER", " "];
         var classification = "LONG"
         let stockList = [];
         let managerList = [];
