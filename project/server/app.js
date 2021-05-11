@@ -73,7 +73,8 @@ app.post('/addLabels', (req, res) => {
   dB.query("INSERT INTO Labels (name) VALUES ($1)", [label]);
   //addLabel(label)
   //res.json("Label added");
-  {/*return res.redirect('/editLabels');*/}
+  window.location.reload();
+  //return res.redirect('../client/pages/editLabels.js')
 });
 
 //Receives a JSON file from "editLabels.js" containing label name and deleting it
