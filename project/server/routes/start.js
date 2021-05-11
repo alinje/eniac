@@ -56,13 +56,33 @@ const PortfoliosTblQuery =
     CHECK (classification = 'SHORT' OR classification = 'LONG')
   );`
 
+const LabelAggViewQuery = `
+CREATE VIEW LabelAgg AS
+SELECT stock, jsonb_agg(label || '; ') AS Labels
+  FROM StocksWithLabels
+  GROUP BY stock;
+`
+
 const PortfolioInfoViewQuery = `
 CREATE VIEW PortfolioInfo AS
-(SELECT manager, StocksWithLabels.label AS label, Portfolios.stock, classification, price*volume AS value
-FROM Managers, Portfolios, Stocks, StocksWithLabels
-WHERE (Managers.name = Portfolios.manager) AND (Portfolios.stock = StocksWithLabels.stock) AND
-      (Portfolios.stock = Stocks.name)
+(SELECT manager, Portfolios.stock, classification, ROUND((price*volume)::numeric, 1) AS value, LabelAgg.labels AS labels
+FROM Managers JOIN Portfolios ON (Managers.name = Portfolios.manager) JOIN Stocks ON (Portfolios.stock = Stocks.name)
+              LEFT JOIN LabelAgg ON (Portfolios.stock = LabelAgg.stock)
 );`
+
+const PortfoliosSummaryViewQuery = `
+CREATE VIEW PortfolioSummary AS
+((SELECT PortfolioInfo.manager, PortfolioInfo.classification, SUM(volume) AS total_volume,  SUM(value) AS total_value
+ FROM PortfolioInfo JOIN Portfolios using (stock)
+ WHERE PortfolioInfo.classification = 'SHORT'
+ GROUP BY PortfolioInfo.manager, PortfolioInfo.classification)
+ UNION
+ (SELECT PortfolioInfo.manager, PortfolioInfo.classification, SUM(volume) AS total_volume,  SUM(value) AS total_value
+ FROM PortfolioInfo JOIN Portfolios using (stock)
+ WHERE PortfolioInfo.classification = 'LONG'
+ GROUP BY PortfolioInfo.manager, PortfolioInfo.classification)
+ ORDER BY total_value);
+`
 
 const LabelSummaryViewQuery = `CREATE VIEW LabelSummary AS
 (SELECT StocksWithLabels.label, SUM(PortfolioInfo.value) AS total_value
@@ -82,8 +102,10 @@ pool.connect((err, client, done) => {
         addToDatabase(client, LabelsTblQuery);
         addToDatabase(client, StocksWithLabelsTblQuery);
         addToDatabase(client, PortfoliosTblQuery);
+        addToDatabase(client, LabelAggViewQuery);
         addToDatabase(client, PortfolioInfoViewQuery);
         addToDatabase(client, LabelSummaryViewQuery);
+        addToDatabase(client, PortfoliosSummaryViewQuery);
         } 
     finally {
         done();
