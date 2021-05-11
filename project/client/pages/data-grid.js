@@ -18,7 +18,7 @@ import BasicTable from "../components/BasicTable";
 export default function FirstPost() {
 	const queryClient = useQueryClient()
 
-	const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/dBInit").then(((res) => res.json()))) // despite the name, does not return a JSON object
+	const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
 
 
 	return (
@@ -28,7 +28,7 @@ export default function FirstPost() {
 			</Head>
 			<h1>Big grid, DO reload the page :)</h1>
 
-			<p><BasicTable dataRows={data} /></p>
+			<BasicTable dataRows={data} />
 
 
 			<h2>

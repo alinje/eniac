@@ -132,6 +132,11 @@ app.get("/get-portfolioinfo", async (req, res) => {
     )
 })
 
+app.get("/get-PortfolioSummary", async (req, res) => {
+    const pi = await  dB.query("SELECT * FROM PortfolioSummary", [])
+    res.send(pi.rows)
+})
+
 app.get("/get-labels", async (req, res) => {
     const pi = await  dB.query("SELECT * FROM Labels", [])
     res.send(pi.rows)

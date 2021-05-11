@@ -61,7 +61,7 @@ export default function Home() {
             <main className={styles.main}>
                 {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
                 <div className={styles.fillLeftRight}>
-                    <p><BasicTable dataRows={data} /></p>
+                    <BasicTable dataRows={data} />
                 </div>
 
                 <div>
