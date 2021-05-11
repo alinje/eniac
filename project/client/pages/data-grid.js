@@ -1,9 +1,9 @@
 import {
-    useQuery,
-    useMutation,
-    useQueryClient,
-    QueryClient,
-    QueryClientProvider,
+	useQuery,
+	useMutation,
+	useQueryClient,
+	QueryClient,
+	QueryClientProvider,
 } from 'react-query' // importerar
 
 import React, { useEffect, useState } from 'react'
@@ -13,13 +13,18 @@ import Image from 'next/image'
 import Head from 'next/head'
 //import Layout from '../components/layout'
 import BasicTable from "../components/BasicTable";
+import PieChart from '../public/PieChart'
 
 
 export default function FirstPost() {
 	const queryClient = useQueryClient()
 
-	const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+	const labelQuery = useQuery("labelData", async () => await fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+	const portfolioQuery = useQuery("portfolioInfo", async () => await fetch("http://localhost:3001/get-portfolioinfo").then(((res) => res.json()))) // despite the name, does not return a JSON object
 
+
+
+	//console.log({ dataGrid: portfolioQuery.data })
 
 	return (
 		<>
@@ -28,7 +33,9 @@ export default function FirstPost() {
 			</Head>
 			<h1>Big grid, DO reload the page :)</h1>
 
-			<BasicTable dataRows={data} />
+			<PieChart data={portfolioQuery.data} />
+
+			<BasicTable dataRows={labelQuery.data} />
 
 
 			<h2>
@@ -36,6 +43,9 @@ export default function FirstPost() {
 					<a>Back to home</a>
 				</Link>
 			</h2>
+
+
+
 
 
 		</>
