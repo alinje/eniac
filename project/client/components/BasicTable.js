@@ -140,8 +140,8 @@ export default function BasicTable(props) {
         switch (dataEx) {
             case "total_volume":
                 return SliderColumnFilter
-            case "labels":
-                return CheckboxColumnFilter
+            /*case "labels":
+                return CheckboxColumnFilter*/
             case "label":
             default:
                 return DefaultColumnFilter
@@ -153,8 +153,8 @@ export default function BasicTable(props) {
         switch (dataEx) {
             case "total_volume":
                 return "between"
-            case "labels":
-                return "includes"
+            /*case "labels":
+                return "includes"*/
             case "label":
             default:
                 return "fuzzyText"
@@ -178,7 +178,6 @@ export default function BasicTable(props) {
                 return COLUMNS //TODO some kind of nicer default
             }
         } catch (TypeError) {
-
             return COLUMNS
         }
     }, [props.dataRows])
