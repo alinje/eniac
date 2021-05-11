@@ -21,13 +21,14 @@ export default function EditLabels() {
 	
     //Sends the added label name through JSON to the server
 	const addLabel = async event => {
-        event.preventDefault()
+		event.preventDefault()
         const res = await fetch('http://localhost:3001/addLabels', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({label: event.target.name.value})
-        })
-		const result = await res.json()
+                body: JSON.stringify({label: event.target.name.value})    
+		},window.location.reload())
+        const result = await res.json()
+
 	}
 	
 	 //Sends the deleted label name through JSON to the server
@@ -37,7 +38,7 @@ export default function EditLabels() {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({label: event.target.name.value})
-        })
+        },window.location.reload())
         const result = await res.json()
 	}
 	
@@ -53,7 +54,7 @@ export default function EditLabels() {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(newJSON)           //Sends the added stock
-        })
+        },window.location.reload())
         const result = await res.json()
 	}
 	
@@ -69,7 +70,7 @@ export default function EditLabels() {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(newJSON)           //Sends the edited weight
-        })
+        },window.location.reload())
 		const result = await res.json()
 	}
 	
@@ -84,10 +85,10 @@ export default function EditLabels() {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(newJSON)
-        })
+        },window.location.reload())
 		const result = await res.json()
     }
-	
+	//window.location.reload();
     return (
         /* TODO something about flex is messing with the style classes */
         <div /*className={styles.container}*/>
@@ -106,7 +107,7 @@ export default function EditLabels() {
                     <h1>Edit labels</h1>
 					    {/* A form for adding a label*/}
                 <h2>Add new label</h2>
-                <form onsubmit={addLabel}>
+                <form onSubmit={addLabel}>
                     <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
                     <button type="submit">Add label</button>
                 </form>
@@ -135,7 +136,6 @@ export default function EditLabels() {
                     <input id="weight" name="weight" type="number" step=".1" min="0" max="3" placeholder= "weight" autoComplete="weight" required />
                     <button type="submit">Edit weight</button>
                 </form>
-
 
                 {/* A form for deleting labels from specific stocks*/}
                 <h2>Delete label from stock</h2>
