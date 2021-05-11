@@ -2,12 +2,22 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css' // TODO a common CSS strategy is needed
 import Head from 'next/head'
 import React, { useState } from 'react'
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    QueryClient,
+    QueryClientProvider,
+} from 'react-query' // importerar
 
 import LineDiagram from '../public/LineDiagram.js'
 import DistributionChart from '../public/DistributionChart.js'
+import BasicTable from "../components/BasicTable";
 
 
 export default function EditLabels() {
+	const queryClient = useQueryClient()
+	const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
 	
     //Sends the added label name through JSON to the server
 	const addLabel = async event => {
@@ -17,10 +27,10 @@ export default function EditLabels() {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({label: event.target.name.value})
         })
-        const result = await res.json()
+		const result = await res.json()
 	}
 	
-	 //Sends the added label name through JSON to the server
+	 //Sends the deleted label name through JSON to the server
 	const deleteLabel = async event => {
         event.preventDefault()
         const res = await fetch('http://localhost:3001/deleteLabel', {
@@ -90,12 +100,13 @@ export default function EditLabels() {
                 {/* Link to homepage*/
                 /* Forms for editing and adding labels*/
                 }
-         
-				<h1>Edit labels</h1>
-				
-                {/* A form for adding a label*/}
+    
+				    <div className={styles.fillLeft}>
+                    <div>
+                    <h1>Edit labels</h1>
+					    {/* A form for adding a label*/}
                 <h2>Add new label</h2>
-                <form onSubmit={addLabel}>
+                <form onsubmit={addLabel}>
                     <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
                     <button type="submit">Add label</button>
                 </form>
@@ -125,13 +136,25 @@ export default function EditLabels() {
                     <button type="submit">Edit weight</button>
                 </form>
 
+
                 {/* A form for deleting labels from specific stocks*/}
                 <h2>Delete label from stock</h2>
-                <form onSubmit={deleteLabelFromStock}>
-                    <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
-                    <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
-                    <button type="submit">Delete label from stock</button>
-                </form>
+                    <form onSubmit={deleteLabelFromStock}>
+                        <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
+                        <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
+                        <button type="submit">Delete label from stock</button>
+                    </form>
+                    </div>
+
+
+                    
+				<div className={styles.fillLeft}>
+                <p><BasicTable dataRows={data} /></p>
+                </div>
+					
+					
+                    </div>
+                
 
                 <div className={styles.grid}>
                     <Link href="/" passHref>
@@ -140,6 +163,8 @@ export default function EditLabels() {
                         </div>
                     </Link>
                 </div>
+
+    
             </main>
         </div>
     )
