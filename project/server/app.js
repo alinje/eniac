@@ -147,6 +147,11 @@ app.get("/get-labels-summary", async (req, res) => {
     res.send(pi.rows)
 })
 
+app.get("/get-stocks-with-labels", async (req, res) => {
+    const pi = await  dB.query("SELECT * FROM StocksWithLabels", [])
+    res.send(pi.rows)
+})
+
 
 app.listen(port, () => {
 /*

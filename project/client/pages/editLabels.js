@@ -18,6 +18,8 @@ import BasicTable from "../components/BasicTable";
 export default function EditLabels() {
 	const queryClient = useQueryClient()
 	const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+	const {data2} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-stocks-with-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+    
 	
     //Sends the added label name through JSON to the server
 	const addLabel = async event => {
@@ -103,6 +105,7 @@ export default function EditLabels() {
                 }
     
 				    <div className={styles.fillLeft}>
+                
                     <div>
                     <h1>Edit labels</h1>
 					    {/* A form for adding a label*/}
@@ -115,7 +118,13 @@ export default function EditLabels() {
                 {/* A form for deleting a label*/}
                 <h2>Delete label</h2>
                 <form onSubmit={deleteLabel}>
-                    <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
+				    <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
+				    <select>
+						<option value={data}></option>
+                        <option value="lime">Lime</option>
+                        <option value="coconut">Coconut</option>
+                        <option value="mango">Mango</option>
+                    </select>
                     <button type="submit">Delete label</button>
                 </form>
 
@@ -150,10 +159,10 @@ export default function EditLabels() {
                     
 				<div className={styles.fillLeft}>
                 <p><BasicTable dataRows={data} /></p>
+                <p><BasicTable dataRows={data2} /></p>
                 </div>
 					
-					
-                    </div>
+                </div>
                 
 
                 <div className={styles.grid}>
