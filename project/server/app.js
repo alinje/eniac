@@ -66,6 +66,10 @@ app.get("/grid-data", (req, res) => {
     })
 })
 
+app.post('/import-portfolio-alcur', (req, res) => {
+    const label = req.body;
+  });
+
 //Receives a JSON file from "editLabels.js" containing label name and adding it
 app.post('/addLabels', (req, res) => {
   const label = req.body.label;
@@ -116,6 +120,22 @@ app.post('/deleteLabelFromStock', (req, res) => {
     //res.json("Label deleted from stock");
 });
 
+app.post('/insert-into-stock', (req, res) => {
+    const name = req.body.name;
+	const market = req.body.market;
+    const price = req.body.price;
+    dB.query("INSERT INTO Stocks VALUES ($1, $2, $3)", [name,market, price])
+    //deleteLabelFromStock(stock,label)
+    //res.json("Label deleted from stock");
+});
+
+app.post('/insert-into-managers', (req, res) => {
+    const name = req.body.name;
+    dB.query("INSERT INTO Stocks VALUES ($1)", [name])
+    //deleteLabelFromStock(stock,label)
+    //res.json("Label deleted from stock");
+});
+
 
 app.get("/labelsummary", async (req, res) => {
     //const pi = await db.query()
@@ -140,6 +160,7 @@ app.get("/get-labels", async (req, res) => {
     const pi = await  dB.query("SELECT * FROM LabelSummary", [])
     res.send(pi.rows)
 })
+
 
 
 app.listen(port, () => {
