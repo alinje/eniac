@@ -57,10 +57,15 @@ export default function BasicTable(props) {
     }) {
         // Calculate the options for filtering
         // using the preFilteredRows
-        const options = React.useMemo(() => {
+        const options = useMemo(() => {
             const options = new Set()
             preFilteredRows.forEach(row => {
-                options.add(row.values[id])
+                /*row.forEach((label) => {
+                    options.add(label) // a value can only be added once, so no need to check for duplicates
+                })*/
+                //console.log(row.values.labels)
+                //options.add(...row.values.labels)
+                row.values.labels.forEach(item => options.add(item))
             })
             return [...options.values()]
         }, [id, preFilteredRows])
@@ -73,10 +78,10 @@ export default function BasicTable(props) {
                     setFilter(e.target.value || undefined)
                 }}
             >
-                <input type="checkbox" value="">All</input>
+                <input type="checkbox" name="All labels" id="All labels" value=""></input>
+                <label for="All labels">All labels</label>
                 {options.map((option, i) => (
-                    <input type="checkbox" key={i} value={option}>
-                        {option}
+                    <input type="checkbox" key={i} name={option + ""} value={option}>
                     </input>
                 ))}
             </form>
@@ -140,21 +145,21 @@ export default function BasicTable(props) {
         switch (dataEx) {
             case "total_volume":
                 return SliderColumnFilter
-            /*case "labels":
-                return CheckboxColumnFilter*/
+            case "labels":
+                return CheckboxColumnFilter
             case "label":
             default:
                 return DefaultColumnFilter
         }
     }
 
-
+    // the documentation for these filters is well fucking hidden https://github.com/tannerlinsley/react-table/blob/master/src/filterTypes.js
     const findFilter = (dataEx) => {
         switch (dataEx) {
             case "total_volume":
                 return "between"
-            /*case "labels":
-                return "includes"*/
+            case "labels":
+                return "includesValue"
             case "label":
             default:
                 return "fuzzyText"

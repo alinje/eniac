@@ -21,7 +21,7 @@ export default function FirstPost() {
 
 	const labelQuery = useQuery("labelData", async () => await fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
 	const portfolioQuery = useQuery("portfolioInfo", async () => await fetch("http://localhost:3001/get-portfolioinfo").then(((res) => res.json()))) // despite the name, does not return a JSON object
-
+	const testArray = [{"stock": "Volvo", "labels": ["Coronawinner", "Car"]}, {"stock": "Chalmers", "labels": ["Coronawinner", "Education"]}]
 
 
 	//console.log({ dataGrid: portfolioQuery.data })
@@ -34,6 +34,8 @@ export default function FirstPost() {
 			<h1>Big grid, DO reload the page :)</h1>
 
 			<PieChart data={portfolioQuery.data} />
+
+			<BasicTable dataRows={testArray} />
 
 			<BasicTable dataRows={labelQuery.data} />
 
