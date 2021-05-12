@@ -14,11 +14,14 @@ export default function PieChart(props) {
         //var rawJson = JSON.parse("project/client/public/test_data.json")
         const { data = { rows: [{ amount: 0 }] } } = props
         console.log({ pieChart: data })
-
-        var svg = d3.select("svg"),
+        var width = 800,
+            height = 800,
             radius = Math.min(width, height) / 2;
 
-        var g = svg.append("g")
+        var svg = d3.select(myRef.current).append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
         var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
@@ -36,7 +39,7 @@ export default function PieChart(props) {
             .innerRadius(radius - 80);
 
 
-        var arc = g.selectAll(".arc")
+        var arc = svg.selectAll(".arc")
             .data(pie(data))
             .enter().append("g")
             .attr("class", "arc");
