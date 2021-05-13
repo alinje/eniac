@@ -16,7 +16,9 @@ export default function BasicTable(props) {
         return str.charAt(0).toUpperCase() + str.replace(/_/g, ' ').slice(1)
     }
 
-
+    /**
+     * UI for the global filter, presenting as the global search field
+     */
     const GlobalFilter = ({ preGlobalFilteredRows, globalFilter, setGlobalFilter, }) => {
         const count = preGlobalFilteredRows.length
         const [value, setValue] = useState(globalFilter)
@@ -43,6 +45,9 @@ export default function BasicTable(props) {
         )
     }
 
+    /**
+     * The default column filter is a search field
+     */
     function DefaultColumnFilter({
         column: { filterValue, preFilteredRows, setFilter },
     }) {
@@ -58,6 +63,7 @@ export default function BasicTable(props) {
             />
         )
     }
+
 
     function CheckboxColumnFilter({
         column: { filterValue, setFilter, preFilteredRows, id },
@@ -91,7 +97,7 @@ export default function BasicTable(props) {
                 ></input>
                 <label for="All labels">All labels</label>
                 {options.map((option, i) => (
-                    <div>
+                    <span>
                         {/** key is for the checkbox label
                            * value is for filtering in onChange
                            * checked is a boolean determening whether the box is checked or not
@@ -101,13 +107,12 @@ export default function BasicTable(props) {
                             checked={typeof filterValue !== 'undefined' && filterValue.includes(option) ? true : false}
                             onChange={onChange}></input>
                         <label for={i}>{formatString(option)}</label>
-                    </div>
+                    </span>
 
                 ))}
             </form>
         )
     }
-
 
 
     const multipleSelectionFilter = (rows, ids, filterValues) => {
@@ -127,12 +132,11 @@ export default function BasicTable(props) {
     function SliderColumnFilter({
         column: { filterValue = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER], preFilteredRows, setFilter, id },
     }) {
-        // Calculate the min and max
-        // using the preFilteredRows
 
-        //TODO https://codesandbox.io/s/91yti?file=/demo.js
+        // https://codesandbox.io/s/91yti?file=/demo.js
 
 
+        // Min and max values are dynamic, changing depending on the values present in the column
         const [min, max] = useMemo(() => {
             let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
             let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
@@ -141,7 +145,7 @@ export default function BasicTable(props) {
                 max = Math.max(row.values[id], max)
             })
             return [min, max]
-        }, [id, preFilteredRows])
+        }, [id, filterValue])
 
 
         return (
@@ -300,13 +304,13 @@ export default function BasicTable(props) {
                                         <th className="tableHeaderLabels" >  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
                                             {column.render('Header')}
                                             {/* Add a sort direction indicator */}
-                                            <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                            <span {...column.getHeaderProps(column.getSortByToggleProps())}>
                                                 {column.isSorted
                                                     ? column.isSortedDesc
                                                         ? ' 🔽'
                                                         : ' 🔼'
                                                     : ' ⏫'}
-                                            </div>
+                                            </span>
                                             <div>{column.canFilter ? column.render('Filter') : null}</div>
 
                                         </th>
@@ -345,13 +349,7 @@ export default function BasicTable(props) {
                         )
                     }
                 </tbody>
-
             </table>
-            <div>
-                <pre>
-                    <code>{JSON.stringify(state.filters, null, 2)}</code>
-                </pre>
-            </div>
         </div>
     )
 }
