@@ -10,6 +10,13 @@ import Slider from '@material-ui/core/Slider';
 
 export default function BasicTable(props) {
 
+    // Formats string to beginning character capitalized and '_' replaced with ' '
+    const formatString = (str) => {
+        if (str.length < 2) return str.toUpperCase()
+        return str.charAt(0).toUpperCase() + str.replace(/_/g, ' ').slice(1)
+    }
+
+
     const GlobalFilter = ({ preGlobalFilteredRows, globalFilter, setGlobalFilter, }) => {
         const count = preGlobalFilteredRows.length
         const [value, setValue] = useState(globalFilter)
@@ -93,7 +100,7 @@ export default function BasicTable(props) {
                             name="label"
                             checked={typeof filterValue !== 'undefined' && filterValue.includes(option) ? true : false}
                             onChange={onChange}></input>
-                        <label for={i}>{option}</label>
+                        <label for={i}>{formatString(option)}</label>
                     </div>
 
                 ))}
@@ -192,6 +199,7 @@ export default function BasicTable(props) {
         }
     }
 
+
     // sets columns based on the keys of the first item in data list
     const columns = useMemo(() => {
         try {
@@ -199,10 +207,21 @@ export default function BasicTable(props) {
             if (keys.length > 0) {
                 return Object.keys(dataRows[0]).map((key, id) => {
                     return ({
-                        Header: key.charAt(0).toUpperCase() + key.slice(1), //TODO handle short strings
+                        Header: formatString(key),
                         accessor: key,
                         Filter: findFilterFunc(key),
-                        filter: findFilter(key)
+                        filter: findFilter(key),
+                        Cell: ({value}) => {
+                            if (typeof value != "object") return formatString(value)
+                            // if the cell value is an array we want to join the values with comma and spacing
+                            try {
+                                const tagList = value.map(formatString).join(", ")
+                                return <span>{tagList}</span>
+                            } catch(Error){ // ugly way to catch case where cell value is neither flat nor array
+                                return formatString(value)
+                            }
+
+                        }
                     })
                 })
             } else {
@@ -263,7 +282,6 @@ export default function BasicTable(props) {
         preGlobalFilteredRows,
         setGlobalFilter
     } = tableInstance
-
 
 
 
