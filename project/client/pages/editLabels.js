@@ -20,8 +20,8 @@ import Button from '@material-ui/core/Button';
 
 export default function EditLabels() {
 	const queryClient = useQueryClient()
-	const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
-	//const {data2} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-stocks-with-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+	const labelsdata = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+	const stockswithlabeldata = useQuery("dbConnect", () => fetch("http://localhost:3001/get-stocks-with-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
 
     //Variables that becomes the current selected item
     let deleteLabelSelected = null
@@ -182,7 +182,8 @@ export default function EditLabels() {
 
                     
 				<div className={styles.fillLeft}>
-                <p><BasicTable dataRows={data} /></p>
+                <p><BasicTable dataRows={labelsdata.data} /></p>
+                <p><BasicTable dataRows={stockswithlabeldata.data} /></p>
                 </div>
                 </div>
 
