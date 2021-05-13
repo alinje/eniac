@@ -55,39 +55,65 @@ export default function BasicTable(props) {
     function CheckboxColumnFilter({
         column: { filterValue, setFilter, preFilteredRows, id },
     }) {
-        // Calculate the options for filtering
-        // using the preFilteredRows
+        // options is a set of the the different options for the filter, this is every value in any row in the column
         const options = useMemo(() => {
             const options = new Set()
             preFilteredRows.forEach(row => {
-                /*row.forEach((label) => {
-                    options.add(label) // a value can only be added once, so no need to check for duplicates
-                })*/
-                //console.log(row.values.labels)
-                //options.add(...row.values.labels)
                 row.values.labels.forEach(item => options.add(item))
             })
             return [...options.values()]
         }, [id, preFilteredRows])
 
-        // Render a multi-select box
+        const onChange = (e) => {
+            const t = e.target.value;
+            if (typeof filterValue === 'undefined' || filterValue === []) {
+                setFilter([t])
+            } else {
+                setFilter((old) => (old.includes(t) ? old.filter(filter => filter != t) : [...old, t]))
+            }
+        }
+
+        // https://github.com/tannerlinsley/react-table/discussions/2350
         return (
             <form
                 value={filterValue}
-                onChange={e => {
-                    setFilter(e.target.value || undefined)
-                }}
             >
-                <input type="checkbox" name="All labels" id="All labels" value=""></input>
+                <input type="checkbox" key="All labels" value="" onChange={() => {
+                    if (typeof filterValue === 'undefined' || filterValue.length != 0) setFilter([])
+                }} checked={typeof filterValue === 'undefined' || filterValue.length == 0 ? true : false}
+                ></input>
                 <label for="All labels">All labels</label>
                 {options.map((option, i) => (
-                    <input type="checkbox" key={i} name={option + ""} value={option}>
-                    </input>
+                    <div>
+                        {/** key is for the checkbox label
+                           * value is for filtering in onChange
+                           * checked is a boolean determening whether the box is checked or not
+                        */}
+                        <input type="checkbox" key={i} value={option || ''}
+                            name="label"
+                            checked={typeof filterValue !== 'undefined' && filterValue.includes(option) ? true : false}
+                            onChange={onChange}></input>
+                        <label for={i}>{option}</label>
+                    </div>
+
                 ))}
             </form>
         )
+    }
 
 
+
+    const multipleSelectionFilter = (rows, ids, filterValues) => {
+        if (typeof filterValues == 'undefined' || filterValues.length === 0) return rows;
+        
+        return rows.filter(row => { // returns rows which pass the test
+            return ids.some(id => { // returns columns, of rows which pass the test, which test is applicable for
+                const rowValue = row.values[id] // values that can be determined passing or not
+                return rowValue.some(val => { // returns values which match any of the provided filters
+                    return filterValues.includes(val)
+                })
+            })
+        })
     }
 
 
@@ -159,7 +185,7 @@ export default function BasicTable(props) {
             case "total_volume":
                 return "between"
             case "labels":
-                return "includesValue"
+                return multipleSelectionFilter // custom filter
             case "label":
             default:
                 return "fuzzyText"
