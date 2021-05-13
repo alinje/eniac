@@ -35,7 +35,7 @@ const StocksWithLabelsTblQuery =`
 CREATE TABLE StocksWithLabels(
   stock TEXT,
   label TEXT,
-  weight DECIMAL(2,1),
+  weight NUMERIC(2,1),
 
   PRIMARY KEY(stock,label),
   FOREIGN KEY(stock) REFERENCES Stocks(name),
@@ -106,6 +106,7 @@ pool.connect((err, client, done) => {
         addToDatabase(client, PortfolioInfoViewQuery);
         addToDatabase(client, LabelSummaryViewQuery);
         addToDatabase(client, PortfoliosSummaryViewQuery);
+
         } 
     finally {
         done();
