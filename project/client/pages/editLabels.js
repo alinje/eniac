@@ -20,8 +20,8 @@ import Button from '@material-ui/core/Button';
 
 export default function EditLabels() {
 	const queryClient = useQueryClient()
-	const labelsdata = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
-	const stockswithlabeldata = useQuery("dbConnect", () => fetch("http://localhost:3001/get-stocks-with-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+	const labelsdata = useQuery("dbLabelsdata", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+	const stockswithlabeldata = useQuery("dbStocksWithLabelsData", () => fetch("http://localhost:3001/get-stocks-with-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
 
     //Variables that becomes the current selected item
     let deleteLabelSelected = null
@@ -101,12 +101,12 @@ export default function EditLabels() {
 
     //Constant containing the labels
     const labelProps = {
-        options: data,
+        options: labelsdata.data,
         getOptionLabel: (option) => option.name,
     };
     //Constant that SHOULD contain the stocks! But contains the labels for now....
     const stockProps = {
-        options: data,
+        options: labelsdata.data,
         getOptionLabel: (option) => option.name,
     };
 
@@ -181,12 +181,16 @@ export default function EditLabels() {
 
 
                     
-				<div className={styles.fillLeft}>
-                <p><BasicTable dataRows={labelsdata.data} /></p>
-                <p><BasicTable dataRows={stockswithlabeldata.data} /></p>
-                </div>
+                <div className={styles.fillLeftRight}>
+                <BasicTable dataRows={labelsdata.data} />
                 </div>
 
+                <div className={styles.fillLeftRight}>
+                    <BasicTable dataRows={stockswithlabeldata.data} />
+                </div>
+
+
+                </div>
                 <div style={{ width: 300 }}>
                 {/* New form for deleting a label*/}
                 <Autocomplete
@@ -222,7 +226,6 @@ export default function EditLabels() {
                 {/*/>*/}
 
                 </div>
-
 
                 <div className={styles.grid}>
                     <Link href="/" passHref>
