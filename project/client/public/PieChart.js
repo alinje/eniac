@@ -1,16 +1,20 @@
-import React, {Component} from 'react';
+import React, { useEffect } from 'react';
 import * as d3 from "d3";
-//import DATA from 'project/client/public/test_data.json';
-export default class PieChart extends Component{
+import rawJson from '../public/test_data.json';
+import { useQuery } from 'react-query';
 
-    constructor(props){
-        super(props)
-        this.myRef = React.createRef()
-        this.props = props
-    }
-    componentDidMount() {
-        var rawJson = JSON.parse("project/client/public/test_data.json")
-        var data = rawJson[0].rows;
+
+export default function PieChart(props) {
+
+
+
+    const myRef = React.useRef(null)
+
+    // the first argument function is called upon every time a change happens to one of the objects in the second argument array
+    useEffect(() => {
+        //var rawJson = JSON.parse("project/client/public/test_data.json")
+        const {data = {rows: [{amount: 0}]}} = props
+        console.log({pieChart: data})
 
         var width = 800,
             height = 250,
@@ -19,7 +23,7 @@ export default class PieChart extends Component{
         var color = d3.scaleOrdinal()
             .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
-        var arc = d3.svg.arc()
+        var arc = d3.arc()
             .outerRadius(radius - 10)
             .innerRadius(radius - 70);
 
@@ -29,7 +33,7 @@ export default class PieChart extends Component{
                 return d.amount;
             });
 
-        var svg = d3.select(this.myRef.current).append("svg")
+        var svg = d3.select(myRef.current).append("svg")
             .attr("width", width)
             .attr("height", height)
             .append("g")
@@ -55,7 +59,7 @@ export default class PieChart extends Component{
             .text(function (d) {
                 return d.data.amount;
             });
-        }
+    }, [props.data])
 
     /*componentDidMount(){
         // set the dimensions and margins of the graph
@@ -104,9 +108,12 @@ export default class PieChart extends Component{
 
 
     } Shit's fucked yo*/
-    render() {
-        return (
-            <div ref={this.myRef} className="PieChart"></div>
-        )
-    }
+
+    return (
+        
+        <div ref={myRef} className="PieChart"></div>
+        
+
+    )
+
 }
