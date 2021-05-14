@@ -1,0 +1,67 @@
+Social Contract and Effort
+
+A (var vi är)
+Vi har påbörjat ett test document där man ska införa nya tester om sin userstory.
+
+Vi har tydliga regler om att vi ska merga koden varje dag som vi jobbar på att anpassa oss till.
+
+Vi har lärt känna varandra i gruppen bättre. I början arbetade alla IT studenter med varande och alla I studenter med varandra. 
+Men nu jobbar vi över gränserna och alla samarbetar bra tillsammans.
+
+B (vart vi vill komma)
+Slutföra test dokumentet och se till att alla använder sig av det.
+
+Vi vill bli bättre på att följa reglerna om att man ska merga koden varje dag.
+
+
+A -> B (hur vi kommer dit)
+Scrum mastern ska vara tydligare med att påminna om att man ska merga koden, dessa påminnelser bör även ske varje dag!
+
+Skriver till tester passivt när vi kommer på dem. 
+T.ex. när vi använder applikationen och ser funktionalitet som bör testas eller när vi lägger till någon ny funktion som bör testas.
+
+
+Design decisions and product structure
+
+A (var vi är)
+Vi har ingen teknisk dokumentation utöver kommentarer i koden.
+
+Vi har inget direkt system för att se till att koden har bra kvalité.
+
+Vi har skapat en rullista där man kan se sina labels för att enkelt kunna välja vilken label man vill ta bort. Detta är ett designval som gynnar kunden.
+
+Vi har skapat tabellfiltrering som appliceras dynamiskt på olika datatyper. Designvalet syftar till att hjälpa kunden att få översikt över datan.
+
+Vi har skapat ett pajdiagram som hjälper kunden att visualisera datan.
+
+
+B (vart vi vill komma)
+Vi vill ha bättre teknisk dokumentation som ett klassdiagram t.ex. 
+
+Vi vill ha tydliga regler för hur koden ska se ut som t.ex. om man ska använda semikolon eller inte, hur mycket man ska indentera.
+
+A -> B (hur vi kommer dit)
+VI börjar rita klassdiagram med hjälp av något tekniskt verktyg.
+
+Vi skriver en utvecklarmanual med kod kvalité regler.
+
+
+KPI
+
+Hur mår produkten:
+	73%
+
+Antal defekter:
+	Förvaltarsidan visas inte korrekt.
+	Intervall filtret ger null pointer exception
+	Negativa tal sorteras fel 
+(Tooltips syns fortfarande för dolda grafer, detta är funktionalitet som vi inte ska ha kvar)
+
+Allmänt välmående:
+	3,8 av 5
+
+Hur nöjda är vi med vår arbetsinsats?:
+	3,5 av 5
+
+Hur taggade är vi?
+	4,6 av 5
