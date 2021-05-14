@@ -27,6 +27,7 @@ export default function EditLabels() {
     //Variables that becomes the current selected item
     let deleteLabelSelected = null
     let stockSelected = null
+    let assWeight = null
 	
     //Sends the added label name through JSON to the server
 	const addLabel = async event => {
@@ -68,8 +69,41 @@ export default function EditLabels() {
 	    }
 	}
 
+    const addLabelToStock = async event => {
+        event.preventDefault()
+        if(deleteLabelSelected != null){
+            const res = await fetch('http://localhost:3001/addLabelsToStock', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    label: deleteLabelSelected.name,
+                    stock: stockSelected.name,
+                    weight: weight.value
+                })
+            }, window.location.reload())
+            const result = await res.json()
+	    }
+	}
+
+    const editWeight = async event => {
+        event.preventDefault()
+        if(deleteLabelSelected != null){
+            const res = await fetch('http://localhost:3001/editWeight', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    label: deleteLabelSelected.name,
+                    stock: stockSelected.name,
+                    weight: weight.value
+                })
+            }, window.location.reload())
+            const result = await res.json()
+	    }
+	}
+
+    //This is a function for the old forms
 	//Sends the stock, label and weight through JSON to the server
-	const addLabelToStock= async event => {
+	/*const addLabelToStock= async event => {
         event.preventDefault()
 		const newJSON = {
 				'stock': event.target.stock.value,
@@ -83,9 +117,11 @@ export default function EditLabels() {
         },window.location.reload())
         const result = await res.json()
 	}
+    */
 	
+    //This is a function for the old forms
 	//Sends the stock, label and weight through JSON to the server
-    const editWeight= async event => {
+    /*const editWeight= async event => {
         event.preventDefault()
 		const newJSON = {
 				'stock': event.target.stock.value,
@@ -99,7 +135,9 @@ export default function EditLabels() {
         },window.location.reload())
 		const result = await res.json()
 	}
+    */
 	
+    //This is a function for the old forms
 	//Sends the stocka and label through JSON to the server
    /* const deleteLabelFromStock= async event => {
         event.preventDefault()
@@ -243,8 +281,44 @@ export default function EditLabels() {
                 </Button>
 
                 <h2>Add labels to stock with associated weight</h2>
+                <Autocomplete
+                    onChange={(event, value) => stockSelected = value}
+                    {...stockProps}
+                    id="Stock"
+                    clearOnEscape
+                    renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
+                />
+                 <Autocomplete
+                    onChange={(event, value) => deleteLabelSelected = value}
+                    {...labelProps}
+                    id="Add Label"
+                    clearOnEscape
+                    renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
+                />
+                {/*Here we need a weight input*/}
+                <Button variant="contained" color="secondary" onClick={addLabelToStock}>
+                    Add label to stock
+                </Button>
+
 
                 <h2>Edit weight</h2>
+                <Autocomplete
+                    onChange={(event, value) => stockSelected = value}
+                    {...stockProps}
+                    id="Stock"
+                    clearOnEscape
+                    renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
+                />
+                 <Autocomplete
+                    onChange={(event, value) => deleteLabelSelected = value}
+                    {...labelProps}
+                    id="Add Label"
+                    clearOnEscape
+                    renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
+                />
+                <Button variant="contained" color="secondary" onClick={editWeight}>
+                    Add label to stock
+                </Button>
 
                 {/*<Autocomplete*/}
                 {/*    id="grouped-demo"*/}
