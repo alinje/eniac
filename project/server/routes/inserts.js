@@ -17,7 +17,7 @@ const fs = require("fs");
 const fastcsv = require("fast-csv");
 //const conn = require("connection");
 
-let stream = fs.createReadStream('../database/PORTFOLIO_ALCUR.csv');
+let stream = fs.createReadStream('project/server/database/PORTFOLIO_ALCUR.csv');
 let csvData = [];
 let csvStream = fastcsv
   .parse({delimiter : ";"})
