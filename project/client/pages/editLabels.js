@@ -22,6 +22,7 @@ export default function EditLabels() {
 	const queryClient = useQueryClient()
 	const labelsdata = useQuery("dbLabelsdata", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
 	const stockswithlabeldata = useQuery("dbStocksWithLabelsData", () => fetch("http://localhost:3001/get-stocks-with-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
+    const stocksdata = useQuery("dbStocksData", () => fetch("http://localhost:3001/get-stocks").then(((res) => res.json()))) // despite the name, does not return a JSON object
 
     //Variables that becomes the current selected item
     let deleteLabelSelected = null
@@ -47,6 +48,21 @@ export default function EditLabels() {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({label: deleteLabelSelected.name})
+            }, window.location.reload())
+            const result = await res.json()
+	    }
+	}
+
+    const deleteLabelFromStock = async event => {
+        event.preventDefault()
+        if(deleteLabelSelected != null){
+            const res = await fetch('http://localhost:3001/deleteLabel', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    label: deleteLabelSelected.name,
+                    stock: stockSelected.name
+                })
             }, window.location.reload())
             const result = await res.json()
 	    }
@@ -85,7 +101,7 @@ export default function EditLabels() {
 	}
 	
 	//Sends the stocka and label through JSON to the server
-    const deleteLabelFromStock= async event => {
+   /* const deleteLabelFromStock= async event => {
         event.preventDefault()
 		const newJSON = {
 				'stock': event.target.stock.value,
@@ -97,7 +113,7 @@ export default function EditLabels() {
                 body: JSON.stringify(newJSON)
         },window.location.reload())
 		const result = await res.json()
-    }
+    }*/
 
     //Constant containing the labels
     const labelProps = {
@@ -106,7 +122,7 @@ export default function EditLabels() {
     };
     //Constant that SHOULD contain the stocks! But contains the labels for now....
     const stockProps = {
-        options: labelsdata.data,
+        options: stocksdata.data,
         getOptionLabel: (option) => option.name,
     };
 
@@ -192,6 +208,7 @@ export default function EditLabels() {
 
                 </div>
                 <div style={{ width: 300 }}>
+                <h2>Delete label</h2>
                 {/* New form for deleting a label*/}
                 <Autocomplete
                     onChange={(event, value) => deleteLabelSelected = value}
@@ -204,7 +221,9 @@ export default function EditLabels() {
                     Delete Label
                 </Button>
 
-                {/* New form for stocks (currently shows labels)*/}
+                <h2>Delete label from stock</h2>
+                {/* New form for deleting label from stock. Roll down menu where 
+                only labels and stocks from databse show*/}
                 <Autocomplete
                     onChange={(event, value) => stockSelected = value}
                     {...stockProps}
@@ -212,9 +231,20 @@ export default function EditLabels() {
                     clearOnEscape
                     renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
                 />
-                <Button variant="contained" color="secondary">
-                    Stock
+                 <Autocomplete
+                    onChange={(event, value) => deleteLabelSelected = value}
+                    {...labelProps}
+                    id="Delete Label"
+                    clearOnEscape
+                    renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
+                />
+                <Button variant="contained" color="secondary" onClick={deleteLabelFromStock}>
+                    Delete label from stock
                 </Button>
+
+                <h2>Add labels to stock with associated weight</h2>
+
+                <h2>Edit weight</h2>
 
                 {/*<Autocomplete*/}
                 {/*    id="grouped-demo"*/}
