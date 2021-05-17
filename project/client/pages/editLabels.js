@@ -94,7 +94,7 @@ export default function EditLabels() {
                 body: JSON.stringify({
                     label: deleteLabelSelected.name,
                     stock: stockSelected.name,
-                    weight: weight.value
+                    weight: assWeight
                 })
             }, window.location.reload())
             const result = await res.json()
@@ -162,13 +162,13 @@ export default function EditLabels() {
     const stockProps = {
         options: stocksdata.data,
         getOptionLabel: (option) => option.name,
-    };
+	};
+	const stockLabelProps = {
+        options: stockswithlabeldata.data,
+        getOptionLabel: (option) => option.stock,
+	};
+	
 
-    const testJSON = [{weight: '1'},{weight: '2'},{weight: '3'}]
-    const weightProps = {
-        options: testJSON,
-        getOptionLabel: (option) => option.weight,
-    };
 
 
     // const options = data.map((option) => {
@@ -178,7 +178,6 @@ export default function EditLabels() {
     //         ...option,
     //     };
     // });
-
 
 
     return (
@@ -303,8 +302,8 @@ export default function EditLabels() {
                     clearOnEscape
                     renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
                 />
-                <TextField
-                    onChange={(event, value) => assWeight = value}
+					<TextField
+				    onChange={(event) => assWeight=event.target.value}
                     id="standard-weight"
                     label="Weight"
                     type="number"
@@ -323,7 +322,7 @@ export default function EditLabels() {
                 <h2>Edit weight</h2>
                 <Autocomplete
                     onChange={(event, value) => stockSelected = value}
-                    {...stockProps}
+                    {...stockLabelProps}
                     id="Stock"
                     clearOnEscape
                     renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
@@ -336,7 +335,7 @@ export default function EditLabels() {
                     renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
                 />
                 <TextField
-                    onChange={(event, value) => assWeight = value}
+                    onChange={(event) => assWeight=event.target.value}
                     id="standard-weight"
                     label="Weight"
                     type="number"
