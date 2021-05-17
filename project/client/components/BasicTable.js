@@ -12,8 +12,9 @@ export default function BasicTable(props) {
 
     // Formats string to beginning character capitalized and '_' replaced with ' '
     const formatString = (str) => {
-        if (str.length < 2) return str.toUpperCase()
-        return str.charAt(0).toUpperCase() + str.replace(/_/g, ' ').slice(1)
+        fStr = String(str)
+        if (fStr.length < 2) return fStr.toUpperCase()
+        return fStr.charAt(0).toUpperCase() + fStr.replace(/_/g, ' ').slice(1)
     }
 
     /**
