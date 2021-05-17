@@ -58,7 +58,7 @@ const PortfoliosTblQuery =
 
 const LabelAggViewQuery = `
 CREATE VIEW LabelAgg AS
-SELECT stock, jsonb_agg(label || '; ') AS Labels
+SELECT stock, jsonb_agg(label) AS Labels
   FROM StocksWithLabels
   GROUP BY stock;
 `
