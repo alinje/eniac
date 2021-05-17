@@ -1,11 +1,48 @@
 // SPARA UNDAN GAMLA LABELS OCH STOCKSWITHLABELS
-// DROP ALL TABLES
+// DElETE ALL TABLES
 // LÄGG IN NYA STOCKS, MANAGERS OCH PORTFOLIOS
 // LÄGG IN GAMLA LABELS OCH STOCKSWITHLABELS
-
-
 const dB = require('../database/index.js')
+main()
 
+async function main(){
+
+  let oldLabels = []
+  let res = await sendQuery("SELECT * FROM Labels", []).then(res => res)
+  //res.then(res => res.json())
+  //console.log(res)
+  for (i = 0; i<res.rows.length;i++){
+    oldLabels.push(res.rows[i])
+  }
+
+  deleteAndInsert(oldLabels)
+
+
+}
+
+
+async function deleteAndInsert(oldLabels) {
+  try {
+    await sendQuery("BEGIN", []).then(res => res)
+    await sendQuery("DELETE FROM Labels;",[]).then(res => res)
+    //console.log("IM HERE!")
+
+    for (i = 0; i < oldLabels.length;i++){
+      //console.log(oldLabels[i].name)
+      //sendQuery("INSERT INTO Labels (name) VALUES ($1);", ['Fisk'])
+      await sendQuery("INSERT INTO Labels VALUES ($1);", [oldLabels[i].name]).then( res => res)
+    }
+
+    await sendQuery("COMMIT",[]).then(res => res)
+  }
+  catch (e) {
+    await sendQuery("ROLLBACK",[]).then(res => res)
+  }
+}
+
+
+
+/*
 const fs = require("fs");
 const fastcsv = require("fast-csv");
 let stream = fs.createReadStream('./project/server/database/PORTFOLIO_ALCUR.csv');
@@ -45,15 +82,7 @@ stream.pipe(csvStream);
 })().catch(e => console.error(e.stack))
 
 
-let oldLabels = []
-let res = sendQuery("SELECT * FROM Labels", [])
-res.then(function(result){
-  for (i = 0; i<result.rows.length;i++){
-    oldLabels.push(result.rows[i])
-  }
-  //console.log(oldLabels.length)
-  return res
-})
+
 
 let oldStocksWithLabels = []
 let stockWithLabelsRes = sendQuery("SELECT * FROM StocksWithLabels", [])
@@ -67,23 +96,7 @@ stockWithLabelsRes.then(function(result){
 
 deleteAndInsert(oldLabels)
 
-async function deleteAndInsert(oldLabels) {
-  try {
-    await dB.query("BEGIN", [])
 
-    console.log(oldLabels.length)
-
-    for (i = 0; i < oldLabels.length;i++){
-      await dB.query("INSERT INTO Labels VALUES ($1);", [oldLabels[i].name])
-    }
-
-    await dB.query("COMMIT",[])
-  }
-  catch (e) {
-    await dB.query("ROLLBACK",[])
-  }
-
-}
 
 /*
 let deleteRes = sendQuery("DELETE FROM Labels;",[])
@@ -104,8 +117,15 @@ deleteRes.then(function(result){
 */
 
 async function sendQuery(query, param){
-  const res = await dB.query(query, param)
-  return res
+  try{
+    const res = await dB.query(query, param)
+    console.log(res)
+    return res
+  } catch(e){
+    console.error(e.stack)
+    throw e
+  }
+
 }
 
 
