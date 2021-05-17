@@ -71,11 +71,17 @@ export default function BasicTable(props) {
     }) {
         // options is a set of the the different options for the filter, this is every value in any row in the column
         const options = useMemo(() => {
-            const options = new Set()
-            preFilteredRows.forEach(row => {
-                row.values.labels.forEach(item => options.add(item))
-            })
-            return [...options.values()]
+            try{
+                const options = new Set()
+                preFilteredRows.forEach(row => {
+                    row.values.labels.forEach(item => options.add(item))
+                })
+                return [...options.values()]
+            } catch(e){
+                console.log(e)
+                return []
+            }
+
         }, [id, preFilteredRows])
 
         const onChange = (e) => {
