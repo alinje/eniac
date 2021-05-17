@@ -231,25 +231,12 @@ export default function BasicTable(props) {
     );
 
 
-    const makeExpanderCell = {
-        Header: () => null, // No header
-        id: 'expander', // It needs an ID
-        Cell: ({ row }) => (
-            // Use Cell to render an expander for each row.
-            // We can use the getToggleRowExpandedProps prop-getter
-            // to build the expander.
-            <span {...row.getToggleRowExpandedProps()}>
-                {row.isExpanded ? '👇' : '👉'}
-            </span>
-        ),
-    }
-
 
     // sets columns based on the keys of the first item in data list
     const columns = useMemo(() => {
         try {
             //let keys = Object.keys(dataRows[0])
-            return [makeExpanderCell, ...Object.keys(dataRows[0]).map((key, id) => {
+            return Object.keys(dataRows[0]).map((key, id) => {
 
                 try {
                     return ({
@@ -276,7 +263,7 @@ export default function BasicTable(props) {
                         accessor: key
                     })
                 }
-            })]
+            })
         } catch (TypeError) {
             return [defaultColumn]
         }
@@ -286,7 +273,7 @@ export default function BasicTable(props) {
     const newTableFilter = (item, cat, filter) => {
         return item.labels.includes()
     }
-    
+
 
     const filterTypes = React.useMemo(
         () => ({
@@ -310,14 +297,14 @@ export default function BasicTable(props) {
 
     // Create a function that will render our row sub components
     const renderRowSubComponent = React.useCallback(
-        ({ row}) => (
+        ({ row }) => (
             <div>
                 <pre>
                     <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
                 </pre>
-                <PieChart/>
+                <PieChart />
                 {/*<BasicTable dataRows={dataRows.filter((item) => newTableFilter(item, "label", row.values.label))}/>*/}
-                
+
 
             </div>
 
@@ -361,8 +348,8 @@ export default function BasicTable(props) {
 
     return (
         <div>
-            <table {...getTableProps()} className="tableWhole">
-                <thead className="tableHeader" >
+            <table {...getTableProps()}>
+                <thead>
                     {
                         headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -408,19 +395,23 @@ export default function BasicTable(props) {
 
 
                             return (
-                                <React.Fragment >
-                                    <tr {...row.getRowProps()}>
-                                        {
-                                            row.cells.map((cell) => {
-                                                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                            })
-                                        }
+                                <React.Fragment>
+                                    <tr {...row.getRowProps()} {...row.getToggleRowExpandedProps()}>
+                                        
+                                            {
+                                                row.cells.map((cell) => {
+                                                    console.log(row.getToggleRowExpandedProps())
+                                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                                })
+                                            }
+                                        
+
                                     </tr>
                                     {/* renders the expanded content */}
                                     {row.isExpanded ? (
                                         <tr>
                                             <td colSpan={visibleColumns.length}>
-                                                {renderRowSubComponent({ row})}
+                                                {renderRowSubComponent({ row })}
                                             </td>
                                         </tr>
                                     ) : null}
