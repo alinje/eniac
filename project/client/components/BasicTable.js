@@ -216,36 +216,49 @@ export default function BasicTable(props) {
         }
     }
 
+    const defaultColumn = React.useMemo(
+        () => ({
+            // usage of defaultColumn will render BasicTable unusable. It does not however crash the entire application
+            accessor: "column_fail",
+            // default column uses default filter
+            Filter: DefaultColumnFilter
+        }),
+        []
+    );
 
     // sets columns based on the keys of the first item in data list
     const columns = useMemo(() => {
         try {
-            let keys = Object.keys(dataRows[0])
-            if (keys.length > 0) {
-                return Object.keys(dataRows[0]).map((key, id) => {
+            //let keys = Object.keys(dataRows[0])
+            return Object.keys(dataRows[0]).map((key, id) => {
+                try {
                     return ({
                         Header: formatString(key),
                         accessor: key,
                         Filter: findFilterFunc(key),
                         filter: findFilter(key),
-                        Cell: ({value}) => {
+                        Cell: ({ value }) => {
                             if (typeof value != "object") return formatString(value)
                             // if the cell value is an array we want to join the values with comma and spacing
                             try {
                                 const tagList = value.map(formatString).join(", ")
                                 return <span>{tagList}</span>
-                            } catch(Error){ // ugly way to catch case where cell value is neither flat nor array
+                            } catch (Error) { // ugly way to catch case where cell value is neither flat nor array
                                 return formatString(value)
                             }
 
                         }
                     })
-                })
-            } else {
-                return COLUMNS //TODO some kind of nicer default
-            }
+                } catch (e) {
+                    console.log(e)
+                    return ({
+                        Header: key,
+                        accessor: key
+                    })
+                }
+            })
         } catch (TypeError) {
-            return COLUMNS
+            return [defaultColumn]
         }
     }, [props.dataRows])
 
@@ -269,13 +282,7 @@ export default function BasicTable(props) {
         [props.dataRows]
     )
 
-    const defaultColumn = React.useMemo(
-        () => ({
-            // Let's set up our default Filter UI
-            Filter: DefaultColumnFilter
-        }),
-        []
-    );
+
 
     var tableInstance = useTable({
         columns,
@@ -314,7 +321,7 @@ export default function BasicTable(props) {
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {
                                     headerGroup.headers.map((column) => (
-                                        <th className="tableHeaderLabels" >  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
+                                        <th className="tableHeaderLabels" {...column.getHeaderProps()}>  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
                                             {column.render('Header')}
                                             {/* Add a sort direction indicator */}
                                             <span {...column.getHeaderProps(column.getSortByToggleProps())}>
