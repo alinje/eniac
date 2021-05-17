@@ -73,7 +73,8 @@ app.post('/addLabels', (req, res) => {
   dB.query("INSERT INTO Labels (name) VALUES ($1)", [label]);
   //addLabel(label)
   //res.json("Label added");
-  {/*return res.redirect('/editLabels');*/}
+  window.location.reload();
+  //return res.redirect('../client/pages/editLabels.js')
 });
 
 //Receives a JSON file from "editLabels.js" containing label name and deleting it
@@ -137,7 +138,22 @@ app.get("/get-PortfolioSummary", async (req, res) => {
 })
 
 app.get("/get-labels", async (req, res) => {
+    const pi = await  dB.query("SELECT * FROM Labels", [])
+    res.send(pi.rows)
+})
+
+app.get("/get-labels-summary", async (req, res) => {
     const pi = await  dB.query("SELECT * FROM LabelSummary", [])
+    res.send(pi.rows)
+})
+
+app.get("/get-stocks-with-labels", async (req, res) => {
+    const pi = await  dB.query("SELECT * FROM StocksWithLabels", [])
+    res.send(pi.rows)
+})
+
+app.get("/get-stocks", async (req, res) => {
+    const pi = await  dB.query("SELECT name FROM Stocks", [])
     res.send(pi.rows)
 })
 
