@@ -1,10 +1,11 @@
 import 'regenerator-runtime/runtime' // https://github.com/tannerlinsley/react-table/issues/2071
 import React, { useMemo, useEffect, useState } from 'react'
-import { useFilters, useGlobalFilter, usePagination, useSortBy, useTable, useAsyncDebounce } from 'react-table'
+import { useFilters, useGlobalFilter, usePagination, useSortBy, useTable, useAsyncDebounce, useExpanded } from 'react-table'
 import { matchSorter } from "match-sorter"
 import { COLUMNS } from './columns'
 
 import Slider from '@material-ui/core/Slider';
+import PieChart from '../public/PieChart'
 //import './table.module.css'
 
 
@@ -16,7 +17,7 @@ export default function BasicTable(props) {
             var fStr = String(str)
             if (fStr.length < 2) return fStr.toUpperCase()
             return fStr.charAt(0).toUpperCase() + fStr.replace(/_/g, ' ').slice(1)
-        } catch (e){
+        } catch (e) { // if column value is not supported as argument to String(str) the value is just returned in its original form
             console.log(e)
             return str
         }
@@ -77,13 +78,13 @@ export default function BasicTable(props) {
     }) {
         // options is a set of the the different options for the filter, this is every value in any row in the column
         const options = useMemo(() => {
-            try{
+            try {
                 const options = new Set()
                 preFilteredRows.forEach(row => {
                     row.values.labels.forEach(item => options.add(item))
                 })
                 return [...options.values()]
-            } catch(e){
+            } catch (e) {
                 console.log(e)
                 return []
             }
@@ -115,11 +116,14 @@ export default function BasicTable(props) {
                            * value is for filtering in onChange
                            * checked is a boolean determening whether the box is checked or not
                         */}
-                        <input type="checkbox" key={i} value={option || ''}
-                            name="label"
-                            checked={typeof filterValue !== 'undefined' && filterValue.includes(option) ? true : false}
-                            onChange={onChange}></input>
-                        <label for={i}>{formatString(option)}</label>
+                        <label>
+                            <input type="checkbox" key={i} value={option || ''}
+                                name="label"
+                                checked={typeof filterValue !== 'undefined' && filterValue.includes(option) ? true : false}
+                                onChange={onChange}></input>
+                            {formatString(option)}
+                        </label>
+
                     </span>
 
                 ))}
@@ -130,7 +134,7 @@ export default function BasicTable(props) {
 
     const multipleSelectionFilter = (rows, ids, filterValues) => {
         if (typeof filterValues == 'undefined' || filterValues.length === 0) return rows;
-        
+
         return rows.filter(row => { // returns rows which pass the test
             return ids.some(id => { // returns columns, of rows which pass the test, which test is applicable for
                 const rowValue = row.values[id] // values that can be determined passing or not
@@ -226,11 +230,27 @@ export default function BasicTable(props) {
         []
     );
 
+
+    const makeExpanderCell = {
+        Header: () => null, // No header
+        id: 'expander', // It needs an ID
+        Cell: ({ row }) => (
+            // Use Cell to render an expander for each row.
+            // We can use the getToggleRowExpandedProps prop-getter
+            // to build the expander.
+            <span {...row.getToggleRowExpandedProps()}>
+                {row.isExpanded ? '👇' : '👉'}
+            </span>
+        ),
+    }
+
+
     // sets columns based on the keys of the first item in data list
     const columns = useMemo(() => {
         try {
             //let keys = Object.keys(dataRows[0])
-            return Object.keys(dataRows[0]).map((key, id) => {
+            return [makeExpanderCell, ...Object.keys(dataRows[0]).map((key, id) => {
+
                 try {
                     return ({
                         Header: formatString(key),
@@ -256,11 +276,17 @@ export default function BasicTable(props) {
                         accessor: key
                     })
                 }
-            })
+            })]
         } catch (TypeError) {
             return [defaultColumn]
         }
+
     }, [props.dataRows])
+
+    const newTableFilter = (item, cat, filter) => {
+        return item.labels.includes()
+    }
+    
 
     const filterTypes = React.useMemo(
         () => ({
@@ -282,7 +308,27 @@ export default function BasicTable(props) {
         [props.dataRows]
     )
 
+    // Create a function that will render our row sub components
+    const renderRowSubComponent = React.useCallback(
+        ({ row}) => (
+            <div>
+                <pre>
+                    <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
+                </pre>
+                <PieChart/>
+                {/*<BasicTable dataRows={dataRows.filter((item) => newTableFilter(item, "label", row.values.label))}/>*/}
+                
 
+            </div>
+
+        ),
+        [props.dataRows]
+    )
+    /*const renderRowSubComponent = ({row}) => {
+        <div>
+            TJOHO
+        </div>
+    }*/
 
     var tableInstance = useTable({
         columns,
@@ -291,8 +337,9 @@ export default function BasicTable(props) {
         filterTypes,
     },
         useFilters,
-        useGlobalFilter,
-        useSortBy
+        //useGlobalFilter,
+        useSortBy,
+        useExpanded,
     )
 
     var {
@@ -301,10 +348,10 @@ export default function BasicTable(props) {
         headerGroups,
         rows,
         prepareRow,
-        state,
+        state: { expanded },
         visibleColumns,
-        preGlobalFilteredRows,
-        setGlobalFilter
+        //preGlobalFilteredRows,
+        //setGlobalFilter
     } = tableInstance
 
 
@@ -344,11 +391,12 @@ export default function BasicTable(props) {
                         <th colSpan={visibleColumns.length} style={{
                             textAlign: "left"
                         }}>
-                            <GlobalFilter
+                            {/* <GlobalFilter
                                 preGlobalFilteredRows={preGlobalFilteredRows}
                                 globalFilter={state.globalFilter}
                                 setGlobalFilter={setGlobalFilter}
-                            />
+                            /> */}
+
                         </th>
                     </tr>
                 </thead>
@@ -356,14 +404,27 @@ export default function BasicTable(props) {
                     {
                         rows.map(row => {
                             prepareRow(row)
+
+
+
                             return (
-                                <tr {...row.getRowProps()} className="tableRows">
-                                    {
-                                        row.cells.map((cell) => {
-                                            return <td className="tableItems"{...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                        })
-                                    }
-                                </tr>
+                                <React.Fragment >
+                                    <tr {...row.getRowProps()}>
+                                        {
+                                            row.cells.map((cell) => {
+                                                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                            })
+                                        }
+                                    </tr>
+                                    {/* renders the expanded content */}
+                                    {row.isExpanded ? (
+                                        <tr>
+                                            <td colSpan={visibleColumns.length}>
+                                                {renderRowSubComponent({ row})}
+                                            </td>
+                                        </tr>
+                                    ) : null}
+                                </React.Fragment>
                             )
                         }
                         )
