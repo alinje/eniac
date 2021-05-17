@@ -78,7 +78,7 @@ export default function EditLabels() {
                 body: JSON.stringify({
                     label: deleteLabelSelected.name,
                     stock: stockSelected.name,
-                    weight: weight.value
+                    weight: assWeight
                 })
             }, window.location.reload())
             const result = await res.json()
@@ -163,6 +163,13 @@ export default function EditLabels() {
         options: stocksdata.data,
         getOptionLabel: (option) => option.name,
     };
+
+    const testJSON = [{weight: '1'},{weight: '2'},{weight: '3'}]
+    const weightProps = {
+        options: testJSON,
+        getOptionLabel: (option) => option.weight,
+    };
+
 
     // const options = data.map((option) => {
     //     const firstLetter = option.name[0].toUpperCase();
@@ -259,6 +266,7 @@ export default function EditLabels() {
                     Delete Label
                 </Button>
 
+
                 <h2>Delete label from stock</h2>
                 {/* New form for deleting label from stock. Roll down menu where 
                 only labels and stocks from databse show*/}
@@ -295,8 +303,19 @@ export default function EditLabels() {
                     clearOnEscape
                     renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
                 />
+                <TextField
+                    onChange={(event, value) => assWeight = value}
+                    id="standard-weight"
+                    label="Weight"
+                    type="number"
+                    InputProps={{
+                        inputProps: {
+                            max: 3, min: 0, step: .1
+                        }
+                    }}
+                />
                 {/*Here we need a weight input*/}
-                <Button variant="contained" color="secondary" onClick={addLabelToStock}>
+                <Button variant="contained" color="primary" onClick={addLabelToStock}>
                     Add label to stock
                 </Button>
 
@@ -316,8 +335,19 @@ export default function EditLabels() {
                     clearOnEscape
                     renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
                 />
-                <Button variant="contained" color="secondary" onClick={editWeight}>
-                    Add label to stock
+                <TextField
+                    onChange={(event, value) => assWeight = value}
+                    id="standard-weight"
+                    label="Weight"
+                    type="number"
+                    InputProps={{
+                        inputProps: {
+                            max: 3, min: 0, step: .1
+                        }
+                    }}
+                />
+                <Button variant="contained" color="primary" onClick={editWeight}>
+                    Edit weight
                 </Button>
 
                 {/*<Autocomplete*/}
