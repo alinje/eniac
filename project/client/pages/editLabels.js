@@ -23,11 +23,13 @@ export default function EditLabels() {
 	const labelsdata = useQuery("dbLabelsdata", () => fetch("http://localhost:3001/get-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
 	const stockswithlabeldata = useQuery("dbStocksWithLabelsData", () => fetch("http://localhost:3001/get-stocks-with-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
     const stocksdata = useQuery("dbStocksData", () => fetch("http://localhost:3001/get-stocks").then(((res) => res.json()))) // despite the name, does not return a JSON object
+    const stocksonlywithlabeldata = useQuery("dbOnlyStocksWithLabelsData", () => fetch("http://localhost:3001/get-onlystocks-with-labels").then(((res) => res.json()))) // despite the name, does not return a JSON object
 
     //Variables that becomes the current selected item
     let deleteLabelSelected = null
     let stockSelected = null
-    let assWeight = null
+	let assWeight = null
+    let addLabelConst = null
 	
     //Sends the added label name through JSON to the server
 	const addLabel = async event => {
@@ -35,7 +37,7 @@ export default function EditLabels() {
         const res = await fetch('http://localhost:3001/addLabels', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({label: event.target.name.value})    
+                body: JSON.stringify({label: addLabelConst.name})    
 		},window.location.reload())
         const result = await res.json()
 
@@ -87,13 +89,13 @@ export default function EditLabels() {
 
     const editWeight = async event => {
         event.preventDefault()
-        if(deleteLabelSelected != null){
+		if (deleteLabelSelected != null) {
             const res = await fetch('http://localhost:3001/editWeight', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     label: deleteLabelSelected.name,
-                    stock: stockSelected.name,
+                    stock: stockSelected.stock,
                     weight: assWeight
                 })
             }, window.location.reload())
@@ -164,12 +166,10 @@ export default function EditLabels() {
         getOptionLabel: (option) => option.name,
 	};
 	const stockLabelProps = {
-        options: stockswithlabeldata.data,
+        options: stocksonlywithlabeldata.data,
         getOptionLabel: (option) => option.stock,
 	};
 	
-
-
 
     // const options = data.map((option) => {
     //     const firstLetter = option.name[0].toUpperCase();
@@ -252,6 +252,23 @@ export default function EditLabels() {
 
                 </div>
                 <div style={{ width: 300 }}>
+
+
+
+                <h2>Add label</h2>
+               
+				<TextField
+				    onChange={(event) => addLabelConst=event.target.value}
+                    id="Add label"
+                    label="Label"
+                    type="text"
+                    
+                />
+              
+                <Button variant="contained" color="primary" onClick={addLabel}>
+                    Add label to database
+                </Button>
+
                 <h2>Delete label</h2>
                 {/* New form for deleting a label*/}
                 <Autocomplete
@@ -302,7 +319,7 @@ export default function EditLabels() {
                     clearOnEscape
                     renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
                 />
-					<TextField
+				<TextField
 				    onChange={(event) => assWeight=event.target.value}
                     id="standard-weight"
                     label="Weight"
@@ -335,7 +352,7 @@ export default function EditLabels() {
                     renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
                 />
                 <TextField
-                    onChange={(event) => assWeight=event.target.value}
+				    onChange={(event) => assWeight=event.target.value}
                     id="standard-weight"
                     label="Weight"
                     type="number"
