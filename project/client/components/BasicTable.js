@@ -1,15 +1,32 @@
 import 'regenerator-runtime/runtime' // https://github.com/tannerlinsley/react-table/issues/2071
 import React, { useMemo, useEffect, useState } from 'react'
-import { useFilters, useGlobalFilter, usePagination, useSortBy, useTable, useAsyncDebounce } from 'react-table'
+import { useFilters, useGlobalFilter, usePagination, useSortBy, useTable, useAsyncDebounce, useExpanded } from 'react-table'
 import { matchSorter } from "match-sorter"
 import { COLUMNS } from './columns'
 
 import Slider from '@material-ui/core/Slider';
+import PieChart from '../public/PieChart'
 //import './table.module.css'
 
 
 export default function BasicTable(props) {
 
+    // Formats string to beginning character capitalized and '_' replaced with ' '
+    const formatString = (str) => {
+        try {
+            var fStr = String(str)
+            if (fStr.length < 2) return fStr.toUpperCase()
+            return fStr.charAt(0).toUpperCase() + fStr.replace(/_/g, ' ').slice(1)
+        } catch (e) { // if column value is not supported as argument to String(str) the value is just returned in its original form
+            console.log(e)
+            return str
+        }
+
+    }
+
+    /**
+     * UI for the global filter, presenting as the global search field
+     */
     const GlobalFilter = ({ preGlobalFilteredRows, globalFilter, setGlobalFilter, }) => {
         const count = preGlobalFilteredRows.length
         const [value, setValue] = useState(globalFilter)
@@ -36,6 +53,9 @@ export default function BasicTable(props) {
         )
     }
 
+    /**
+     * The default column filter is a search field
+     */
     function DefaultColumnFilter({
         column: { filterValue, preFilteredRows, setFilter },
     }) {
@@ -52,49 +72,88 @@ export default function BasicTable(props) {
         )
     }
 
+
     function CheckboxColumnFilter({
         column: { filterValue, setFilter, preFilteredRows, id },
     }) {
-        // Calculate the options for filtering
-        // using the preFilteredRows
-        const options = React.useMemo(() => {
-            const options = new Set()
-            preFilteredRows.forEach(row => {
-                options.add(row.values[id])
-            })
-            return [...options.values()]
+        // options is a set of the the different options for the filter, this is every value in any row in the column
+        const options = useMemo(() => {
+            try {
+                const options = new Set()
+                preFilteredRows.forEach(row => {
+                    row.values.labels.forEach(item => options.add(item))
+                })
+                return [...options.values()]
+            } catch (e) {
+                console.log(e)
+                return []
+            }
+
         }, [id, preFilteredRows])
 
-        // Render a multi-select box
+        const onChange = (e) => {
+            const t = e.target.value;
+            if (typeof filterValue === 'undefined' || filterValue === []) {
+                setFilter([t])
+            } else {
+                setFilter((old) => (old.includes(t) ? old.filter(filter => filter != t) : [...old, t]))
+            }
+        }
+
+        // https://github.com/tannerlinsley/react-table/discussions/2350
         return (
             <form
                 value={filterValue}
-                onChange={e => {
-                    setFilter(e.target.value || undefined)
-                }}
             >
-                <input type="checkbox" value="">All</input>
+                <input type="checkbox" key="All labels" value="" onChange={() => {
+                    if (typeof filterValue === 'undefined' || filterValue.length != 0) setFilter([])
+                }} checked={typeof filterValue === 'undefined' || filterValue.length == 0 ? true : false}
+                ></input>
+                <label for="All labels">All labels</label>
                 {options.map((option, i) => (
-                    <input type="checkbox" key={i} value={option}>
-                        {option}
-                    </input>
+                    <span>
+                        {/** key is for the checkbox label
+                           * value is for filtering in onChange
+                           * checked is a boolean determening whether the box is checked or not
+                        */}
+                        <label>
+                            <input type="checkbox" key={i} value={option || ''}
+                                name="label"
+                                checked={typeof filterValue !== 'undefined' && filterValue.includes(option) ? true : false}
+                                onChange={onChange}></input>
+                            {formatString(option)}
+                        </label>
+
+                    </span>
+
                 ))}
             </form>
         )
+    }
 
 
+    const multipleSelectionFilter = (rows, ids, filterValues) => {
+        if (typeof filterValues == 'undefined' || filterValues.length === 0) return rows;
+
+        return rows.filter(row => { // returns rows which pass the test
+            return ids.some(id => { // returns columns, of rows which pass the test, which test is applicable for
+                const rowValue = row.values[id] // values that can be determined passing or not
+                return rowValue.some(val => { // returns values which match any of the provided filters
+                    return filterValues.includes(val)
+                })
+            })
+        })
     }
 
 
     function SliderColumnFilter({
         column: { filterValue = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER], preFilteredRows, setFilter, id },
     }) {
-        // Calculate the min and max
-        // using the preFilteredRows
 
-        //TODO https://codesandbox.io/s/91yti?file=/demo.js
+        // https://codesandbox.io/s/91yti?file=/demo.js
 
 
+        // Min and max values are dynamic, changing depending on the values present in the column
         const [min, max] = useMemo(() => {
             let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
             let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
@@ -103,7 +162,7 @@ export default function BasicTable(props) {
                 max = Math.max(row.values[id], max)
             })
             return [min, max]
-        }, [id, preFilteredRows])
+        }, [id, filterValue])
 
 
         return (
@@ -140,47 +199,81 @@ export default function BasicTable(props) {
         switch (dataEx) {
             case "total_volume":
                 return SliderColumnFilter
-            /*case "labels":
-                return CheckboxColumnFilter*/
+            case "labels":
+                return CheckboxColumnFilter
             case "label":
             default:
                 return DefaultColumnFilter
         }
     }
 
-
+    // the documentation for these filters is well fucking hidden https://github.com/tannerlinsley/react-table/blob/master/src/filterTypes.js
     const findFilter = (dataEx) => {
         switch (dataEx) {
             case "total_volume":
                 return "between"
-            /*case "labels":
-                return "includes"*/
+            case "labels":
+                return multipleSelectionFilter // custom filter
             case "label":
             default:
                 return "fuzzyText"
         }
     }
 
+    const defaultColumn = React.useMemo(
+        () => ({
+            // usage of defaultColumn will render BasicTable unusable. It does not however crash the entire application
+            accessor: "column_fail",
+            // default column uses default filter
+            Filter: DefaultColumnFilter
+        }),
+        []
+    );
+
+
+
     // sets columns based on the keys of the first item in data list
     const columns = useMemo(() => {
         try {
-            let keys = Object.keys(dataRows[0])
-            if (keys.length > 0) {
-                return Object.keys(dataRows[0]).map((key, id) => {
+            //let keys = Object.keys(dataRows[0])
+            return Object.keys(dataRows[0]).map((key, id) => {
+
+                try {
                     return ({
-                        Header: key.charAt(0).toUpperCase() + key.slice(1), //TODO handle short strings
+                        Header: formatString(key),
                         accessor: key,
                         Filter: findFilterFunc(key),
-                        filter: findFilter(key)
+                        filter: findFilter(key),
+                        Cell: ({ value }) => {
+                            if (typeof value != "object") return formatString(value)
+                            // if the cell value is an array we want to join the values with comma and spacing
+                            try {
+                                const tagList = value.map(formatString).join(", ")
+                                return <span>{tagList}</span>
+                            } catch (Error) { // ugly way to catch case where cell value is neither flat nor array
+                                return formatString(value)
+                            }
+
+                        }
                     })
-                })
-            } else {
-                return COLUMNS //TODO some kind of nicer default
-            }
+                } catch (e) {
+                    console.log(e)
+                    return ({
+                        Header: key,
+                        accessor: key
+                    })
+                }
+            })
         } catch (TypeError) {
-            return COLUMNS
+            return [defaultColumn]
         }
+
     }, [props.dataRows])
+
+    const newTableFilter = (item, cat, filter) => {
+        return item.labels.includes()
+    }
+
 
     const filterTypes = React.useMemo(
         () => ({
@@ -202,13 +295,27 @@ export default function BasicTable(props) {
         [props.dataRows]
     )
 
-    const defaultColumn = React.useMemo(
-        () => ({
-            // Let's set up our default Filter UI
-            Filter: DefaultColumnFilter
-        }),
-        []
-    );
+    // Create a function that will render our row sub components
+    const renderRowSubComponent = React.useCallback(
+        ({ row }) => (
+            <div>
+                <pre>
+                    <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
+                </pre>
+                <PieChart />
+                {/*<BasicTable dataRows={dataRows.filter((item) => newTableFilter(item, "label", row.values.label))}/>*/}
+
+
+            </div>
+
+        ),
+        [props.dataRows]
+    )
+    /*const renderRowSubComponent = ({row}) => {
+        <div>
+            TJOHO
+        </div>
+    }*/
 
     var tableInstance = useTable({
         columns,
@@ -217,8 +324,9 @@ export default function BasicTable(props) {
         filterTypes,
     },
         useFilters,
-        useGlobalFilter,
-        useSortBy
+        //useGlobalFilter,
+        useSortBy,
+        useExpanded,
     )
 
     var {
@@ -227,12 +335,11 @@ export default function BasicTable(props) {
         headerGroups,
         rows,
         prepareRow,
-        state,
+        state: { expanded },
         visibleColumns,
-        preGlobalFilteredRows,
-        setGlobalFilter
+        //preGlobalFilteredRows,
+        //setGlobalFilter
     } = tableInstance
-
 
 
 
@@ -241,23 +348,23 @@ export default function BasicTable(props) {
 
     return (
         <div>
-            <table {...getTableProps()} className="tableWhole">
-                <thead className="tableHeader" >
+            <table {...getTableProps()}>
+                <thead>
                     {
                         headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {
                                     headerGroup.headers.map((column) => (
-                                        <th className="tableHeaderLabels" >  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
+                                        <th className="tableHeaderLabels" {...column.getHeaderProps()}>  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
                                             {column.render('Header')}
                                             {/* Add a sort direction indicator */}
-                                            <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                            <span {...column.getHeaderProps(column.getSortByToggleProps())}>
                                                 {column.isSorted
                                                     ? column.isSortedDesc
                                                         ? ' 🔽'
                                                         : ' 🔼'
                                                     : ' ⏫'}
-                                            </div>
+                                            </span>
                                             <div>{column.canFilter ? column.render('Filter') : null}</div>
 
                                         </th>
@@ -271,11 +378,12 @@ export default function BasicTable(props) {
                         <th colSpan={visibleColumns.length} style={{
                             textAlign: "left"
                         }}>
-                            <GlobalFilter
+                            {/* <GlobalFilter
                                 preGlobalFilteredRows={preGlobalFilteredRows}
                                 globalFilter={state.globalFilter}
                                 setGlobalFilter={setGlobalFilter}
-                            />
+                            /> */}
+
                         </th>
                     </tr>
                 </thead>
@@ -283,26 +391,37 @@ export default function BasicTable(props) {
                     {
                         rows.map(row => {
                             prepareRow(row)
+
+
+
                             return (
-                                <tr {...row.getRowProps()} className="tableRows">
-                                    {
-                                        row.cells.map((cell) => {
-                                            return <td className="tableItems"{...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                        })
-                                    }
-                                </tr>
+                                <React.Fragment>
+                                    <tr {...row.getRowProps()} {...row.getToggleRowExpandedProps()}>
+                                        
+                                            {
+                                                row.cells.map((cell) => {
+                                                    console.log(row.getToggleRowExpandedProps())
+                                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                                })
+                                            }
+                                        
+
+                                    </tr>
+                                    {/* renders the expanded content */}
+                                    {row.isExpanded ? (
+                                        <tr>
+                                            <td colSpan={visibleColumns.length}>
+                                                {renderRowSubComponent({ row })}
+                                            </td>
+                                        </tr>
+                                    ) : null}
+                                </React.Fragment>
                             )
                         }
                         )
                     }
                 </tbody>
-
             </table>
-            <div>
-                <pre>
-                    <code>{JSON.stringify(state.filters, null, 2)}</code>
-                </pre>
-            </div>
         </div>
     )
 }
