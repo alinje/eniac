@@ -29,6 +29,7 @@ export default function EditLabels() {
     let deleteLabelSelected = null
     let stockSelected = null
 	let assWeight = null
+    let assEditWeight = null
     let addLabelConst = null
 	
     //Sends the added label name through JSON to the server
@@ -37,7 +38,7 @@ export default function EditLabels() {
         const res = await fetch('http://localhost:3001/addLabels', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({label: addLabelConst.name})    
+                body: JSON.stringify({label: addLabelConst})
 		},window.location.reload())
         const result = await res.json()
 
@@ -56,6 +57,7 @@ export default function EditLabels() {
 	    }
 	}
 
+    //Sends stock and label name through JSON to the server
     const deleteLabelFromStock = async event => {
         event.preventDefault()
         if(deleteLabelSelected != null){
@@ -74,6 +76,7 @@ export default function EditLabels() {
     const addLabelToStock = async event => {
         event.preventDefault()
         if(deleteLabelSelected != null){
+            if(assWeight == null){assWeight=1}
             const res = await fetch('http://localhost:3001/addLabelsToStock', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -90,95 +93,37 @@ export default function EditLabels() {
     const editWeight = async event => {
         event.preventDefault()
 		if (deleteLabelSelected != null) {
+            if(assEditWeight == null){assEditWeight=1}
             const res = await fetch('http://localhost:3001/editWeight', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     label: deleteLabelSelected.name,
                     stock: stockSelected.stock,
-                    weight: assWeight
+                    weight: assEditWeight
                 })
             }, window.location.reload())
             const result = await res.json()
 	    }
 	}
 
-    //This is a function for the old forms
-	//Sends the stock, label and weight through JSON to the server
-	/*const addLabelToStock= async event => {
-        event.preventDefault()
-		const newJSON = {
-				'stock': event.target.stock.value,
-				'label': event.target.label.value,
-				'weight': event.target.weight.value
-			};
-        const res = await fetch('http://localhost:3001/addLabelsToStock', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(newJSON)           //Sends the added stock
-        },window.location.reload())
-        const result = await res.json()
-	}
-    */
-	
-    //This is a function for the old forms
-	//Sends the stock, label and weight through JSON to the server
-    /*const editWeight= async event => {
-        event.preventDefault()
-		const newJSON = {
-				'stock': event.target.stock.value,
-				'label': event.target.label.value,
-				'weight': event.target.weight.value
-			};
-        const res = await fetch('http://localhost:3001/editWeight', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(newJSON)           //Sends the edited weight
-        },window.location.reload())
-		const result = await res.json()
-	}
-    */
-	
-    //This is a function for the old forms
-	//Sends the stocka and label through JSON to the server
-   /* const deleteLabelFromStock= async event => {
-        event.preventDefault()
-		const newJSON = {
-				'stock': event.target.stock.value,
-				'label': event.target.label.value,
-			};
-        const res = await fetch('http://localhost:3001/deleteLabelFromStock', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(newJSON)
-        },window.location.reload())
-		const result = await res.json()
-    }*/
 
     //Constant containing the labels
     const labelProps = {
         options: labelsdata.data,
         getOptionLabel: (option) => option.name,
     };
-    //Constant that SHOULD contain the stocks! But contains the labels for now....
+    //Constant containing ALL the stocks
     const stockProps = {
         options: stocksdata.data,
         getOptionLabel: (option) => option.name,
 	};
+    //Constant containing only the stocks with labels
 	const stockLabelProps = {
         options: stocksonlywithlabeldata.data,
         getOptionLabel: (option) => option.stock,
 	};
 	
-
-    // const options = data.map((option) => {
-    //     const firstLetter = option.name[0].toUpperCase();
-    //     return {
-    //         firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-    //         ...option,
-    //     };
-    // });
-
 
     return (
         /* TODO something about flex is messing with the style classes */
@@ -193,187 +138,135 @@ export default function EditLabels() {
                 /* Forms for editing and adding labels*/
                 }
     
-				    <div className={styles.fillLeft}>
+                <div className={styles.fillApp}>
                     <div>
 
-                    <h1>Edit labels</h1>
+                <h1>Edit labels</h1>
 
-                {/* A form for adding a label*/}
-                <h2>Add new label</h2>
-                <form onSubmit={addLabel}>
-                    <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
-                    <button type="submit">Add label</button>
-                </form>
+                    <div style={{ width: 300 }}>
 
-                {/* A form for deleting a label*/}
-                <h2>Delete label</h2>
-                <form onSubmit={deleteLabel}>
-				    <input id="name" name="name" type="text" placeholder="Label" autoComplete="name" required />
-                    <button type="submit">Delete label</button>
-                </form>
+                    <h2>Add label</h2>
 
-                {/* A form for adding labels to stocks with associated weight*/}
-                <h2>Add labels to stock with associated weight</h2>
-                <form onSubmit={addLabelToStock}>
-                    <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
-                    <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
-                    <input id="weight" name="weight" type="number" step=".1" min="0" max="3" placeholder= "weight" autoComplete="weight" required />
-                    <button type="submit">Add label to stock with associated weight</button>
-                </form>
 
-                {/* A form for editing weights*/}
-                <h2>Edit weight</h2>
-                <form onSubmit={editWeight}>
-                    <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
-                    <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
-                    <input id="weight" name="weight" type="number" step=".1" min="0" max="3" placeholder= "weight" autoComplete="weight" required />
-                    <button type="submit">Edit weight</button>
-                </form>
+                    <TextField
+                        onChange={(event) => addLabelConst=event.target.value}
+                        id="Add label"
+                        label="Label"
+                        type="text"
+                    />
+                    <Button variant="contained" color="primary" onClick={addLabel}>
+                        Create label
+                    </Button>
 
-                {/* A form for deleting labels from specific stocks*/}
-                <h2>Delete label from stock</h2>
-                    <form onSubmit={deleteLabelFromStock}>
-                        <input id="stock" name="stock" type="text" placeholder= "Stock" autoComplete="stock" required />
-                        <input id="label" name="label" type="text" placeholder= "Label" autoComplete="label" required />
-                        <button type="submit">Delete label from stock</button>
-                    </form>
+
+                    <h2>Add labels to stock with associated weight</h2>
+                    <Autocomplete
+                        onChange={(event, value) => stockSelected = value}
+                        {...stockProps}
+                        id="Stock"
+                        clearOnEscape
+                        renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
+                    />
+                    <Autocomplete
+                        onChange={(event, value) => deleteLabelSelected = value}
+                        {...labelProps}
+                        id="Add Label"
+                        clearOnEscape
+                        renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
+                    />
+                    <TextField
+                        onChange={(event) => assWeight=event.target.value}
+                        id="standard-weight"
+                        label="Weight"
+                        type="number"
+                        InputProps={{
+                            inputProps: {
+                                max: 3, min: 0, step: .1
+                            }
+                        }}
+                    />
+                    <Button variant="contained" color="primary" onClick={addLabelToStock}>
+                        Add label to stock
+                    </Button>
+
+
+                    <h2>Edit weight</h2>
+                    <Autocomplete
+                        onChange={(event, value) => stockSelected = value}
+                        {...stockLabelProps}
+                        id="Stock"
+                        clearOnEscape
+                        renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
+                    />
+                    <Autocomplete
+                        onChange={(event, value) => deleteLabelSelected = value}
+                        {...labelProps}
+                        id="Add Label"
+                        clearOnEscape
+                        renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
+                    />
+                    <TextField
+                        onChange={(event) => assEditWeight=event.target.value}
+                        id="standard-weight"
+                        label="Weight"
+                        type="number"
+                        InputProps={{
+                            inputProps: {
+                                max: 3, min: 0, step: .1
+                            }
+                        }}
+                    />
+                    <Button variant="contained" color="primary" onClick={editWeight}>
+                        Edit weight
+                    </Button>
+
+
+                    <h2>Delete label from stock</h2>
+                    {/* Form for deleting label from stock. Roll down menu where
+                    only labels and stocks from databse show*/}
+                    <Autocomplete
+                        onChange={(event, value) => stockSelected = value}
+                        {...stockProps}
+                        id="Stock"
+                        clearOnEscape
+                        renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
+                    />
+                    <Autocomplete
+                        onChange={(event, value) => deleteLabelSelected = value}
+                        {...labelProps}
+                        id="Delete Label"
+                        clearOnEscape
+                        renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
+                    />
+                    <Button variant="contained" color="secondary" onClick={deleteLabelFromStock}>
+                        Delete label from stock
+                    </Button>
+
+
+                    <h2>Delete label</h2>
+                    {/* Form for deleting a label*/}
+                    <Autocomplete
+                        onChange={(event, value) => deleteLabelSelected = value}
+                        {...labelProps}
+                        id="Delete Label"
+                        clearOnEscape
+                        renderInput={(params) => <TextField {...params} label="Delete Label" margin="normal" />}
+                    />
+                    <Button variant="contained" color="secondary" onClick={deleteLabel}>
+                        Delete Label
+                    </Button>
+
+
+                    </div>
                     </div>
 
+                    <div className={styles.fillLeftRight}>
+                        <BasicTable dataRows={labelsdata.data} />
+                    </div>
 
-                    
-                <div className={styles.fillLeftRight}>
-                <BasicTable dataRows={labelsdata.data} />
-                </div>
-
-                <div className={styles.fillLeftRight}>
-                    <BasicTable dataRows={stockswithlabeldata.data} />
-                </div>
-
-
-                </div>
-                <div style={{ width: 300 }}>
-
-
-
-                <h2>Add label</h2>
-               
-				<TextField
-				    onChange={(event) => addLabelConst=event.target.value}
-                    id="Add label"
-                    label="Label"
-                    type="text"
-                    
-                />
-              
-                <Button variant="contained" color="primary" onClick={addLabel}>
-                    Add label to database
-                </Button>
-
-                <h2>Delete label</h2>
-                {/* New form for deleting a label*/}
-                <Autocomplete
-                    onChange={(event, value) => deleteLabelSelected = value}
-                    {...labelProps}
-                    id="Delete Label"
-                    clearOnEscape
-                    renderInput={(params) => <TextField {...params} label="Delete Label" margin="normal" />}
-                />
-                <Button variant="contained" color="secondary" onClick={deleteLabel}>
-                    Delete Label
-                </Button>
-
-
-                <h2>Delete label from stock</h2>
-                {/* New form for deleting label from stock. Roll down menu where 
-                only labels and stocks from databse show*/}
-                <Autocomplete
-                    onChange={(event, value) => stockSelected = value}
-                    {...stockProps}
-                    id="Stock"
-                    clearOnEscape
-                    renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
-                />
-                 <Autocomplete
-                    onChange={(event, value) => deleteLabelSelected = value}
-                    {...labelProps}
-                    id="Delete Label"
-                    clearOnEscape
-                    renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
-                />
-                <Button variant="contained" color="secondary" onClick={deleteLabelFromStock}>
-                    Delete label from stock
-                </Button>
-
-                <h2>Add labels to stock with associated weight</h2>
-                <Autocomplete
-                    onChange={(event, value) => stockSelected = value}
-                    {...stockProps}
-                    id="Stock"
-                    clearOnEscape
-                    renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
-                />
-                 <Autocomplete
-                    onChange={(event, value) => deleteLabelSelected = value}
-                    {...labelProps}
-                    id="Add Label"
-                    clearOnEscape
-                    renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
-                />
-				<TextField
-				    onChange={(event) => assWeight=event.target.value}
-                    id="standard-weight"
-                    label="Weight"
-                    type="number"
-                    InputProps={{
-                        inputProps: {
-                            max: 3, min: 0, step: .1
-                        }
-                    }}
-                />
-                {/*Here we need a weight input*/}
-                <Button variant="contained" color="primary" onClick={addLabelToStock}>
-                    Add label to stock
-                </Button>
-
-
-                <h2>Edit weight</h2>
-                <Autocomplete
-                    onChange={(event, value) => stockSelected = value}
-                    {...stockLabelProps}
-                    id="Stock"
-                    clearOnEscape
-                    renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
-                />
-                 <Autocomplete
-                    onChange={(event, value) => deleteLabelSelected = value}
-                    {...labelProps}
-                    id="Add Label"
-                    clearOnEscape
-                    renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
-                />
-                <TextField
-				    onChange={(event) => assWeight=event.target.value}
-                    id="standard-weight"
-                    label="Weight"
-                    type="number"
-                    InputProps={{
-                        inputProps: {
-                            max: 3, min: 0, step: .1
-                        }
-                    }}
-                />
-                <Button variant="contained" color="primary" onClick={editWeight}>
-                    Edit weight
-                </Button>
-
-                {/*<Autocomplete*/}
-                {/*    id="grouped-demo"*/}
-                {/*    options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}*/}
-                {/*    groupBy={(option) => option.firstLetter}*/}
-                {/*    getOptionLabel={(option) => option.name}*/}
-                {/*    style={{ width: 300 }}*/}
-                {/*    renderInput={(params) => <TextField {...params} label="With categories" variant="outlined" />}*/}
-                {/*/>*/}
+                    <div className={styles.fillLeftRight}>
+                        <BasicTable dataRows={stockswithlabeldata.data} />
+                    </div>
 
                 </div>
 
@@ -387,7 +280,6 @@ export default function EditLabels() {
 
 
             </main>
-
 
         </div>
     )

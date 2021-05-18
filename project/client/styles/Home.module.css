@@ -36,6 +36,15 @@
     grid-gap: 100px;
 }
 
+.fillApp {
+    padding: 3rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    grid-gap: 100px;
+    align-items: end;
+}
+
 .footer {
     width: 100%;
     height: 100px;
