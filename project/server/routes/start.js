@@ -81,7 +81,7 @@ CREATE VIEW PortfolioSummary AS
  FROM PortfolioInfo JOIN Portfolios using (stock)
  WHERE PortfolioInfo.classification = 'LONG'
  GROUP BY PortfolioInfo.manager, PortfolioInfo.classification)
- ORDER BY total_value);
+ ORDER BY manager);
 `
 
 const LabelSummaryViewQuery = `CREATE VIEW LabelSummary AS
