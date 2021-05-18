@@ -152,6 +152,11 @@ app.get("/get-stocks-with-labels", async (req, res) => {
     res.send(pi.rows)
 })
 
+app.get("/get-onlystocks-with-labels", async (req, res) => {
+    const pi = await  dB.query("SELECT DISTINCT stock FROM StocksWithLabels", [])
+    res.send(pi.rows)
+})
+
 app.get("/get-stocks", async (req, res) => {
     const pi = await  dB.query("SELECT name FROM Stocks", [])
     res.send(pi.rows)
