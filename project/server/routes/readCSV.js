@@ -1,131 +1,113 @@
-// SPARA UNDAN GAMLA LABELS OCH STOCKSWITHLABELS
-// DElETE ALL TABLES
-// LÄGG IN NYA STOCKS, MANAGERS OCH PORTFOLIOS
-// LÄGG IN GAMLA LABELS OCH STOCKSWITHLABELS
 const dB = require('../database/index.js')
-main()
-
-async function main(){
-
-  let oldLabels = []
-  let res = await sendQuery("SELECT * FROM Labels", []).then(res => res)
-  //res.then(res => res.json())
-  //console.log(res)
-  for (i = 0; i<res.rows.length;i++){
-    oldLabels.push(res.rows[i])
-  }
-
-  deleteAndInsert(oldLabels)
-
-
-}
-
-
-async function deleteAndInsert(oldLabels) {
-  try {
-    await sendQuery("BEGIN", []).then(res => res)
-    await sendQuery("DELETE FROM Labels;",[]).then(res => res)
-    //console.log("IM HERE!")
-
-    for (i = 0; i < oldLabels.length;i++){
-      //console.log(oldLabels[i].name)
-      //sendQuery("INSERT INTO Labels (name) VALUES ($1);", ['Fisk'])
-      await sendQuery("INSERT INTO Labels VALUES ($1);", [oldLabels[i].name]).then( res => res)
-    }
-
-    await sendQuery("COMMIT",[]).then(res => res)
-  }
-  catch (e) {
-    await sendQuery("ROLLBACK",[]).then(res => res)
-  }
-}
-
-
-
-/*
-const fs = require("fs");
 const fastcsv = require("fast-csv");
-let stream = fs.createReadStream('./project/server/database/PORTFOLIO_ALCUR.csv');
-let csvData = [];
-let csvStream = fastcsv
-  .parse({delimiter : ";"})
-  .on("data", function(data) {
-    csvData.push(data);
-  })
-  .on("end", function() {
-    // remove the first line: header
-    csvData.shift();
-
-    // connect to the PostgreSQL database
-    // save csvData
-  });
-
-stream.pipe(csvStream);
+const fs = require('fs');
+let stream = fs.createReadStream('project/server/database/PORTFOLIO_ALCUR.csv'); // CHANGE THIS PATH TO DYNAMIC PATH
+let csvData = []
 
 
-;(async () => {
-  await dB.query('BEGIN')
-  let newStockList = []
-  try {
-
-    for (i = 0 ; i < csvData.length ; i++ ){
-      row = csvData[i]
-      newStockList.push(row[1])
-    }
-    //console.log(newStockList)
-    await dB.query('COMMIT')
-  } catch (e) {
-    await dB.query('ROLLBACK')
-    throw e
-  } finally {
+function getCSVData(csvData){
+    return new Promise((resolve,reject)=>{
+        let csvStream = fastcsv
+        .parse({delimiter : ";"})
+        .on("data", function(data) {
+          csvData.push(data);
+        })
+        .on("end", function() {
+          // remove the first line: header
+          csvData.shift();
+        });
+      
+        stream.pipe(csvStream);
+        setTimeout(()=>{
+            resolve();
+        ;} , 2500
+        );
+    });
+    
 }
-})().catch(e => console.error(e.stack))
+
+async function callerFun(csvData){
+    await getCSVData(csvData);
+    let newStockList = []
+    let newManagerList = []
+    let newPortfolioList = []
+
+    //#region get new Lists 
+    let addedStockList = []
+    let addedManagerList = []
+    let skipList = ["", "LONG", "TICKER", " ", "."];
+    var classification = "LONG"
+    try{
+        for (i = 0 ; i < csvData.length ; i++ ){
+            row = csvData[i]
+            //console.log(row[1])
+            if (row[1] == "SHORT"){
+                break;
+            }
+            if (row[1] == "LONG"){
+                classification = "SHORT"
+            }
+            if (!skipList.includes(row[1])){
+                //console.log(newStockList.length)
+                if (!addedStockList.includes(row[1])){
+                    newStockList.push([row[1], row[4],row[12].replace(",",".")])
+                    addedStockList.push(row[1])
+                }
 
 
+                if (!addedManagerList.includes(row[11])){
+                    newManagerList.push([row[11]])
+                    addedManagerList.push(row[11])
+                }
 
+                newPortfolioList.push([row[11], row[1], row[13].replace(/ /g,''), classification])
 
-let oldStocksWithLabels = []
-let stockWithLabelsRes = sendQuery("SELECT * FROM StocksWithLabels", [])
-stockWithLabelsRes.then(function(result){
-  for (i = 0; i<result.rows.length;i++){
-    oldStocksWithLabels.push(result.rows[i])
-  }
-  //console.log(oldStocksWithLabels)
-  //process.exit()
-})
-
-deleteAndInsert(oldLabels)
-
-
-
-/*
-let deleteRes = sendQuery("DELETE FROM Labels;",[])
-deleteRes.then(function(result){
-
-  try {
-    sendQuery("BEGIN",[]).then((res)=>res)
-    for (i = 0; i < oldLabels.length;i++){
-      sendQuery("INSERT INTO Labels VALUES ($1);", [oldLabels[i].name]).then((res) => res)
+            }
+        }
+    } catch(e){
+        console.error(e)
     }
-    sendQuery("COMMIT",[]).then((res)=>res)
-  } catch (e) {
-    sendQuery("ROLLBACK",[]).then((res)=>res)
-    throw e
-  }
 
-})
-*/
+    //#endregion
+    //console.log(newStockList)
+
+
+    //#region deleting tables values and adding new ones
+    //Deleting old stocks, managers and portfolios
+    await sendQuery("DELETE FROM Portfolios",[]).then(res => res)
+    await sendQuery("DELETE FROM Stocks",[]).then(res => res)
+    await sendQuery("DELETE FROM Managers",[]).then(res => res)
+
+
+
+    // adding new stocks to database
+    for (i = 0 ; i < newStockList.length; i++){
+        await sendQuery("INSERT INTO Stocks VALUES ($1, $2, $3)", newStockList[i])
+    }
+
+    // adding new managers to database
+    for (i = 0 ; i < newManagerList.length; i++){
+        await sendQuery("INSERT INTO Managers VALUES ($1)", newManagerList[i])
+    }
+
+    // adding new portfolios to database
+    for (i = 0 ; i < newPortfolioList.length; i++){
+        await sendQuery("INSERT INTO Portfolios VALUES ($1, $2, $3, $4)", newPortfolioList[i])
+    }
+    //#endregion
+
+}
 
 async function sendQuery(query, param){
-  try{
-    const res = await dB.query(query, param)
-    console.log(res)
-    return res
-  } catch(e){
-    console.error(e.stack)
-    throw e
+    try{
+      const res = await dB.query(query, param)
+      //console.log(res)
+      return res
+    } catch(e){
+      console.error(e.stack)
+      throw e
+    }
+  
   }
 
-}
-
-
+callerFun(csvData);
