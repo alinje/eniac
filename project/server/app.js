@@ -169,6 +169,49 @@ FROM StocksWithLabels LEFT JOIN shortSumLabel USING (label) LEFT JOIN longSumLab
     res.send(pi.rows)
 })
 
+app.get("/get-stocksummary", async (req, res) => {
+    const q =   `WITH shortSumStock AS
+	(SELECT stock, sum(PortfolioInfo.value) AS shortSum
+	From PortfolioInfo
+	WHERE classification = 'SHORT'
+	GROUP BY stock),
+longSumStock AS
+	(SELECT stock, sum(PortfolioInfo.value) AS longSum
+	From PortfolioInfo
+	WHERE classification = 'LONG'
+	GROUP BY stock),
+totalSumStock AS
+	(SELECT stock, sum(PortfolioInfo.value) AS totalSum
+	From PortfolioInfo
+	GROUP BY stock)
+SELECT DISTINCT stock, COALESCE(longSum,0) AS longSum, COALESCE(shortSum,0) AS shortSum, totalSum
+FROM PortfolioInfo LEFT JOIN shortSumStock USING (stock) LEFT JOIN longSumStock USING (stock) LEFT JOIN totalSumStock USING (stock)
+ORDER BY stock;`
+    const pi = await  dB.query(q,[])
+    res.send(pi.rows)
+})
+
+app.get("/get-managersummary", async (req, res) => {
+    const q =   `WITH shortSumManager AS
+	(SELECT manager, sum(PortfolioInfo.value) AS shortSum
+	From PortfolioInfo
+	WHERE classification = 'SHORT'
+	GROUP BY manager),
+longSumManager AS
+	(SELECT manager, sum(PortfolioInfo.value) AS longSum
+	From PortfolioInfo
+	WHERE PortfolioInfo.classification = 'LONG'
+	GROUP BY manager),
+totalSumManager AS
+	(SELECT manager, sum(PortfolioInfo.value) AS totalSum
+	From PortfolioInfo
+	GROUP BY manager)
+SELECT DISTINCT PortfolioInfo.manager, COALESCE(longSum,0) AS longSum, COALESCE(shortSum,0) AS shortSum, totalSum
+FROM PortfolioInfo LEFT JOIN shortSumManager USING (manager) LEFT JOIN longSumManager USING (manager) LEFT JOIN totalSumManager USING (manager);`
+    const pi = await  dB.query(q,[])
+    res.send(pi.rows)
+})
+
 app.get("/get-stocks-with-labels", async (req, res) => {
     const pi = await  dB.query("SELECT * FROM StocksWithLabels", [])
     res.send(pi.rows)
