@@ -38,7 +38,6 @@ CREATE TABLE StocksWithLabels(
   weight NUMERIC(2,1),
 
   PRIMARY KEY(stock,label),
-  FOREIGN KEY(stock) REFERENCES Stocks(name),
   FOREIGN KEY(label) REFERENCES Labels(name) ON DELETE CASCADE,
   CHECK (weight>0 AND weight<=3)
 );`
