@@ -27,8 +27,8 @@ export default function Home() {
     const hello = useQuery("hello", () => fetch("http://localhost:3001/home").then((res) => res.json()))
     const [msg, setMsg] = useState("tjabba")
     const [dBData, setDBData] = useState("ye")
-    const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels-summary").then(((res) => res.json())))
-    const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels-summary").then(((res) => res.json()))) // despite the name, does not return a JSON object
+    const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labelsummary").then(((res) => res.json())))
+    const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labelsummary").then(((res) => res.json()))) // despite the name, does not return a JSON object
     return (
         <div className={styles.container}>
             {/* html elements beginning with capital letters are actually React elements */}

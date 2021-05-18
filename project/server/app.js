@@ -147,6 +147,28 @@ app.get("/get-labels-summary", async (req, res) => {
     res.send(pi.rows)
 })
 
+app.get("/get-labelsummary", async (req, res) => {
+    const q =   `WITH shortSumLabel AS
+	(SELECT label, sum(PortfolioInfo.value) AS shortSum
+	From StocksWithLabels, PortfolioInfo
+	WHERE StocksWithLabels.stock = PortfolioInfo.stock AND PortfolioInfo.classification = 'SHORT'
+	GROUP BY StocksWithLabels.label),
+longSumLabel AS
+	(SELECT label, sum(PortfolioInfo.value) AS longSum
+	From StocksWithLabels, PortfolioInfo
+	WHERE StocksWithLabels.stock = PortfolioInfo.stock AND PortfolioInfo.classification = 'LONG'
+	GROUP BY StocksWithLabels.label),
+totalSumLabel AS
+	(SELECT label, sum(PortfolioInfo.value) AS totalSum
+	From StocksWithLabels, PortfolioInfo
+    WHERE StocksWithLabels.stock = PortfolioInfo.stock
+	GROUP BY StocksWithLabels.label)
+SELECT DISTINCT StocksWithLabels.label, COALESCE(longSum,0) AS longSum, COALESCE(shortSum,0) AS shortSum, totalSum
+FROM StocksWithLabels LEFT JOIN shortSumLabel USING (label) LEFT JOIN longSumLabel USING (label) LEFT JOIN totalSumLabel USING (label);`
+    const pi = await  dB.query(q,[])
+    res.send(pi.rows)
+})
+
 app.get("/get-stocks-with-labels", async (req, res) => {
     const pi = await  dB.query("SELECT * FROM StocksWithLabels", [])
     res.send(pi.rows)
