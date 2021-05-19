@@ -4,7 +4,7 @@ import rawJson from '../public/test_data.json';
 import { useQuery } from 'react-query';
 
 
-export default function PieChart(props) {
+export default function PieChart(props, sign) {
 
 
 
@@ -24,10 +24,11 @@ export default function PieChart(props) {
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-        var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
+
+        var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c', '#a41a1c', '#a42f1c']);
 
         var pie = d3.pie().value(function (d) {
-            if(Math.sign(d.totalsum) === -1){
+            if(Math.sign(d.totalsum) === sign){
                 return null
             }
             return d.totalsum;
@@ -58,7 +59,7 @@ export default function PieChart(props) {
                 return "translate(" + label.centroid(d) + ")";
             })
             .text(function (d) {
-                if(Math.sign(d.data.totalsum) === -1){
+                if(Math.sign(d.data.totalsum) === sign){
                     return null
                 }
                 return d.data.label; });
