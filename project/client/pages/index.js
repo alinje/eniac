@@ -19,7 +19,7 @@ import BarPlotChart from "../public/BarPlotChart";
 
 import BasicTable from "../components/BasicTable";
 
-import {init} from '../public/script.js'
+import ImportData, {init} from '../public/ImportData.js'
 
 
 //import App from '../public/app.js'
@@ -38,7 +38,6 @@ export default function Home() {
             <Head>
                 <title>Label Master 3000</title>
                 <link rel="icon" href="/favicon.ico" />
-                <script src="script.js"></script>
             </Head>
 
             <br/> {/*I didn't want the title so close to the top. There's probably a more elegant way to do this.*/}
@@ -60,12 +59,6 @@ export default function Home() {
                     </Link>
             </pre>
 
-            <body onSubmit={() => init()}>
-                <input id="fileInput" type="file" name="file" />
-                <input type="submit"></input>
-                <pre id="fileContent"></pre>
-
-            </body>
 
             {/*
             </div>/div>form onSubmit="importData(id, [])">
@@ -76,7 +69,9 @@ export default function Home() {
 
             <main className={styles.main}>
                 {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
-
+                <div>
+                    <ImportData/>
+                </div>
                 <div>
                     <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
                     <button onClick={() => setDBData(JSON.stringify(dBConnect.data))}>{dBData}</button>
