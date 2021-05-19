@@ -1,0 +1,11 @@
+What do I want to learn or understand better?
+Tycker fortfarande det är lite svårt att förstå exakt hur vi ska testa och i vilken omfattning. I dagsläget så testar vi helt enkelt funktionaliteten genom att testa hemsidan men borde kanske testköra själva koden mer.
+
+How can I help someone else, or the entire team, to learn something new?
+Trots att vi jobbat en del med databaser genom projektet finns det en del i gruppen som fortfarande har lite dålig koll på det. Ska försöka att visa lite mer av det framöver! Dessutom har jag försökt hjälpa till genom att svara på frågor och vara tydlig i kommunikationen.
+
+What is my contribution towards the team’s use of Scrum?
+Som vanligt har jag försökt att vara delaktig på våra möten under veckan och komma med nya inspel och ideér. Var extra delaktig under vår team reflection då vi skulle välja olika områden att jobba utifrån.
+
+What is my contribution towards the team’s deliveries?
+Tycker jag bidragit i den user storyn jag blev tilldelad i början av veckan. Lagt lite mindre tid dock på grund av inlämning av kandidatarbete men varit med på alla våra gemensamma sessions och varit aktiv genom att starta live session och committa till Git.

@@ -16,8 +16,8 @@ export const COLUMNS = [
         accessor: 'stock'
     },
     {
-        Header: 'Percent',
-        accessor: 'procent'
+        Header: 'labels',
+        accessor: 'labels'
     },
     {
         Header: 'Volume',

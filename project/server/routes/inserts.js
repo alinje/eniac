@@ -17,7 +17,7 @@ const fs = require("fs");
 const fastcsv = require("fast-csv");
 //const conn = require("connection");
 
-let stream = fs.createReadStream('./project/server/database/PORTFOLIO_ALCUR.csv');
+let stream = fs.createReadStream('../database/PORTFOLIO_ALCUR.csv');
 let csvData = [];
 let csvStream = fastcsv
   .parse({delimiter : ";"})
@@ -45,7 +45,7 @@ stream.pipe(csvStream);
         const addStockQuery = "INSERT INTO Stocks (name, market, price) VALUES ($1, $2, $3)";
         const addManagerQuery = "INSERT INTO Managers (name) VALUES ($1)";
         const addPortfolioQuery = "INSERT INTO Portfolios (manager, stock, volume, classification) VALUES ($1, $2, $3, $4)";
-        let skipList = ["", "LONG", "TICKER" ," "];
+        let skipList = ["", "LONG", "TICKER", " "];
         var classification = "LONG"
         let stockList = [];
         let managerList = [];

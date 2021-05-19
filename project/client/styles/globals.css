@@ -13,6 +13,7 @@ a {
     box-sizing: border-box;
 }
 
+
 /* related to LineDiagram.js */
 
 .legend {
@@ -37,29 +38,40 @@ a {
     font-weight: bold;
 }
 
-/* related to BasicTable.js */
-.tableWhole {
-    border: 2px solid black;
+/* related to tables */
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+    color: #000000;
 }
 
-.tableHeader {
-    /* works */
-    border: 1px solid black;
+th {
+    background-color: #B8CCE0;
+    border: 2px solid #ffffff;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    line-height: 1.6;
 }
 
-.tableHeaderLabels {
-    border: 2px solid black;
-    padding: 3px;
+tr {
+    background-color: #F1F5F9;
 }
 
-.tableRows {
-    /* works */
-    border: 1px solid black;
-
+tr:nth-child(even){
+    background-color: #E2EAF3;
 }
 
-.tableItems{
-    border: 1px solid black;
-    padding: 3px;
+tr:hover{
+    background-color: #D4E0EC;
+}
 
+th, td {
+    padding: 6px;
+}
+
+td{
+    border: 1px solid #ffffff;
 }

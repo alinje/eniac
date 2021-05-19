@@ -1,0 +1,14 @@
+What do I want to learn or understand better
+Jag vill lära mig mer hur man kan skapa en databas som ligger i repositoryn och inte lokalt på datorn. 
+Jag vill även lära mig att skicka fil från front-end och använda den i back-end
+
+How can I help someone else, or the entire team, to learn something new
+Jag kan hjälpa min grupp med databas-förfrågningar och utvecklandet av databasen. 
+
+What is my contribution towards the team’s use of Scrum
+Jag har varit delaktig med att komma på user stories samt tasks för varje user story. 
+
+What is my contribution towards the team’s deliveries
+Delaktig i user story för att få in databas tabeller på förvaltarsidan
+Mergat detta till main dessutom. 
+Påbörjat kod för att ladda upp en excel-fil på hemsidan som uppdaterar databasen.
