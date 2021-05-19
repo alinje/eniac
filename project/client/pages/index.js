@@ -18,6 +18,7 @@ import DistributionChart from "../public/DistributionChart";
 import BarPlotChart from "../public/BarPlotChart";
 
 import BasicTable from "../components/BasicTable";
+import NavTabs from '../public/TabPanel'
 
 //import App from '../public/app.js'
 
@@ -36,6 +37,7 @@ export default function Home() {
                 <title>Label Master 3000</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+            <NavTabs/>
 
             <br/> {/*I didn't want the title so close to the top. There's probably a more elegant way to do this.*/}
             <br/>
