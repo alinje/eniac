@@ -116,7 +116,7 @@ export default function Home() {
                         <BarChart />
                     </div>
                     <div className={styles.card}>
-                        <PieChart/>
+                        <PieChart data={dBConnect.data}/>
                     </div>
 
                     <div className={styles.card}>
