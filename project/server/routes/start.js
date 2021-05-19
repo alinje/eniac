@@ -58,7 +58,7 @@ const PortfoliosTblQuery =
 
 const LabelAggViewQuery = `
 CREATE VIEW LabelAgg AS
-SELECT stock, jsonb_agg(label || '; ') AS Labels
+SELECT stock, jsonb_agg(label) AS Labels
   FROM StocksWithLabels
   GROUP BY stock;
 `
@@ -81,7 +81,7 @@ CREATE VIEW PortfolioSummary AS
  FROM PortfolioInfo JOIN Portfolios using (stock)
  WHERE PortfolioInfo.classification = 'LONG'
  GROUP BY PortfolioInfo.manager, PortfolioInfo.classification)
- ORDER BY total_value);
+ ORDER BY manager);
 `
 
 const LabelSummaryViewQuery = `CREATE VIEW LabelSummary AS
