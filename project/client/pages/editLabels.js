@@ -137,17 +137,14 @@ export default function EditLabels() {
                 {/* Link to homepage*/
                 /* Forms for editing and adding labels*/
                 }
-    
-                <div className={styles.fillApp}>
-                    <div>
-
                 <h1>Edit labels</h1>
-
-                    <div style={{ width: 300 }}>
-
-                    <h2>Add label</h2>
+                <div className={styles.wrapper}>
 
 
+
+
+                    <div className={styles.nested}>
+                    <h3>Add label</h3>
                     <TextField
                         onChange={(event) => addLabelConst=event.target.value}
                         id="Add label"
@@ -157,9 +154,25 @@ export default function EditLabels() {
                     <Button variant="contained" color="primary" onClick={addLabel}>
                         Create label
                     </Button>
+                    </div>
 
+                    <div className={styles.nested}>
+                        <h3>Delete label</h3>
+                        {/* Form for deleting a label*/}
+                        <Autocomplete
+                            onChange={(event, value) => deleteLabelSelected = value}
+                            {...labelProps}
+                            id="Delete Label"
+                            clearOnEscape
+                            renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
+                        />
+                        <Button variant="contained" color="secondary" onClick={deleteLabel}>
+                            Delete Label
+                        </Button>
+                    </div>
 
-                    <h2>Add labels to stock with associated weight</h2>
+                    <div className={styles.nested}>
+                    <h3>Add labels to stock with associated weight</h3>
                     <Autocomplete
                         onChange={(event, value) => stockSelected = value}
                         {...stockProps}
@@ -188,9 +201,35 @@ export default function EditLabels() {
                     <Button variant="contained" color="primary" onClick={addLabelToStock}>
                         Add label to stock
                     </Button>
+                    </div>
 
 
-                    <h2>Edit weight</h2>
+                    <div className={styles.nested}>
+                        <h3>Delete label from stock</h3>
+                        {/* Form for deleting label from stock. Roll down menu where
+                    only labels and stocks from databse show*/}
+                        <Autocomplete
+                            onChange={(event, value) => stockSelected = value}
+                            {...stockProps}
+                            id="Stock"
+                            clearOnEscape
+                            renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
+                        />
+                        <Autocomplete
+                            onChange={(event, value) => deleteLabelSelected = value}
+                            {...labelProps}
+                            id="Delete Label"
+                            clearOnEscape
+                            renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
+                        />
+                        <Button variant="contained" color="secondary" onClick={deleteLabelFromStock}>
+                            Delete label from stock
+                        </Button>
+                    </div>
+
+
+                    <div className={styles.nested}>
+                    <h3>Edit weight</h3>
                     <Autocomplete
                         onChange={(event, value) => stockSelected = value}
                         {...stockLabelProps}
@@ -219,56 +258,22 @@ export default function EditLabels() {
                     <Button variant="contained" color="primary" onClick={editWeight}>
                         Edit weight
                     </Button>
-
-
-                    <h2>Delete label from stock</h2>
-                    {/* Form for deleting label from stock. Roll down menu where
-                    only labels and stocks from databse show*/}
-                    <Autocomplete
-                        onChange={(event, value) => stockSelected = value}
-                        {...stockProps}
-                        id="Stock"
-                        clearOnEscape
-                        renderInput={(params) => <TextField {...params} label="Stock" margin="normal" />}
-                    />
-                    <Autocomplete
-                        onChange={(event, value) => deleteLabelSelected = value}
-                        {...labelProps}
-                        id="Delete Label"
-                        clearOnEscape
-                        renderInput={(params) => <TextField {...params} label="Label" margin="normal" />}
-                    />
-                    <Button variant="contained" color="secondary" onClick={deleteLabelFromStock}>
-                        Delete label from stock
-                    </Button>
-
-
-                    <h2>Delete label</h2>
-                    {/* Form for deleting a label*/}
-                    <Autocomplete
-                        onChange={(event, value) => deleteLabelSelected = value}
-                        {...labelProps}
-                        id="Delete Label"
-                        clearOnEscape
-                        renderInput={(params) => <TextField {...params} label="Delete Label" margin="normal" />}
-                    />
-                    <Button variant="contained" color="secondary" onClick={deleteLabel}>
-                        Delete Label
-                    </Button>
-
-
-                    </div>
                     </div>
 
+                    <div className={styles.box1}>
                     <div className={styles.fillLeftRight}>
                         <BasicTable dataRows={labelsdata.data} />
                     </div>
+                    </div>
 
+                    <div className={styles.box2}>
                     <div className={styles.fillLeftRight}>
                         <BasicTable dataRows={stockswithlabeldata.data} />
                     </div>
-
+                    </div>
                 </div>
+
+
 
                 <div className={styles.grid}>
                     <Link href="/" passHref>
