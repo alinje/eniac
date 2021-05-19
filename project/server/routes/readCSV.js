@@ -1,9 +1,29 @@
 const dB = require('../database/index.js')
 const fastcsv = require("fast-csv");
 const fs = require('fs');
-let stream = fs.createReadStream('project/server/database/PORTFOLIO_ALCUR.csv'); // CHANGE THIS PATH TO DYNAMIC PATH
+var stream = fs.createReadStream('../server/database/PORTFOLIO_ALCUR.csv'); // CHANGE THIS PATH TO DYNAMIC PATH
 let csvData = []
 
+function setCSV(file){
+
+    if (file !== [] && typeof file !== 'undefined'){
+        stream = fs.createReadStream(file)
+        callerFun([])
+    }
+    /*
+    if (file !== [] && typeof file !== 'undefined'){
+        splitTxtTmp = file.split('\n')
+        splitTxt = splitTxtTmp.map((val) => {
+            return val.split(';')
+        })
+        //console.log(splitTxt)
+        callerFun(splitTxt)
+    }*/
+}
+
+module.exports = {
+    setCSV: setCSV,
+}
 
 function getCSVData(csvData){
     return new Promise((resolve,reject)=>{
