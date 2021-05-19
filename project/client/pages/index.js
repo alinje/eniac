@@ -14,8 +14,7 @@ import Image from 'next/image'
 
 import TestGraph, { GraphClass, graphMsg } from '../public/testVisual.js'
 import BarChart from '../public/BarChart.js'
-import DistributionChart from "../public/DistributionChart";
-import BarPlotChart from "../public/BarPlotChart";
+import PieChart from "../public/PieChart";
 
 import BasicTable from "../components/BasicTable";
 
@@ -116,9 +115,9 @@ export default function Home() {
                     <div className={styles.card}>
                         <BarChart />
                     </div>
-                    {/*<div className={styles.card}>
+                    <div className={styles.card}>
                         <PieChart/>
-                    </div>*/}
+                    </div>
 
                     <div className={styles.card}>
                         <Image
