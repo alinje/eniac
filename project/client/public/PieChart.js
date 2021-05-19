@@ -27,7 +27,10 @@ export default function PieChart(props) {
         var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
 
         var pie = d3.pie().value(function (d) {
-            return d.procent;
+            if(Math.sign(d.totalsum) === -1){
+                return null
+            }
+            return d.totalsum;
         });
 
         var path = d3.arc()
@@ -46,7 +49,7 @@ export default function PieChart(props) {
 
         arc.append("path")
             .attr("d", path)
-            .attr("fill", function (d) { return color(d.data.stock); });
+            .attr("fill", function (d) { return color(d.data.label); });
 
         console.log(arc)
 
@@ -54,7 +57,11 @@ export default function PieChart(props) {
             .attr("transform", function (d) {
                 return "translate(" + label.centroid(d) + ")";
             })
-            .text(function (d) { return d.data.stock; });
+            .text(function (d) {
+                if(Math.sign(d.data.totalsum) === -1){
+                    return null
+                }
+                return d.data.label; });
 }, [props.data])
 
 // the first argument function is called upon every time a change happens to one of the objects in the second argument array
