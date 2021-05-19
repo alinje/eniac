@@ -141,6 +141,36 @@
     height: 1em;
 }
 
+/*Emil's cool custom grid*/
+.wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+    align-items: start;
+}
+
+.nested{
+    display: grid;
+    grid-template-columns: 200px;
+    grid-template-rows: 20px;
+    grid-column-gap: 1em;
+    grid-row-gap: 5px;
+    align-items: center;
+}
+
+
+.box1{
+    grid-column: 3;
+    grid-row: 1/10;
+}
+.box2{
+    grid-column: 4;
+    grid-row: 1/10;
+}
+
+
+
 @media (max-width: 600px) {
     .grid {
         width: 100%;
