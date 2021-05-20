@@ -167,6 +167,7 @@ export default function Home() {
                         <p>Label editor (ingen länk ännu)</p>
                     </div>
                 </div>
+                </div>
             </main>
 
             <p><a href="https://youtube.com/playlist?list=PLZ4DbyIWUwCq4V8bIEa8jm2ozHZVuREJP">Click here for a good time!</a></p>
