@@ -18,8 +18,8 @@ import BasicTable from "../components/BasicTable";
 export default function Trustees() {
 
 
-    const portfolioData = useQuery("dbPortfolio", () => fetch("http://localhost:3001/get-portfolioinfo").then(((res) => res.json())))
-    const summaryData = useQuery("dbPortfolioSummary", () => fetch("http://localhost:3001/get-PortfolioSummary").then(((res) => res.json())))
+    const portfolioData = useQuery("dbPortfolio", () => fetch("http://localhost:3001/get-stocksummary").then(((res) => res.json())))
+    const summaryData = useQuery("dbPortfolioSummary", () => fetch("http://localhost:3001/get-managersummary").then(((res) => res.json())))
     return (
         /* TODO something about flex is messing with the style classes */
         <div /*className={styles.container}*/>
@@ -40,7 +40,7 @@ export default function Trustees() {
                 
                 
                 <div className={styles.fillLeftRight}>
-                    <BasicTable dataRows={summaryData.data} />
+                    <BasicTable dataRows={summaryData.data} childShow={['manager']} />
                 </div>
                 
 

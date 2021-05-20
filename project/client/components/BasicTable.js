@@ -298,49 +298,41 @@ export default function BasicTable(props) {
         [props.dataRows]
     )
 
-    /*
-    const selectedLabel = async (currLabel) => {
-        if (props.query != undefined) {
-            const res = useQuery("stockArg", await fetch('http://localhost:3001/get-stocks-from-stockswithlabels-with-argument'.then(() => res.json()), {
-                body: JSON.stringify({
-                    label: currLabel
-                })
-            }))
-
-        }
-    }*/
-
-
-/*
-    useEffect(() => {
-
-    }, [selectedLabel])*/
 
     // Create a function that will render our row sub components
     const renderRowSubComponent = React.useCallback(
+        /*
 
+
+*/
 
         ({ row }) => {
-            //selectedLabel(row.values.label)
-            return (<div>
-                <pre>
-                    <SubComponentLabel data={row.values.label} />
-                </pre>
-                <PieChart />
-                {/*<BasicTable dataRows={dataRows.filter((item) => newTableFilter(item, "label", row.values.label))}/>*/}
 
+            if (typeof props.childShow === 'undefined') {
+                return (<div></div>)
+            }
+            return (
+                <div>
+                    {props.childShow.map((val) => {
+                        return renderASubComp(row, val)
+                    })}
 
-            </div>)
+                </div>
 
-
+            )
         },
-        [props.dataRows/*, selectedLabel.data*/]
+        [props.dataRows]
     )
-    /*const renderRowSubComponent = ({row}) => {
-        <div>
-            TJOHO
-        </div>
-    }*/
+
+    const renderASubComp = (row, type) => {
+
+
+        return (
+            <div>
+                <SubComponentLabel data={row.values[type]} show={type} />
+            </div>
+        )
+    }
 
     var tableInstance = useTable({
         columns,

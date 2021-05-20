@@ -212,24 +212,19 @@ app.get("/get-stocks-with-labels", async (req, res) => {
     const pi = await  dB.query("SELECT * FROM StocksWithLabels", [])
     res.send(pi.rows)
 })
-/*
-var getStocksFromStockswithlabelsWithArgumentVal = ''
 
-app.post("/get-stocks-from-stockswithlabels-with-argument", async (req, res) => {
-    
-    const label = req.body.label;
-    console.log('bf')
-    const pi = await  dB.query("SELECT stock FROM StocksWithLabels WHERE label = ($1)", [label])
-    getStocksFromStockswithlabelsWithArgumentVal = pi.rows
-    console.log(pi.rows)
+app.get("/get-stocks-from-portfolio-with-argument", async (req, res) => {
+    const m = req.query.manager;
+    const pi = await  dB.query("SELECT stock, volume, classification FROM Portfolios WHERE manager = ($1)", [m])
     res.send(pi.rows)
-})*/
+})
+
 
 app.get("/get-stocks-from-stockswithlabels-with-argument", async (req, res) => {
     //res.send(getStocksFromStockswithlabelsWithArgumentVal)
     //console.log(req)
     const label = req.query.label;
-    const pi = await  dB.query("SELECT stock FROM StocksWithLabels WHERE label = ($1)", [label])
+    const pi = await  dB.query("SELECT stock, weight FROM StocksWithLabels WHERE label = ($1)", [label])
     res.send(pi.rows)
 })
 
