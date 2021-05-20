@@ -14,6 +14,8 @@ import LineDiagram from '../public/LineDiagram.js'
 import DistributionChart from '../public/DistributionChart.js'
 
 import BasicTable from "../components/BasicTable";
+import NavTabs from '../public/TabPanel'
+
 
 export default function Trustees() {
 
@@ -29,6 +31,7 @@ export default function Trustees() {
             </Head>
             <main /*className={styles.main}*/>
                                 {/* Link to homepage*/}
+                                <NavTabs/>
                                 <div className={styles.grid}>
                     <Link href="/" passHref>
                         <div className={styles.card}>
