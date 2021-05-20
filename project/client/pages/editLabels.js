@@ -16,6 +16,8 @@ import BasicTable from "../components/BasicTable";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button';
+import NavTabs from '../public/TabPanel'
+
 
 
 export default function EditLabels() {
@@ -149,8 +151,15 @@ export default function EditLabels() {
                 {/* Link to homepage*/
                 /* Forms for editing and adding labels*/
                 }
+
+                <NavTabs/>
+    
+                <div className={styles.fillApp}>
+                    <div>
+                  
                 <div className={styles.wrapper}>
                 <h1 >Edit labels</h1>
+
 
                     <Link href="/" passHref>
                         <div className={styles.card}>
