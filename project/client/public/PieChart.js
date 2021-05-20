@@ -4,18 +4,16 @@ import rawJson from '../public/test_data.json';
 import { useQuery } from 'react-query';
 
 
-export default function PieChart(props, sign) {
-
-
+export default function PieChart(props) {
 
     const myRef = React.useRef(null)
-    // the first argument function is called upon every time a change happens to one of the objects in the second argument array
-    useEffect(() => {
+
+    function Double(sign){
         //var rawJson = JSON.parse("project/client/public/test_data.json")
         const { data = { rows: [{ amount: 0 }] } } = props
-        //console.log({ pieChart: data })
-        var width = 800,
-            height = 800,
+        console.log({ pieChart: data })
+        var width = 400,
+            height = 400,
             radius = Math.min(width, height) / 2;
 
         var svg = d3.select(myRef.current).append("svg")
@@ -25,13 +23,14 @@ export default function PieChart(props, sign) {
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 
-        var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c', '#a41a1c', '#a42f1c']);
+        //var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c', '#a41a1c', '#a42f1c']);
+        var color = d3.scaleOrdinal(d3.schemePaired)
 
         var pie = d3.pie().value(function (d) {
             if(Math.sign(d.totalsum) === sign){
                 return null
             }
-            return d.totalsum;
+            return Math.abs(d.totalsum);
         });
 
         var path = d3.arc()
@@ -40,7 +39,7 @@ export default function PieChart(props, sign) {
 
         var label = d3.arc()
             .outerRadius(radius)
-            .innerRadius(radius - 80);
+            .innerRadius(radius - 100);
 
 
         var arc = svg.selectAll(".arc")
@@ -63,6 +62,14 @@ export default function PieChart(props, sign) {
                     return null
                 }
                 return d.data.label; });
+    }
+
+
+    // the first argument function is called upon every time a change happens to one of the objects in the second argument array
+    useEffect(() => {
+        Double(1)
+        Double(-1)
+
 }, [props.data])
 
 // the first argument function is called upon every time a change happens to one of the objects in the second argument array

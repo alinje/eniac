@@ -5,6 +5,8 @@ const client = new Client({
 connectionString:connectionString
 })*/
 //const getPortfolioInfo = require('../../project/server/database/connection.js')
+
+const read = require('../server/routes/readCSV.js')
 const dB = require('../server/database/index.js')
 const express = require('express') // node´s own import system
 const cors = require('cors')
@@ -32,7 +34,7 @@ const client = new Client({
 async function getPortfolioInfo(manager) {
     const { Pool, Client } = require('pg')
     const connectionString = 'postgressql://postgres:postgres@localhost:5432/eniacdb'
-    
+
     const client = new Client({
         connectionString: connectionString
     })
@@ -66,15 +68,43 @@ app.get("/grid-data", (req, res) => {
     })
 })
 
+app.post('/import-portfolio-alcur', async (req, res) => {
+    //await new Promise(r => setTimeout(r, 1000))
+
+    const { file } = req.body
+
+
+    if (typeof file === 'undefined') {
+
+        res.json({ message: 'Could not add item!' })
+        return
+    } else {
+        //console.log(path)
+    }
+
+    read.setCSV(file)
+
+    res.json('Success')
+    return
+
+});
+
+app.get('/import-portfolio-alcur', (req, res) => {
+    res.send({
+        ts: Date.now(),
+    })
+
+})
+
 //Receives a JSON file from "editLabels.js" containing label name and adding it
 app.post('/addLabels', (req, res) => {
-  const label = req.body.label;
-  console.log('Adding label', label);
-  dB.query("INSERT INTO Labels (name) VALUES ($1)", [label]);
-  //addLabel(label)
-  //res.json("Label added");
-  window.location.reload();
-  //return res.redirect('../client/pages/editLabels.js')
+    const label = req.body.label;
+    console.log('Adding label', label);
+    dB.query("INSERT INTO Labels (name) VALUES ($1)", [label]);
+    //addLabel(label)
+    //res.json("Label added");
+    window.location.reload();
+    //return res.redirect('../client/pages/editLabels.js')
 });
 
 //Receives a JSON file from "editLabels.js" containing label name and deleting it
@@ -89,19 +119,19 @@ app.post('/deleteLabel', (req, res) => {
 //Receives a JSON file from "editLabels.js" containing stock, label and weight
 app.post('/addLabelsToStock', (req, res) => {
     const label = req.body.label;
-	const stock = req.body.stock;
-	const weight = req.body.weight;
-    dB.query('INSERT INTO StocksWithLabels VALUES($1,$2, $3)', [stock,label,weight])
+    const stock = req.body.stock;
+    const weight = req.body.weight;
+    dB.query('INSERT INTO StocksWithLabels VALUES($1,$2, $3)', [stock, label, weight])
     console.log('Adding labels to stock with associated weight', stock, label, weight);
-	//res.json("Label added to stock");
-	});
+    //res.json("Label added to stock");
+});
 
 //Receives a JSON file from "editLabels.js" containing stock, label and weight
 app.post('/editWeight', (req, res) => {
     const label = req.body.label;
-	const stock = req.body.stock;
-	const weight = req.body.weight;
-    dB.query('UPDATE StocksWithLabels SET weight=($1) WHERE stock=($2) AND label=($3)', [weight,stock,label])
+    const stock = req.body.stock;
+    const weight = req.body.weight;
+    dB.query('UPDATE StocksWithLabels SET weight=($1) WHERE stock=($2) AND label=($3)', [weight, stock, label])
     console.log('Editing weight', stock, label, weight);
     //editWeight(stock,label,weight)
     //res.json("Weight changed");
@@ -110,9 +140,25 @@ app.post('/editWeight', (req, res) => {
 //Receives a JSON file from "editLabels.js" containing stock and label
 app.post('/deleteLabelFromStock', (req, res) => {
     const label = req.body.label;
-	const stock = req.body.stock;
+    const stock = req.body.stock;
     console.log('Deleting label', stock, label);
-    dB.query('DELETE FROM StocksWithLabels WHERE stock=($1) AND label=($2)', [stock,label])
+    dB.query('DELETE FROM StocksWithLabels WHERE stock=($1) AND label=($2)', [stock, label])
+    //deleteLabelFromStock(stock,label)
+    //res.json("Label deleted from stock");
+});
+
+app.post('/insert-into-stock', (req, res) => {
+    const name = req.body.name;
+    const market = req.body.market;
+    const price = req.body.price;
+    dB.query("INSERT INTO Stocks VALUES ($1, $2, $3)", [name, market, price])
+    //deleteLabelFromStock(stock,label)
+    //res.json("Label deleted from stock");
+});
+
+app.post('/insert-into-managers', (req, res) => {
+    const name = req.body.name;
+    dB.query("INSERT INTO Stocks VALUES ($1)", [name])
     //deleteLabelFromStock(stock,label)
     //res.json("Label deleted from stock");
 });
@@ -129,17 +175,17 @@ app.get("/get-portfolioinfo", async (req, res) => {
 })
 
 app.get("/get-PortfolioSummary", async (req, res) => {
-    const pi = await  dB.query("SELECT * FROM PortfolioSummary", [])
+    const pi = await dB.query("SELECT * FROM PortfolioSummary", [])
     res.send(pi.rows)
 })
 
 app.get("/get-labels", async (req, res) => {
-    const pi = await  dB.query("SELECT * FROM Labels", [])
+    const pi = await dB.query("SELECT * FROM Labels", [])
     res.send(pi.rows)
 })
 
 app.get("/get-labels-summary", async (req, res) => {
-    const pi = await  dB.query("SELECT * FROM LabelSummary", [])
+    const pi = await dB.query("SELECT * FROM LabelSummary", [])
     res.send(pi.rows)
 })
 
@@ -209,7 +255,7 @@ FROM PortfolioInfo LEFT JOIN shortSumManager USING (manager) LEFT JOIN longSumMa
 })
 
 app.get("/get-stocks-with-labels", async (req, res) => {
-    const pi = await  dB.query("SELECT * FROM StocksWithLabels", [])
+    const pi = await dB.query("SELECT * FROM StocksWithLabels", [])
     res.send(pi.rows)
 })
 
@@ -234,28 +280,29 @@ app.get("/get-onlystocks-with-labels", async (req, res) => {
 })
 
 app.get("/get-stocks", async (req, res) => {
-    const pi = await  dB.query("SELECT name FROM Stocks", [])
+    const pi = await dB.query("SELECT name FROM Stocks", [])
     res.send(pi.rows)
 })
 
 
-app.listen(port, () => {
-/*
-    pg.connect(connectionString, function (err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query('SELECT $1::int AS number', ['1'], function (err, result) {
-            //call `done()` to release the client back to the pool
-            done();
 
+app.listen(port, () => {
+    /*
+        pg.connect(connectionString, function (err, client, done) {
             if (err) {
-                return console.error('error running query', err);
+                return console.error('error fetching client from pool', err);
             }
-            console.log(result.rows[0].number);
-            //output: 1
-        });
-    });*/
+            client.query('SELECT $1::int AS number', ['1'], function (err, result) {
+                //call `done()` to release the client back to the pool
+                done();
+    
+                if (err) {
+                    return console.error('error running query', err);
+                }
+                console.log(result.rows[0].number);
+                //output: 1
+            });
+        });*/
 
 
 

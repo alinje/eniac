@@ -201,6 +201,9 @@ export default function BasicTable(props) {
     const findFilterFunc = (dataEx) => {
         switch (dataEx) {
             case "total_volume":
+            case "longsum":
+            case "shortsum":
+            case "totalsum":
                 return SliderColumnFilter
             case "labels":
                 return CheckboxColumnFilter
@@ -214,6 +217,9 @@ export default function BasicTable(props) {
     const findFilter = (dataEx) => {
         switch (dataEx) {
             case "total_volume":
+            case "longsum":
+            case "shortsum":
+            case "totalsum":
                 return "between"
             case "labels":
                 return multipleSelectionFilter // custom filter
