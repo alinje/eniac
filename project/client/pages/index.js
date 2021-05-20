@@ -65,12 +65,6 @@ export default function Home() {
             <main className={styles.container}>
                 {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
 
-                <pre>
-                <Link href="/data-grid">
-                    <a>Click here for big grid</a>
-                </Link>
-                </pre>
-
 
                 {/*<div>*/}
                 {/*    <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>*/}
