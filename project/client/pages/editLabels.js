@@ -137,13 +137,22 @@ export default function EditLabels() {
                 {/* Link to homepage*/
                 /* Forms for editing and adding labels*/
                 }
-                <h1>Edit labels</h1>
+                <div className={styles.wrapper}>
+                <h1 >Edit labels</h1>
+
+                    <Link href="/" passHref>
+                        <div className={styles.card}>
+                            Back to homepage
+                        </div>
+                    </Link>
+                </div>
+
                 <div className={styles.wrapper}>
 
 
 
 
-                    <div className={styles.nested}>
+                    <div className={styles.nestedSpecial}>
                     <h3>Add label</h3>
                     <TextField
                         onChange={(event) => addLabelConst=event.target.value}
@@ -275,13 +284,7 @@ export default function EditLabels() {
 
 
 
-                <div className={styles.grid}>
-                    <Link href="/" passHref>
-                        <div className={styles.card}>
-                            Back to homepage
-                        </div>
-                    </Link>
-                </div>
+
 
 
             </main>

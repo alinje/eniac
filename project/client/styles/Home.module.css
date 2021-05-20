@@ -143,6 +143,9 @@
 
 /*Emil's cool custom grid*/
 .wrapper{
+    padding-top: 10px;
+    padding-left: 180px;
+    padding-right: 180px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap: 1em;
@@ -152,13 +155,20 @@
 
 .nested{
     display: grid;
-    grid-template-columns: 200px;
+    grid-template-columns: 240px;
     grid-template-rows: 20px;
     grid-column-gap: 1em;
     grid-row-gap: 5px;
     align-items: center;
 }
-
+.nestedSpecial{
+    display: grid;
+    grid-template-columns: 240px;
+    grid-template-rows: 20px;
+    grid-column-gap: 1em;
+    grid-row-gap: 17px;
+    align-items: center;
+}
 
 .box1{
     grid-column: 3;
@@ -168,7 +178,9 @@
     grid-column: 4;
     grid-row: 1/10;
 }
-
+.padding{
+    padding-left: 180px;
+}
 
 
 @media (max-width: 600px) {
