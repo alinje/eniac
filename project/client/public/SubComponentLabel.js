@@ -6,20 +6,35 @@ import {
     QueryClient,
     QueryClientProvider,
 } from 'react-query' // importerar
+import BasicTable from '../components/BasicTable'
 //import axios from 'axios';
 
 export default function SubComponentLabel(props) {
 
+    
 
+    const { data = '', show = "label" } = props
 
-    const { data = '' } = props
+    var fetchString = ''
 
+    
+    switch (show){
+        case "label":
+            fetchString = "http://localhost:3001/get-stocks-from-stockswithlabels-with-argument?label="
+            break
+        case "manager":
+        default:
+            fetchString = "http://localhost:3001/get-stocks-from-portfolio-with-argument?manager="
+    }
+    
+
+    //showLabel ? fetchString = "http://localhost:3001/get-stocks-from-stockswithlabels-with-argument?label=" : fetchString = "http://localhost:3001/get-stocks-from-portfolio-with-argument?manager="
 
     const queryClient = useQueryClient()
 
 
 
-    const selectedLabel = useQuery("stockArg", async () => await fetch('http://localhost:3001/get-stocks-from-stockswithlabels-with-argument' + "?label=" + props.data).then((res) => res.json()).catch(e => {console.error(e)}), {
+    const selectedLabel = useQuery("stockArg", async () => await fetch(fetchString + props.data).then((res) => res.json()).catch(e => {console.error(e)}), {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -32,7 +47,7 @@ export default function SubComponentLabel(props) {
 
 
 
-    const [label, setLabel] = useState('')
+    const [label, setLabel] = useState([])
 
 
     useEffect(() => {
@@ -48,7 +63,7 @@ export default function SubComponentLabel(props) {
 
     return (
         <div>
-            {JSON.stringify(label)}
+            <BasicTable dataRows={label}/>
         </div>
 
     )
