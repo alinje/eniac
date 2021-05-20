@@ -28,6 +28,7 @@ export default function Home() {
     const [dBData, setDBData] = useState("ye")
     const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labelsummary").then(((res) => res.json())))
     const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labelsummary").then(((res) => res.json()))) // despite the name, does not return a JSON object
+    const query = "SELECT * FROM"
     return (
         <div className={styles.container}>
             {/* html elements beginning with capital letters are actually React elements */}
@@ -59,7 +60,7 @@ export default function Home() {
             <main className={styles.main}>
                 {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
                 <div className={styles.fillLeftRight}>
-                    <BasicTable dataRows={data} />
+                    <BasicTable dataRows={data} subContent={query} />
                 </div>
 
                 <div>
