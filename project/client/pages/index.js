@@ -17,6 +17,7 @@ import BarChart from '../public/BarChart.js'
 import PieChart from "../public/PieChart";
 
 import BasicTable from "../components/BasicTable";
+import NavTabs from '../public/TabPanel'
 
 import ImportData, {init} from '../public/ImportData.js'
 
@@ -38,6 +39,7 @@ export default function Home() {
                 <title>Label Master 3000</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+            <NavTabs/>
 
             <br/> {/*I didn't want the title so close to the top. There's probably a more elegant way to do this.*/}
             <br/>
