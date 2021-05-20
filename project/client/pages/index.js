@@ -14,8 +14,7 @@ import Image from 'next/image'
 
 import TestGraph, { GraphClass, graphMsg } from '../public/testVisual.js'
 import BarChart from '../public/BarChart.js'
-import DistributionChart from "../public/DistributionChart";
-import BarPlotChart from "../public/BarPlotChart";
+import PieChart from "../public/PieChart";
 
 import BasicTable from "../components/BasicTable";
 
@@ -30,8 +29,8 @@ export default function Home() {
     const hello = useQuery("hello", () => fetch("http://localhost:3001/home").then((res) => res.json()))
     const [msg, setMsg] = useState("tjabba")
     const [dBData, setDBData] = useState("ye")
-    const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels-summary").then(((res) => res.json())))
-    const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labels-summary").then(((res) => res.json()))) // despite the name, does not return a JSON object
+    const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labelsummary").then(((res) => res.json())))
+    const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labelsummary").then(((res) => res.json()))) // despite the name, does not return a JSON object
     return (
         <div className={styles.container}>
             {/* html elements beginning with capital letters are actually React elements */}
@@ -81,6 +80,7 @@ export default function Home() {
                     <div className={styles.fillLeftRight}>
                         <BasicTable dataRows={data} />
                     </div>
+
 
                     <div className={styles.grid}>
                         {/* This is a link to another page. https://nextjs.org/docs/api-reference/next/link
@@ -149,6 +149,22 @@ export default function Home() {
                 </p>
                         </a>
                         */}
+
+                    <div className={styles.card}>
+                        <BarChart />
+                    </div>
+                    <div className={styles.card}>
+                        <PieChart data={dBConnect.data}/>
+                    </div>
+
+                    <div className={styles.card}>
+                        <Image
+                            src="/images/labelmakerStockPhoto.jpg" // Route of the image file, I believe the file must be inside the public folder
+                            height={200} // Desired size with correct aspect ratio
+                            width={266} // Desired size with correct aspect ratio
+                            alt="Stock foto av an etikettmaskin"
+                        />
+                        <p>Label editor (ingen länk ännu)</p>
                     </div>
                 </div>
             </main>
