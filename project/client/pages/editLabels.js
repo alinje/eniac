@@ -155,8 +155,8 @@ export default function EditLabels() {
                 <NavTabs/>
     
                 <div className={styles.fillApp}>
-                    <div>
-                  
+                    </div>
+
                 <div className={styles.wrapper}>
                 <h1 >Edit labels</h1>
 
@@ -168,10 +168,8 @@ export default function EditLabels() {
                     </Link>
                 </div>
 
+
                 <div className={styles.wrapper}>
-
-
-
 
                     <div className={styles.nestedSpecial}>
                     <h3>Add label</h3>
@@ -302,10 +300,6 @@ export default function EditLabels() {
                     </div>
                     </div>
                 </div>
-
-
-
-
 
 
             </main>
