@@ -13,7 +13,7 @@ export default function PieChart(props, sign) {
     useEffect(() => {
         //var rawJson = JSON.parse("project/client/public/test_data.json")
         const { data = { rows: [{ amount: 0 }] } } = props
-        console.log({ pieChart: data })
+        //console.log({ pieChart: data })
         var width = 800,
             height = 800,
             radius = Math.min(width, height) / 2;
@@ -52,7 +52,7 @@ export default function PieChart(props, sign) {
             .attr("d", path)
             .attr("fill", function (d) { return color(d.data.label); });
 
-        console.log(arc)
+        //console.log(arc)
 
         arc.append("text")
             .attr("transform", function (d) {
