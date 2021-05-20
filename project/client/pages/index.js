@@ -137,7 +137,6 @@ export default function Home() {
                         <p>Label editor (ingen länk ännu)</p>
                     </div>
                 </div>
-                </div>
             </main>
 
             <div>
