@@ -145,7 +145,6 @@ export default function EditLabels() {
             <Head>
                 <title>Stocks sorted by labels</title>
                 <link rel="icon" href="/favicon.ico" />
-
             </Head>
             <main  /*className={styles.main}*/>
                 {/* Link to homepage*/
