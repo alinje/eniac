@@ -44,7 +44,7 @@ export default function ImportData(props) {
         .catch(err => { console.error(err) })
     }
 
-    reader.readAsArrayBuffer(file[0])
+    reader.readAsText(file[0])
 
   }
 
@@ -55,7 +55,8 @@ export default function ImportData(props) {
         onChange={(file) => {
           onChange(file)
         }}
-        showFileNames={true} />
+        showFileNames={true}
+        filesLimit={1} />
     </div>
   )
 }

@@ -6,19 +6,19 @@ let csvData = []
 
 function setCSV(file){
 
-    if (file !== [] && typeof file !== 'undefined'){
-        stream = fs.createReadStream(file)
+    /*if (file !== [] && typeof file !== 'undefined'){
+        stream = Blob.prototype.stream(file)
         callerFun([])
-    }
-    /*
+    }*/
+    
     if (file !== [] && typeof file !== 'undefined'){
-        splitTxtTmp = file.split('\n')
+        splitTxtTmp = file.split('\r\n')
         splitTxt = splitTxtTmp.map((val) => {
             return val.split(';')
         })
-        //console.log(splitTxt)
+        console.log(splitTxt)
         callerFun(splitTxt)
-    }*/
+    }
 }
 
 module.exports = {
@@ -47,7 +47,7 @@ function getCSVData(csvData){
 }
 
 async function callerFun(csvData){
-    await getCSVData(csvData);
+    //await getCSVData(csvData);
     let newStockList = []
     let newManagerList = []
     let newPortfolioList = []
