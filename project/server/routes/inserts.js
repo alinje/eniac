@@ -65,7 +65,7 @@ stream.pipe(csvStream);
             if (!skipList.includes(row[1])){
                 //Adding stocks from CSV to database
                 if (!stockList.includes(row[1])){
-                    await client.query(addStockQuery, [row[1], row[4],row[9].replace(",",".")])
+                    await client.query(addStockQuery, [row[1], row[4],row[12].replace(",",".")])
                 }
 
                 //Adding Managers from CSV to database
@@ -120,5 +120,6 @@ stream.pipe(csvStream);
       throw e
     } finally {
       client.release()
+
     }
 })().catch(e => console.error(e.stack))
