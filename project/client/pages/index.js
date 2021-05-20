@@ -18,6 +18,9 @@ import PieChart from "../public/PieChart";
 
 import BasicTable from "../components/BasicTable";
 
+import ImportData, {init} from '../public/ImportData.js'
+
+
 //import App from '../public/app.js'
 
 
@@ -56,61 +59,96 @@ export default function Home() {
             </pre>
 
 
+            {/*
+            </div>/div>form onSubmit="importData(id, [])">
+                <input type="file" id="myFile" name="filename"></input>
+                <input type="submit"></input>
+            </form>
+            */}
+
             <main className={styles.main}>
                 {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
-                <div className={styles.fillLeftRight}>
-                    <BasicTable dataRows={data} />
+                <div>
+                    <ImportData/>
                 </div>
-
                 <div>
                     <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
                     <button onClick={() => setDBData(JSON.stringify(dBConnect.data))}>{dBData}</button>
                 </div>
 
-
-                <div className={styles.grid}>
-                    {/* This is a link to another page. https://nextjs.org/docs/api-reference/next/link
-                    It can be made with an a type of tag but we use React components when possible because of optimization
-                    TODO I do not know what CSS to change to make this */}
-                    <Link href="labeledStats" passHref>
-                        {/* This is how to use multiple style classes*/}
-                        <div className={styles.card + ' ' + styles.link}>
-                            Fina grafer!
-                        </div>
-                    </Link>
-
-                    <Link href="trustees" passHref>
-                        <div className={styles.card + ' ' + styles.link}>
-                            Förvaltarlista
-                        </div>
-                    </Link>
-                    <Link href="editLabels" passHref>
-                        <div className={styles.card + ' ' + styles.link}>
-                            Redigera ettiketter
-                        </div>
-                    </Link>
-                    <Link href="performanceLabels" passHref>
-                        <div className={styles.card + ' ' + styles.link}>
-                            Performance labels
-                        </div>
-                    </Link>
-                    <Link href="specificLabel" passHref>
-                        <div className={styles.card + ' ' + styles.link}>
-                            Specifika labels
-                        </div>
-                    </Link>
-                    <Link href="specificStock" passHref>
-                        <div className={styles.card + ' ' + styles.link}>
-                            Specifika aktier
-                        </div>
-                    </Link>
-
-
-                    {/* This is us using a React element, that we made in file BarChart*/}
-                    <div className={styles.card}>
-                        <TestGraph onClick={() => setMsg(graphMsg())} />
-                        {msg}
+                <div className={styles.fillLeftRight}>
+                    <div className={styles.fillLeftRight}>
+                        <BasicTable dataRows={data} />
                     </div>
+
+
+                    <div className={styles.grid}>
+                        {/* This is a link to another page. https://nextjs.org/docs/api-reference/next/link
+                        It can be made with an a type of tag but we use React components when possible because of optimization
+                        TODO I do not know what CSS to change to make this */}
+                        <Link href="labeledStats" passHref>
+                            {/* This is how to use multiple style classes*/}
+                            <div className={styles.card + ' ' + styles.link}>
+                                Fina grafer!
+                            </div>
+                        </Link>
+
+                        <Link href="trustees" passHref>
+                            <div className={styles.card + ' ' + styles.link}>
+                                Förvaltarlista
+                            </div>
+                        </Link>
+                        <Link href="editLabels" passHref>
+                            <div className={styles.card + ' ' + styles.link}>
+                                Redigera ettiketter
+                            </div>
+                        </Link>
+                        <Link href="performanceLabels" passHref>
+                            <div className={styles.card + ' ' + styles.link}>
+                                Performance labels
+                            </div>
+                        </Link>
+                        <Link href="specificLabel" passHref>
+                            <div className={styles.card + ' ' + styles.link}>
+                                Specifika labels
+                            </div>
+                        </Link>
+                        <Link href="specificStock" passHref>
+                            <div className={styles.card + ' ' + styles.link}>
+                                Specifika aktier
+                            </div>
+                        </Link>
+
+                        {/* a tag for hyperlink 
+
+                        <a href="https://nextjs.org/docs" className={styles.card}>
+                            <h3>Documentation &rarr;</h3>
+                            <p>Find in-depth information about Next.js features and API.</p>
+                        </a>
+
+                        <a href="https://nextjs.org/learn" className={styles.card}>
+                            <h3>Learn &rarr;</h3>
+                            <p>Learn about Next.js in an interactive course with quizzes!</p>
+                        </a>
+
+                        <a
+                            href="https://github.com/vercel/next.js/tree/master/examples"
+                            className={styles.card}
+                        >
+                            <h3>Examples &rarr;</h3>
+                            <p>Discover and deploy boilerplate example Next.js projects.</p>
+                        </a>
+
+                        <a
+                            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                            className={styles.card}
+                        >
+                            <h3>Deploy &rarr;</h3>
+                            <p>
+                                Instantly deploy your Next.js site to a public URL with Vercel.
+                </p>
+                        </a>
+                        */}
 
                     <div className={styles.card}>
                         <BarChart />
@@ -128,38 +166,6 @@ export default function Home() {
                         />
                         <p>Label editor (ingen länk ännu)</p>
                     </div>
-
-
-                    {/* a tag for hyperlink 
-
-                    <a href="https://nextjs.org/docs" className={styles.card}>
-                        <h3>Documentation &rarr;</h3>
-                        <p>Find in-depth information about Next.js features and API.</p>
-                    </a>
-
-                    <a href="https://nextjs.org/learn" className={styles.card}>
-                        <h3>Learn &rarr;</h3>
-                        <p>Learn about Next.js in an interactive course with quizzes!</p>
-                    </a>
-
-                    <a
-                        href="https://github.com/vercel/next.js/tree/master/examples"
-                        className={styles.card}
-                    >
-                        <h3>Examples &rarr;</h3>
-                        <p>Discover and deploy boilerplate example Next.js projects.</p>
-                    </a>
-
-                    <a
-                        href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                        className={styles.card}
-                    >
-                        <h3>Deploy &rarr;</h3>
-                        <p>
-                            Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-                    </a>
-                    */}
                 </div>
             </main>
 

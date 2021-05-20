@@ -35,10 +35,9 @@ const StocksWithLabelsTblQuery =`
 CREATE TABLE StocksWithLabels(
   stock TEXT,
   label TEXT,
-  weight DECIMAL(2,1),
+  weight NUMERIC(2,1),
 
   PRIMARY KEY(stock,label),
-  FOREIGN KEY(stock) REFERENCES Stocks(name),
   FOREIGN KEY(label) REFERENCES Labels(name) ON DELETE CASCADE,
   CHECK (weight>0 AND weight<=3)
 );`
@@ -106,6 +105,7 @@ pool.connect((err, client, done) => {
         addToDatabase(client, PortfolioInfoViewQuery);
         addToDatabase(client, LabelSummaryViewQuery);
         addToDatabase(client, PortfoliosSummaryViewQuery);
+
         } 
     finally {
         done();
