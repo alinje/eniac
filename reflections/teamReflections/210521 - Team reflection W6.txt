@@ -1,0 +1,113 @@
+TEAM REFLECTION W6 210527
+
+
+Började mötet med att prata igenom presentationen och även lite sekretess kopplat till repot. 
+
+Sedan ledde vår mästerliga Scrum-master Emil oss vidare till Scrum-boarden där vi gick igenom veckans user stories och rensade i scrum-boarden.
+
+
+
+Customer value and Scope
+
+Chosen scope of application
+A (var vi är)
+När vi träffade vår stakeholder i veckan så pekade han på några saker vi missat/missuppfattat med funktionerna.
+
+B (vart vi vill komma)
+Vi skulle vilja bli bättre på att få kontakt med vår stakeholder för att bättre förstå omfattningen och kundvärdet av applikationen
+
+A -> B (hur vi kommer dit)
+Framöver tar vi mer kontakt och håller möten med vår stakeholder. Design decisions and product structure
+
+
+Success criteria
+A 
+Vi har insett att vi inte kan CSS så bra för att skapa en användarvänlig applikation
+
+B
+Vi vill kunna mer om att designa hemsidor på ett användbart sätt.
+
+A -> B 
+Genom att läsa mer på området och fortsätta jobba med liknande frågor i projektet. 
+
+User stories
+A 
+Denna veckan har vi formulerat user stories på ett bra sätt men är inte lika duktiga på att koppla dem till en epic. 
+
+B
+För att få bättre struktur hade vi velat koppla våra user stories på ett bättre sätt till våra epics!
+
+A -> B 
+Alltid utgå från tydliga epics när user stories formuleras. 
+
+
+Testing
+A 
+Utifrån tidigare veckor har vi tydligare formulerat tester vid requests denna veckan.
+
+B
+Dock kan dessa bli mer omfattande för trots en del testning har vi upptäckt buggar
+
+A -> B 
+Ha med tester i åtanke när vi gör våra user stories!
+
+
+Application of Scrum
+
+Roles
+A 
+Denna veckan har det fungerat bra med arbetsfördelning och våra roller, t.ex Scrum-master och testning av kod.
+
+B
+Nöjda!
+
+A -> B 
+Inget speciellt behöver göras.
+
+Sprint review
+A 
+Det fungerar bra att ha i slutet av veckan men går lite segt när alla är trötta på fredag eftermiddag. Vår stakeholder, PO, visade som sagt på några saker vi missuppfattat.
+
+B
+Vi borde ha med vår PO i större omfattning på våra sprint-reviews för att uppnå bättre kundvärde. 
+
+A -> B 
+Utse en PO inom gruppen när vår externa stakeholder inte är tillgänglig alternativt ha tätare avstämning med stakeholdern.
+
+Best practices for learning new
+A 
+Vi har använt sökmotorer och tagit hjälp av varandra i själva kodandet.
+
+B
+Vi hade velat veta mer om Scrum och få en djupare förståelse för arbetssättet. 
+
+A -> B 
+Komplettera de inledande föreläsningarna med mer studier av litteratur om Scrum!
+
+
+
+Vi valde att inte prata om “agile practices” eftersom vi var nöjda på den punkten. Dessutom pratade vi inte om “relation to literature” eftersom det delvis kom upp under “best practices”.
+
+
+Vidare valde vi att inte prata om “Social contract” and “Design decisions” eftersom vi tagit upp mycket av det på tidigare reflektioner. 
+
+
+
+
+KPI
+
+Hur mår produkten:
+	95,3% färdig
+
+Antal defekter:
+	2 (felsortering av tal, visar samma tal när man trycker på två tabeller samtidigt)
+
+Allmänt välmående:
+	 3,8 av 5
+
+Hur nöjda är vi med vår arbetsinsats?:
+	3,6 av 5
+
+Hur taggade är vi?
+	3,9 av 5
+
