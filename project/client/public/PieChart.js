@@ -24,7 +24,7 @@ export default function PieChart(props) {
 
 
         //var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c', '#a41a1c', '#a42f1c']);
-        var color = d3.scaleOrdinal(d3.schemePaired)
+        var color = d3.scaleOrdinal(d3.schemeSet3)
 
         var pie = d3.pie().value(function (d) {
             if(Math.sign(d[type]) === sign){
@@ -58,30 +58,23 @@ export default function PieChart(props) {
                 return "translate(" + label.centroid(d) + ")";
             })
             .text(function (d) {
-                if(Math.sign(d.data[type]) === sign){
+                if(Math.sign(d.data[type]) === 0){
                     return null
                 }
                 return d.data.label; });
 
-        arc.append("text")
-            .attr("x", function(d) { return x(d) - 3; })
-            .attr("y", height / 2)
-            .attr("dy", ".35em")
-            .text(function() {
-                if (sign === -1){
-                    return "Postivt" + [type];
-                }
-                else return "Negativt" + [type];
-            });
+        //Dead
+        // svg.append("text")
+        //     .attr("x", width/2)
+        //     .attr("y", height)
+        //     .text([type]);
     }
 
 
     // the first argument function is called upon every time a change happens to one of the objects in the second argument array
     useEffect(() => {
-        Double(-1, short)
-        Double(1, short)
-        Double(-1, long)
-        Double(1, long)
+        Double(1, "short")
+        Double(-1, "long")
 
 
 }, [props.data])
