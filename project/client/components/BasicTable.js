@@ -424,19 +424,35 @@ export default function BasicTable(props) {
 
                             return (
                                 <React.Fragment>
-                                    <tr {...row.getRowProps()} {...row.getToggleRowExpandedProps()}>
 
-                                        {
-                                            row.cells.map((cell) => {
-                                                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                            })
-                                        }
+                                    {/* renders rows normally if not extended, with top half of border if extended */}
+                                    {row.isExpanded ? (
+                                        <tr {...row.getRowProps()} {...row.getToggleRowExpandedProps()} className="blueBorderTop">
+
+                                            {
+                                                row.cells.map((cell) => {
+                                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                                })
+                                            }
 
 
-                                    </tr>
+                                        </tr>
+                                    ) : (
+                                        <tr {...row.getRowProps()} {...row.getToggleRowExpandedProps()}>
+
+                                            {
+                                                row.cells.map((cell) => {
+                                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                                })
+                                            }
+
+
+                                        </tr>
+                                    )}
+
                                     {/* renders the expanded content */}
                                     {row.isExpanded ? (
-                                        <tr>
+                                        <tr className="blueBorderBottom">
                                             <td colSpan={visibleColumns.length}>
                                                 {renderRowSubComponent({ row })}
                                             </td>

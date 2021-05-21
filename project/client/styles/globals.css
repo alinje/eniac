@@ -47,6 +47,16 @@ table {
     color: #000000;
 }
 
+.blueBorderTop {
+    border: 4px solid #bccbe1;
+    border-bottom-style: none;
+}
+
+.blueBorderBottom {
+    border: 4px solid #bccbe1;
+    border-top-style: none;
+}
+
 th {
     background-color: #B8CCE0;
     border: 2px solid #ffffff;
