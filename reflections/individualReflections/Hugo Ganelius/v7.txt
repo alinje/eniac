@@ -1,0 +1,37 @@
+2021-05-14
+
+what do I want to learn or understand better?
+	Jag börjar bli mer bekväm i min kunskap om Javascript,
+	React, etc., särskilt börjar jag få kläm på HTML. Jag skulle vilja 
+	fortsätta på samma väg och bli ännu bättre. Jag tror att den bästa 
+	vägen är att försöka få koll på det mina medarbetare skriver, och 
+	komplettera genom att hitta bra resurser online.
+
+how can I help someone else, or the entire team, to learn something new?
+	Se till att de alltid har en god möjlighet att förstå vad jag har 
+	jobbat på genom att dokumentera väl och hålla dem uppdaterade.
+	Ge andra möjligheten att ställa frågor och förklara väl.
+	I nuläget är det dock nog jag själv som behöver lära mig mer.
+
+what is my contribution towards the team’s use of Scrum?
+	Jag agerade som Scrum master denna veckan. Jag har hållit i våra 
+	möten och bestämt över vår Scrum board.
+
+	Jag försökte ligga på hela gruppen lite extra med att pusha sin kod
+	och mergea med mainbranchen efter varje arbetsdag, för att alla alltid 
+	ska jobba med så uppdaterad kod som möjligt.
+
+	Jag gjorde äcven en extra insats med att organisera vår Scrum board, i 
+	synnerhet vår backlog med user stories som tidigare bestod av dubletter 
+	stories skrivna på olika format, samt stories som redan implementerats. 
+
+what is my contribution towards the team’s deliveries?
+	Mina uppgifter har denna veckan varit att skapa sida för att se 
+	förvaltare och deras statistik, samt att fixa förmågan att kunna 
+	ladda upp en excelfil till programmet för att uppdatera aktierna.
+
+	Förvaltarsidan implementerades utan större problem.
+
+	Vi lyckades inte fullständigt implementera importen av data, men vi
+	lyckades implementera förmågan att välja fil. Det återstår att få filen
+	till databasen
