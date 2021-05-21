@@ -73,8 +73,9 @@ export default function PieChart(props) {
 
     // the first argument function is called upon every time a change happens to one of the objects in the second argument array
     useEffect(() => {
-        Double(1, "short")
         Double(-1, "long")
+        Double(1, "short")
+
 
 
 }, [props.data])
