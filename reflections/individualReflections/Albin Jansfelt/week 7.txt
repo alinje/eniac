@@ -1,0 +1,17 @@
+What do I want to learn or understand better
+Jag tycker jag har lärt mig otroligt mycket under det här projektet. 
+Med facit i hand hade det dock varit bättre att lärt sig javascript från grunden för att effektivisera arbetet
+I dagsläget skulle jag vilja lära mig react bättre.
+
+How can I help someone else, or the entire team, to learn something new
+Jag kan och har hjälpt mitt team med att skapa en databas som kan läsa in en CSV fil och lägga in i tabeller. 
+Jag tycker inte jag har tillräckligt bra koll på javascript och front-end programmering för att vara behjälplig där, men det är något jag skulle vilja.
+
+What is my contribution towards the team’s use of Scrum
+Jag har varit delaktig med att komma på user stories samt tasks för varje user story.
+Jag har varit delaktig i sprint reviewn och kommit med synpunkter under team reflection.
+
+What is my contribution towards the team’s deliveries
+En funktion så användaren kan ladda upp en CSV fil och få data automatiskt inmatad i databas. 
+Behjälplig med en funktion som gör att man kan få sub-tabeller i en tabell genom att trycka på en rad.
+Mindre bug fixar
