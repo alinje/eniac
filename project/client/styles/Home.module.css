@@ -153,6 +153,18 @@
     align-items: start;
 }
 
+.wrapperSmall{
+    padding-top: 10px;
+    padding-left: 400px;
+    padding-right: 180px;
+    padding-bottom: 370px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 200px;
+    align-items: start;
+}
+
 .nested{
     display: grid;
     grid-template-columns: 240px;
@@ -168,6 +180,11 @@
     grid-column-gap: 1em;
     grid-row-gap: 17px;
     align-items: center;
+}
+.boxSmall{
+    display: grid;
+    grid-template-columns: 200px;
+    grid-template-rows: 70px;
 }
 
 .box1{
