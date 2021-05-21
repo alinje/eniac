@@ -205,7 +205,7 @@ totalSumLabel AS
 	From StocksWithLabels, PortfolioInfo
     WHERE StocksWithLabels.stock = PortfolioInfo.stock
 	GROUP BY StocksWithLabels.label)
-SELECT DISTINCT StocksWithLabels.label, COALESCE(LONG,0) AS LONG, COALESCE(SHORT,0) AS SHORT, TOTAL
+SELECT DISTINCT StocksWithLabels.label, CAST(COALESCE(LONG,0) AS Float) AS LONG, CAST(COALESCE(SHORT,0) AS Float) AS SHORT, CAST(TOTAL AS Float)
 FROM StocksWithLabels LEFT JOIN shortSumLabel USING (label) LEFT JOIN longSumLabel USING (label) LEFT JOIN totalSumLabel USING (label);`
     const pi = await  dB.query(q,[])
     res.send(pi.rows)
