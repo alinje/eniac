@@ -155,7 +155,7 @@
 
 .wrapperSmall{
     padding-top: 10px;
-    padding-left: 400px;
+    padding-left: 100px;
     padding-right: 180px;
     padding-bottom: 370px;
     display: grid;
@@ -199,9 +199,8 @@
     padding-left: 180px;
 }
 .paddingPie{
-    padding-left: 1370px;
+    padding-left: 1000px;
 }
-
 
 
 @media (max-width: 600px) {

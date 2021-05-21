@@ -50,13 +50,17 @@ export default function Home() {
                 Label Master 3000
             </h1>
 
+
+            <br/>
+            <br/>
+            <br/>
+
+
             <div className={styles.paddingPie}>
             <h2>Label Distribution For Long and Short</h2>
             </div>
 
-            <div className={styles.boxSmall}>
-                <ImportData/>
-            </div>
+
 
             {/*
             </div>/div>form onSubmit="importData(id, [])">
@@ -86,6 +90,12 @@ export default function Home() {
                 </div>
 
                 </div>
+
+                <div>
+                <ImportData/>
+                </div>
+
+                <br/>
 
                 <footer className={styles.box1}>
                     <a>
