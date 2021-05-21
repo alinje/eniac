@@ -49,6 +49,11 @@ export default function Home() {
             <h1 className={styles.title}>
                 Label Master 3000
             </h1>
+
+            <div className={styles.paddingPie}>
+            <h2>Label Distribution For Long and Short</h2>
+            </div>
+
             <div className={styles.boxSmall}>
                 <ImportData/>
             </div>
@@ -76,9 +81,10 @@ export default function Home() {
                 </div>
 
                 <div className={styles.nested}>
-                    <h2>Label Distribution For Long and Short</h2>
+
                     <PieChart data={dBConnect.data}/>
                 </div>
+
                 </div>
 
                 <footer className={styles.box1}>
