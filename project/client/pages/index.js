@@ -46,14 +46,12 @@ export default function Home() {
             <br/> {/*I didn't want the title so close to the top. There's probably a more elegant way to do this.*/}
             <br/>
 
-
             <h1 className={styles.title}>
                 Label Master 3000
             </h1>
             <div className={styles.boxSmall}>
                 <ImportData/>
             </div>
-
 
             {/*
             </div>/div>form onSubmit="importData(id, [])">
@@ -66,17 +64,6 @@ export default function Home() {
             <main className={styles.container}>
                 {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
 
-                <div className={styles.fillLeftRight}>
-                    <BasicTable dataRows={data} subContent={query} childShow={['label']}/>
-                </div>
-                <div>
-                    <ImportData/>
-                </div>
-                <div>
-                    <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
-                    <button onClick={() => setDBData(JSON.stringify(dBConnect.data))}>{dBData}</button>
-                </div>
-
 
                 {/*<div>*/}
                 {/*    <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>*/}
@@ -85,54 +72,19 @@ export default function Home() {
 
                 <div className={styles.wrapperSmall}>
                 <div className={styles.fillLeftRight}>
-                        <BasicTable dataRows={data} />
+                        <BasicTable dataRows={data} childShow={['label']} />
                 </div>
 
                 <div className={styles.nested}>
+                    <h2>Label Distribution For Long and Short</h2>
                     <PieChart data={dBConnect.data}/>
                 </div>
                 </div>
 
-                    {/*<div className={styles.grid}>*/}
-                    {/*    /!* This is a link to another page. https://nextjs.org/docs/api-reference/next/link*/}
-                    {/*    It can be made with an a type of tag but we use React components when possible because of optimization*/}
-                    {/*    TODO I do not know what CSS to change to make this *!/*/}
-                    {/*    <Link href="labeledStats" passHref>*/}
-                    {/*        /!* This is how to use multiple style classes*!/*/}
-                    {/*        <div className={styles.card + ' ' + styles.link}>*/}
-                    {/*            Fina grafer!*/}
-                    {/*        </div>*/}
-                    {/*    </Link>*/}
-
-                    {/*    <Link href="trustees" passHref>*/}
-                    {/*        <div className={styles.card + ' ' + styles.link}>*/}
-                    {/*            Förvaltarlista*/}
-                    {/*        </div>*/}
-                    {/*    </Link>*/}
-                    {/*    <Link href="editLabels" passHref>*/}
-                    {/*        <div className={styles.card + ' ' + styles.link}>*/}
-                    {/*            Redigera ettiketter*/}
-                    {/*        </div>*/}
-                    {/*    </Link>*/}
-                    {/*    <Link href="performanceLabels" passHref>*/}
-                    {/*        <div className={styles.card + ' ' + styles.link}>*/}
-                    {/*            Performance labels*/}
-                    {/*        </div>*/}
-                    {/*    </Link>*/}
-                    {/*    <Link href="specificLabel" passHref>*/}
-                    {/*        <div className={styles.card + ' ' + styles.link}>*/}
-                    {/*            Specifika labels*/}
-                    {/*        </div>*/}
-                    {/*    </Link>*/}
-                    {/*    <Link href="specificStock" passHref>*/}
-                    {/*        <div className={styles.card + ' ' + styles.link}>*/}
-                    {/*            Specifika aktier*/}
-                    {/*        </div>*/}
-                    {/*    </Link>*/}
-                    {/*</div>*/}
                 <footer className={styles.box1}>
                     <a>
                         Powered by Eniac
+
                     </a>
                 </footer>
             </main>

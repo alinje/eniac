@@ -191,21 +191,21 @@ app.get("/get-labels-summary", async (req, res) => {
 
 app.get("/get-labelsummary", async (req, res) => {
     const q =   `WITH shortSumLabel AS
-	(SELECT label, sum(PortfolioInfo.value) AS shortSum
+	(SELECT label, sum(PortfolioInfo.value) AS SHORT
 	From StocksWithLabels, PortfolioInfo
 	WHERE StocksWithLabels.stock = PortfolioInfo.stock AND PortfolioInfo.classification = 'SHORT'
 	GROUP BY StocksWithLabels.label),
 longSumLabel AS
-	(SELECT label, sum(PortfolioInfo.value) AS longSum
+	(SELECT label, sum(PortfolioInfo.value) AS LONG
 	From StocksWithLabels, PortfolioInfo
 	WHERE StocksWithLabels.stock = PortfolioInfo.stock AND PortfolioInfo.classification = 'LONG'
 	GROUP BY StocksWithLabels.label),
 totalSumLabel AS
-	(SELECT label, sum(PortfolioInfo.value) AS totalSum
+	(SELECT label, sum(PortfolioInfo.value) AS TOTAL
 	From StocksWithLabels, PortfolioInfo
     WHERE StocksWithLabels.stock = PortfolioInfo.stock
 	GROUP BY StocksWithLabels.label)
-SELECT DISTINCT StocksWithLabels.label, COALESCE(longSum,0) AS longSum, COALESCE(shortSum,0) AS shortSum, totalSum
+SELECT DISTINCT StocksWithLabels.label, COALESCE(LONG,0) AS LONG, COALESCE(SHORT,0) AS SHORT, TOTAL
 FROM StocksWithLabels LEFT JOIN shortSumLabel USING (label) LEFT JOIN longSumLabel USING (label) LEFT JOIN totalSumLabel USING (label);`
     const pi = await  dB.query(q,[])
     res.send(pi.rows)
@@ -213,20 +213,20 @@ FROM StocksWithLabels LEFT JOIN shortSumLabel USING (label) LEFT JOIN longSumLab
 
 app.get("/get-stocksummary", async (req, res) => {
     const q =   `WITH shortSumStock AS
-	(SELECT stock, sum(PortfolioInfo.value) AS shortSum
+	(SELECT stock, sum(PortfolioInfo.value) AS SHORT
 	From PortfolioInfo
 	WHERE classification = 'SHORT'
 	GROUP BY stock),
 longSumStock AS
-	(SELECT stock, sum(PortfolioInfo.value) AS longSum
+	(SELECT stock, sum(PortfolioInfo.value) AS LONG
 	From PortfolioInfo
 	WHERE classification = 'LONG'
 	GROUP BY stock),
 totalSumStock AS
-	(SELECT stock, sum(PortfolioInfo.value) AS totalSum
+	(SELECT stock, sum(PortfolioInfo.value) AS TOTAL
 	From PortfolioInfo
 	GROUP BY stock)
-SELECT DISTINCT stock, COALESCE(longSum,0) AS longSum, COALESCE(shortSum,0) AS shortSum, totalSum
+SELECT DISTINCT stock, COALESCE(LONG,0) AS LONG, COALESCE(SHORT,0) AS SHORT, TOTAL
 FROM PortfolioInfo LEFT JOIN shortSumStock USING (stock) LEFT JOIN longSumStock USING (stock) LEFT JOIN totalSumStock USING (stock)
 ORDER BY stock;`
     const pi = await  dB.query(q,[])
@@ -235,20 +235,20 @@ ORDER BY stock;`
 
 app.get("/get-managersummary", async (req, res) => {
     const q =   `WITH shortSumManager AS
-	(SELECT manager, sum(PortfolioInfo.value) AS shortSum
+	(SELECT manager, sum(PortfolioInfo.value) AS SHORT
 	From PortfolioInfo
 	WHERE classification = 'SHORT'
 	GROUP BY manager),
 longSumManager AS
-	(SELECT manager, sum(PortfolioInfo.value) AS longSum
+	(SELECT manager, sum(PortfolioInfo.value) AS LONG
 	From PortfolioInfo
 	WHERE PortfolioInfo.classification = 'LONG'
 	GROUP BY manager),
 totalSumManager AS
-	(SELECT manager, sum(PortfolioInfo.value) AS totalSum
+	(SELECT manager, sum(PortfolioInfo.value) AS TOTAL
 	From PortfolioInfo
 	GROUP BY manager)
-SELECT DISTINCT PortfolioInfo.manager, COALESCE(longSum,0) AS longSum, COALESCE(shortSum,0) AS shortSum, totalSum
+SELECT DISTINCT PortfolioInfo.manager, COALESCE(LONG,0) AS longSum, COALESCE(SHORT,0) AS SHORT, TOTAL
 FROM PortfolioInfo LEFT JOIN shortSumManager USING (manager) LEFT JOIN longSumManager USING (manager) LEFT JOIN totalSumManager USING (manager);`
     const pi = await  dB.query(q,[])
     res.send(pi.rows)
@@ -267,10 +267,13 @@ app.get("/get-stocks-from-portfolio-with-argument", async (req, res) => {
 
 
 app.get("/get-stocks-from-stockswithlabels-with-argument", async (req, res) => {
-    //res.send(getStocksFromStockswithlabelsWithArgumentVal)
-    //console.log(req)
     const label = req.query.label;
-    const pi = await  dB.query("SELECT stock, weight FROM StocksWithLabels WHERE label = ($1)", [label])
+    const q = `WITH totalSumStock AS
+	(SELECT stock, sum(PortfolioInfo.value) AS TOTAL
+	From PortfolioInfo
+	GROUP BY stock)
+    SELECT stock, weight, weight*TOTAL AS "Exposed Value" FROM StocksWithLabels JOIN totalSumStock USING (stock) WHERE label = ($1)`
+    const pi = await  dB.query(q, [label])
     res.send(pi.rows)
 })
 
