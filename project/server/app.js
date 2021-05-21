@@ -248,7 +248,7 @@ totalSumManager AS
 	(SELECT manager, sum(PortfolioInfo.value) AS TOTAL
 	From PortfolioInfo
 	GROUP BY manager)
-SELECT DISTINCT PortfolioInfo.manager, COALESCE(LONG,0) AS longSum, COALESCE(SHORT,0) AS SHORT, TOTAL
+SELECT DISTINCT PortfolioInfo.manager, COALESCE(LONG,0) AS LONG, COALESCE(SHORT,0) AS SHORT, TOTAL
 FROM PortfolioInfo LEFT JOIN shortSumManager USING (manager) LEFT JOIN longSumManager USING (manager) LEFT JOIN totalSumManager USING (manager);`
     const pi = await  dB.query(q,[])
     res.send(pi.rows)
