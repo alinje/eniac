@@ -1,0 +1,11 @@
+-What do I want to learn or understand better?
+	I want to learn more about how d3 works, as it's quite a useful library and we did work with it quite a lot.
+
+-How can I help someone else, or the entire team, to learn something new?
+	I could simply just be present when the others are working on their tasks and I could give advice if they needed my help.
+
+-What is my contribution towards the team’s use of Scrum?
+	I participated in meetings and I've completed my task this week.
+
+-What is my contribution towards the team’s deliveries?
+	I completed my task this week as well.
