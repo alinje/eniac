@@ -7,9 +7,12 @@ import { COLUMNS } from './columns'
 import Slider from '@material-ui/core/Slider';
 import PieChart from '../public/PieChart'
 //import './table.module.css'
+import SubComponentLabel from '../public/SubComponentLabel.js'
 
 
 export default function BasicTable(props) {
+
+
 
     // Formats string to beginning character capitalized and '_' replaced with ' '
     const formatString = (str) => {
@@ -301,27 +304,41 @@ export default function BasicTable(props) {
         [props.dataRows]
     )
 
+
     // Create a function that will render our row sub components
     const renderRowSubComponent = React.useCallback(
-        ({ row }) => (
-            <div>
-                <pre>
-                    <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
-                </pre>
-                <PieChart />
-                {/*<BasicTable dataRows={dataRows.filter((item) => newTableFilter(item, "label", row.values.label))}/>*/}
+        /*
 
 
-            </div>
+*/
 
-        ),
+        ({ row }) => {
+
+            if (typeof props.childShow === 'undefined') {
+                return (<div></div>)
+            }
+            return (
+                <div>
+                    {props.childShow.map((val) => {
+                        return renderASubComp(row, val)
+                    })}
+
+                </div>
+
+            )
+        },
         [props.dataRows]
     )
-    /*const renderRowSubComponent = ({row}) => {
-        <div>
-            TJOHO
-        </div>
-    }*/
+
+    const renderASubComp = (row, type) => {
+
+
+        return (
+            <div>
+                <SubComponentLabel data={row.values[type]} show={type} />
+            </div>
+        )
+    }
 
     var tableInstance = useTable({
         columns,
@@ -403,14 +420,13 @@ export default function BasicTable(props) {
                             return (
                                 <React.Fragment>
                                     <tr {...row.getRowProps()} {...row.getToggleRowExpandedProps()}>
-                                        
-                                            {
-                                                row.cells.map((cell) => {
-                                                    console.log(row.getToggleRowExpandedProps())
-                                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                                })
-                                            }
-                                        
+
+                                        {
+                                            row.cells.map((cell) => {
+                                                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                            })
+                                        }
+
 
                                     </tr>
                                     {/* renders the expanded content */}

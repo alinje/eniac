@@ -171,11 +171,7 @@ app.get("/labelsummary", async (req, res) => {
 
 app.get("/get-portfolioinfo", async (req, res) => {
     const pi = await dB.query("SELECT * FROM PortfolioInfo", [])
-    //console.log(pi)
-    res.send(pi.rows
-        //dB.getPI("Alex")
-        //jQuery.getscript("../../project/server/database/connection.js",getPortfolioInfo("Alex"))
-    )
+    res.send(pi.rows)
 })
 
 app.get("/get-PortfolioSummary", async (req, res) => {
@@ -260,6 +256,21 @@ FROM PortfolioInfo LEFT JOIN shortSumManager USING (manager) LEFT JOIN longSumMa
 
 app.get("/get-stocks-with-labels", async (req, res) => {
     const pi = await dB.query("SELECT * FROM StocksWithLabels", [])
+    res.send(pi.rows)
+})
+
+app.get("/get-stocks-from-portfolio-with-argument", async (req, res) => {
+    const m = req.query.manager;
+    const pi = await  dB.query("SELECT stock, volume, classification FROM Portfolios WHERE manager = ($1)", [m])
+    res.send(pi.rows)
+})
+
+
+app.get("/get-stocks-from-stockswithlabels-with-argument", async (req, res) => {
+    //res.send(getStocksFromStockswithlabelsWithArgumentVal)
+    //console.log(req)
+    const label = req.query.label;
+    const pi = await  dB.query("SELECT stock, weight FROM StocksWithLabels WHERE label = ($1)", [label])
     res.send(pi.rows)
 })
 

@@ -51,7 +51,7 @@ export default function PieChart(props) {
             .attr("d", path)
             .attr("fill", function (d) { return color(d.data.label); });
 
-        console.log(arc)
+        //console.log(arc)
 
         arc.append("text")
             .attr("transform", function (d) {

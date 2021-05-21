@@ -32,6 +32,7 @@ export default function Home() {
     const [dBData, setDBData] = useState("ye")
     const dBConnect = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labelsummary").then(((res) => res.json())))
     const {data} = useQuery("dbConnect", () => fetch("http://localhost:3001/get-labelsummary").then(((res) => res.json()))) // despite the name, does not return a JSON object
+    const query = "SELECT * FROM"
     return (
 
         <div>
@@ -64,6 +65,17 @@ export default function Home() {
 
             <main className={styles.container}>
                 {/* The lambda is necessary. Here we do not actually use any arguments from the click so the paranthesis is empty */}
+
+                <div className={styles.fillLeftRight}>
+                    <BasicTable dataRows={data} subContent={query} childShow={['label']}/>
+                </div>
+                <div>
+                    <ImportData/>
+                </div>
+                <div>
+                    <button onClick={() => setMsg(JSON.stringify(hello.data))}>{msg}</button>
+                    <button onClick={() => setDBData(JSON.stringify(dBConnect.data))}>{dBData}</button>
+                </div>
 
 
                 {/*<div>*/}
