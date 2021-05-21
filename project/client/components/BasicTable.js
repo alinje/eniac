@@ -17,6 +17,9 @@ export default function BasicTable(props) {
     // Formats string to beginning character capitalized and '_' replaced with ' '
     const formatString = (str) => {
         try {
+            if (typeof str === "number") {                
+                return str
+            }
             var fStr = String(str)
             if (fStr.length < 2) return fStr.toUpperCase()
             return fStr.charAt(0).toUpperCase() + fStr.replace(/_/g, ' ').slice(1)
@@ -201,9 +204,9 @@ export default function BasicTable(props) {
     const findFilterFunc = (dataEx) => {
         switch (dataEx) {
             case "total_volume":
-            case "longsum":
-            case "shortsum":
-            case "totalsum":
+            case "Long":
+            case "Short":
+            case "Total":
                 return SliderColumnFilter
             case "labels":
                 return CheckboxColumnFilter
@@ -217,9 +220,9 @@ export default function BasicTable(props) {
     const findFilter = (dataEx) => {
         switch (dataEx) {
             case "total_volume":
-            case "longsum":
-            case "shortsum":
-            case "totalsum":
+            case "Long":
+            case "Short":
+            case "Total":
                 return "between"
             case "labels":
                 return multipleSelectionFilter // custom filter
@@ -254,7 +257,9 @@ export default function BasicTable(props) {
                         Filter: findFilterFunc(key),
                         filter: findFilter(key),
                         Cell: ({ value }) => {
-                            if (typeof value != "object") return formatString(value)
+                            if (typeof value === "string") return formatString(value)
+
+                            if (typeof value != "object") return value
                             // if the cell value is an array we want to join the values with comma and spacing
                             try {
                                 const tagList = value.map(formatString).join(", ")
@@ -381,7 +386,7 @@ export default function BasicTable(props) {
                                         <th className="tableHeaderLabels" {...column.getHeaderProps()}>  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
                                             {column.render('Header')}
                                             {/* Add a sort direction indicator */}
-                                            <span {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                            <span {...column.getHeaderProps(column.getSortByToggleProps)}>
                                                 {column.isSorted
                                                     ? column.isSortedDesc
                                                         ? ' 🔽'
