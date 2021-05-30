@@ -1,0 +1,16 @@
+How to start the application:
+
+How to install the database and all packages
+1. Download postgres at https://www.postgresql.org/download/
+2. When installing, make sure you have the password "postgres" on master user. Also make sure that you are installing on port 5432 (default)
+   (If you have any other port or password on your postgres then change the file "project/server/routes/start.js" to your fit
+3. Create a database called eniacdb with this command: "CREATE DATABASE eniacdb"
+4. In the repository run the file "project/server/routes/start.js" to create the tables (this is only needed once)
+5. Open a terminal from "/project/server" and write "npm install"
+6. Open a terminal from "/project/client" and write "npm install"
+Now you are all set for the database and packages
+
+How to run the application:
+1. Open a terminal from "/project/server" and type "npm run start"
+2. Open a terminal from "/project/client" and type "npm run dev"
+3. Open a browser and go to "http://localhost:3000/"
