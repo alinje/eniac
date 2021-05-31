@@ -12,7 +12,7 @@ import SubComponentLabel from '../public/SubComponentLabel.js'
 
 export default function BasicTable(props) {
 
-
+    // FILTER SETUP
 
     // Formats string to beginning character capitalized and '_' replaced with ' '
     const formatString = (str) => {
@@ -32,6 +32,8 @@ export default function BasicTable(props) {
 
     /**
      * UI for the global filter, presenting as the global search field
+     * Global search filter is currently not used due to incompability with expanding rows
+     * This might be fixable
      */
     const GlobalFilter = ({ preGlobalFilteredRows, globalFilter, setGlobalFilter, }) => {
         const count = preGlobalFilteredRows.length
@@ -42,7 +44,7 @@ export default function BasicTable(props) {
 
         return (
             <span>
-                Search:{' '} {/* This filter is for every kind of value */}
+                Search:{' '}
                 <input
                     value={value || ""}
                     onChange={e => {
@@ -60,7 +62,7 @@ export default function BasicTable(props) {
     }
 
     /**
-     * The default column filter is a search field
+     * The default column filter UI is a search field
      */
     function DefaultColumnFilter({
         column: { filterValue, preFilteredRows, setFilter },
@@ -79,6 +81,9 @@ export default function BasicTable(props) {
     }
 
 
+    /**
+     * A type of column filter UI is a checkbox column filter
+     */
     function CheckboxColumnFilter({
         column: { filterValue, setFilter, preFilteredRows, id },
     }) {
@@ -97,6 +102,8 @@ export default function BasicTable(props) {
 
         }, [id, preFilteredRows])
 
+        // change the filter (filter presumed to be a list of possible values) 
+        // to include or not include checkbox value depending on initial value
         const onChange = (e) => {
             const t = e.target.value;
             if (typeof filterValue === 'undefined' || filterValue === []) {
@@ -137,7 +144,10 @@ export default function BasicTable(props) {
         )
     }
 
-
+    /**
+     * Filter used for filtering with multiple possible kinds of values
+     * Here used with CheckboxColumnFilter UI
+     */
     const multipleSelectionFilter = (rows, ids, filterValues) => {
         if (typeof filterValues == 'undefined' || filterValues.length === 0) return rows;
 
@@ -152,14 +162,14 @@ export default function BasicTable(props) {
     }
 
 
+    /**
+     * A type of column filter UI with a slider
+     */
     function SliderColumnFilter({
         column: { filterValue = [Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER], preFilteredRows, setFilter, id },
     }) {
-
-        // https://codesandbox.io/s/91yti?file=/demo.js
-
-
         // Min and max values are dynamic, changing depending on the values present in the column
+        // TODO this occasionally causes a null pointer exception
         const [min, max] = useMemo(() => {
             let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
             let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
@@ -190,7 +200,9 @@ export default function BasicTable(props) {
     }
 
 
-
+    /**
+     * Default search filter uses fuzzy search
+     */
     function fuzzyTextFilterFn(rows, id, filterValue) {
         return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
     }
@@ -198,9 +210,17 @@ export default function BasicTable(props) {
     // Let the table remove the filter if the string is empty
     fuzzyTextFilterFn.autoRemove = val => !val
 
-    const { dataRows = [] } = props
-    const data = useMemo(() => dataRows, [props.dataRows]) // when not memoizing both data and columns the component complains of maximum update depth exceeded
 
+    // DATA FROM PROPS
+
+    // props.dataRows defaults to an empty string if not set by client or undefined in other way
+    const { dataRows = [] } = props
+
+    // memoizing is required by react-table https://react-table.tanstack.com/docs/api/useTable
+    // when not memoizing both data and columns the component complains of maximum update depth exceeded
+    const data = useMemo(() => dataRows, [props.dataRows]) 
+
+    // function for finding filter UIs to different types of columns
     const findFilterFunc = (dataEx) => {
         switch (dataEx) {
             case "total_volume":
@@ -216,6 +236,7 @@ export default function BasicTable(props) {
         }
     }
 
+    // function for finding filters to different types of columns
     // the documentation for these filters is well fucking hidden https://github.com/tannerlinsley/react-table/blob/master/src/filterTypes.js
     const findFilter = (dataEx) => {
         switch (dataEx) {
@@ -232,9 +253,9 @@ export default function BasicTable(props) {
         }
     }
 
+    // usage of defaultColumn will render BasicTable unusable. It does not however crash the entire application
     const defaultColumn = React.useMemo(
         () => ({
-            // usage of defaultColumn will render BasicTable unusable. It does not however crash the entire application
             accessor: "column_fail",
             // default column uses default filter
             Filter: DefaultColumnFilter
@@ -249,7 +270,6 @@ export default function BasicTable(props) {
         try {
             //let keys = Object.keys(dataRows[0])
             return Object.keys(dataRows[0]).map((key, id) => {
-
                 try {
                     return ({
                         Header: formatString(key),
@@ -279,16 +299,18 @@ export default function BasicTable(props) {
                 }
             })
         } catch (TypeError) {
+            // TODO this is not very pretty nor appropriate
             return [defaultColumn]
         }
 
     }, [props.dataRows])
 
+
     const newTableFilter = (item, cat, filter) => {
         return item.labels.includes()
     }
 
-
+    // this is required for useTable
     const filterTypes = React.useMemo(
         () => ({
             // Add a new fuzzyTextFilterFn filter type.
@@ -310,15 +332,10 @@ export default function BasicTable(props) {
     )
 
 
-    // Create a function that will render our row sub components
+    // This function is the one called from the table and creates the subcomponent
     const renderRowSubComponent = React.useCallback(
-        /*
-
-
-*/
 
         ({ row }) => {
-
             if (typeof props.childShow === 'undefined') {
                 return (<div></div>)
             }
@@ -335,9 +352,8 @@ export default function BasicTable(props) {
         [props.dataRows]
     )
 
+    // Used by renderRowSubComponent
     const renderASubComp = (row, type) => {
-
-
         return (
             <div>
                 <SubComponentLabel data={row.values[type]} show={type} />
@@ -345,6 +361,7 @@ export default function BasicTable(props) {
         )
     }
 
+    // this is where the actual useTable function from react-table library is called
     var tableInstance = useTable({
         columns,
         data,
@@ -357,6 +374,7 @@ export default function BasicTable(props) {
         useExpanded,
     )
 
+    // these are the props we receive from the above call
     var {
         getTableProps,
         getTableBodyProps,
@@ -371,9 +389,7 @@ export default function BasicTable(props) {
 
 
 
-
-
-
+    // this is the actual table being composed
     return (
         <div>
             <table {...getTableProps()}>
@@ -383,7 +399,7 @@ export default function BasicTable(props) {
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {
                                     headerGroup.headers.map((column) => (
-                                        <th className="tableHeaderLabels" {...column.getHeaderProps()}>  {/*      {...headerGroup.getHeaderGroupProps()}>       Should say "...column.getHeaderGroupProps()" according to YT tutorial, but it don't work ¯\_(ツ)_/¯ */}
+                                        <th className="tableHeaderLabels" {...column.getHeaderProps()}>  
                                             {column.render('Header')}
                                             {/* Add a sort direction indicator */}
                                             <span {...column.getHeaderProps(column.getSortByToggleProps)}>
@@ -419,8 +435,6 @@ export default function BasicTable(props) {
                     {
                         rows.map(row => {
                             prepareRow(row)
-
-
 
                             return (
                                 <React.Fragment>
