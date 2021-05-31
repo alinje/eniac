@@ -1,0 +1,25 @@
+Tester
+
+User story 2.1 Förfina etikettsidan
+  Lägga till label
+  Ta bort label
+  Lägga till label med vikt till specifik aktie
+  Redigera vikt till specifika aktiers label
+  Ta bort label från specifik aktie
+  Kolla så att rullista för stock vid borttagning/redigering av label endast har stock som de facto har en label
+  Kolla så att tabellerna på sidan uppdateras vid redigering av stock, label och weight
+  Testa om användaren för in null på weight så sätts default=1
+
+
+User story 1.4 Välja data att importera
+  Testa så att knappen fungerar och kopplar till lokala filsystemet
+  Testa att ladda upp en csv-fil 
+  Se till att databasen uppdateras utifrån värdena
+
+
+User story 3.4 Cirkeldiagram
+  Se till att diagrammet visas på hemsidan med testdata
+  Testa så att diagrammet är kopplat till back-end och visar korrekt data
+  Kolla så att alla etiketter som har aktier som är shortade finns med i cirkeldiagrammet för short
+  Kolla så att alla etiketter som har aktier som är longade finns med i cirkeldiagrammet för long
+  Kolla så att cirkeldiagrammet för longade etiketter ligger överst
